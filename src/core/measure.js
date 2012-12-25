@@ -241,6 +241,7 @@
 					//如果当前是空格，则不能换行，并且把该空格设置为不可见。
 					//空格不能出现在某一行的行首
 					s_arr[i] = -1;
+                    w_arr[i] = 0;
 					bk_idx = i;
 				} else {
 					//$.log("bk:" + bk_idx)
@@ -324,7 +325,7 @@
 				var e = e_arr[i], ne = i + 1 < e_idx ? e_arr[i + 1] : null, c = e.charCodeAt(0);
 
 				str += e;
-				ew = this._measureStrElement(e, str);
+				ew = this._measureStrElement(s_arr[i], str);
 
 				if (bk_w + ew < width) {
 					if (c < 0x600) {
@@ -366,7 +367,7 @@
 						para.lines[cur_line_idx].unti_dir.push(_dir);
 					}
 					para.lines[cur_line_idx].end_index = i - 1 - s_idx;
-                    para.lines.push(new Text._Line(-1,[],0));
+                    para.lines.push(new D._Line(-1,[],0));
 					rg_idx = i;
 					for (var k = pre_i; k <= i; k++) {
 						w_arr[k] = ew / (i - pre_i + 1)
@@ -418,9 +419,12 @@
 			para.lines[l_at - para.line_start].end_index = para.length - 1;
 
             for(var i=0;i<para.lines.length;i++) {
-                var _w = this._calc_line_width(w_arr, para.index + 1 + (i===0?0:para.lines[i-1].end_index), para.index + 1 + para.lines[i].end_index);
-                //$.log("%s,%s",i,_w);
+                var _w = this._calc_line_width(w_arr, s_arr, para.index + 1 + (i===0?0:para.lines[i-1].end_index), para.index + 1 + para.lines[i].end_index);
+//                $.log("%s,%s",i,_w);
                 para.lines[i].width = _w;
+                if(this.page.max_line_width<_w) {
+                    this.page.max_line_width = _w;
+                }
             }
 
 

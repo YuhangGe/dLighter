@@ -327,28 +327,81 @@ dLighter.$.extend(dLighter.$, {
             return rtn;
         }
     },
-    FONT_HEIGHT_TABLE : {},
-    getFontHeight : function(size, name) {
-        if(this.FONT_HEIGHT_TABLE[name] == null) {
-            this.FONT_HEIGHT_TABLE[name] = {};
+    FONT_INFO_TABLE : {},
+    getFontInfo : function(size, name) {
+        if(this.FONT_INFO_TABLE[name] == null) {
+            this.FONT_INFO_TABLE[name] = {};
         }
-        var h = this.FONT_HEIGHT_TABLE[name][size];
+        var h = this.FONT_INFO_TABLE[name][size];
         if(h == null) {
-            h = this.FONT_HEIGHT_TABLE[name][size] = this._calcFontHeight(size+"px "+name);
+            h = this.FONT_INFO_TABLE[name][size] = this._calcFontInfo(size, name);
         }
         return h;
     },
-    _calcFontHeight : function(font) {
-        var ele = document.createElement("span"), h = 0;
-        ele.style.font = font;
+    /*
+     * 计算font_size大小的字号，font_name名称的字体的信息
+     *  height : 当前字体的高度
+     * baseline: 当前字体的baseline线距离底部的距离
+     * 实现的原理是使用浏览器对dom元素的渲染结果，当span的font-size为0时其位置正好处于baseline的地方。
+     */
+    _calcFontInfo : function(font_size, font_name) {
+         con = document.createElement("div"), ele = document.createElement("span"), ele2 = document.createElement("span"), h = 0;
+      //  con.style.visibility = "hidden";
+        con.style.margin = "0px";
+        con.style.padding = "0px";
+        con.style.position = "relative";
+        ele.style.font = font_size + "px " + font_name;
         ele.style.margin = "0px";
         ele.style.padding = "0px";
-        ele.style.visibility = "hidden";
-        ele.innerHTML = "@白羊座小葛 04-02.I Love Daisy.南京大学";
-        document.body.appendChild(ele);
-        h = ele.offsetHeight;
-        document.body.removeChild(ele);
+       // ele.style.visibility = "hidden";
+        ele.style.verticalAlign = "baseline";
+
+
+        ele2.style.font = "0px " + font_name;
+        ele2.style.margin = "0px";
+        ele2.style.padding = "0px";
+     //   ele2.style.visibility = "hidden";
+        ele2.style.verticalAlign = "baseline";
+        var test_string = "@白羊座小葛 04-02.I Love Daisy.南京大学";
+        ele.innerHTML = test_string;
+        ele2.innerHTML = test_string;
+        con.appendChild(ele2);
+        con.appendChild(ele);
+        document.body.appendChild(con);
+        var h = con.offsetHeight;
+        var bo = ele.offsetHeight + ele.offsetTop - ele2.offsetTop;
+        //document.body.removeChild(con);
         //$.log("font %s height:%d", font, h);
-        return h;
+//        $.log("%s,%s",h,bo)
+        return {
+            height : h,
+            baseline : ele2.offsetTop,
+            baseline_offset : bo
+        };
+    },
+    /**
+     * 计算两点距离(Point To Point)
+     */
+    getPTPRange : function(point1, point2) {
+        return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
+    },
+    getEventPoint : function(e) {
+        var x= 0,y=0;
+        if ( typeof e.offsetX !== 'undefined') {
+            x = e.offsetX;
+            y = e.offsetY;
+        } else if ( typeof e.x !== 'undefined') {
+            x = e.x, y = e.y
+        } else if ( typeof e.layerX !== 'undefined') {
+            x = e.layerX;
+            y = e.layerY;
+        } else {
+            throw "no x,y in event(_getEventPoint)";
+        }
+        return {
+            x : x,
+            y : y
+        };
     }
+
 });

@@ -1,16 +1,15 @@
-(function(Text, $) {
+(function(D, $) {
 
-	$.extend(Text._Editor.prototype, {
+	$.extend(D._Lighter.prototype, {
 		initShortKey : function() {
 			this.SHORTKEY_TABLE = {
 				'ctrl-a' : this._ctrl_a_handler,
+                'ctrl-c' : this._ctrl_c_handler,
+                'ctrl-x' : this._ctrl_x_handler,
 				'ctrl-up' : this._ctrl_up_handler,
 				'ctrl-down' : this._ctrl_down_handler,
 				'ctrl-left' : this._ctrl_left_handler,
 				'ctrl-right' : this._ctrl_right_handler,
-				'ctrl-z' : this._undo_handler,
-				'ctrl-y' : this._redo_handler,
-				'ctrl-s' : this._save_handler,
 				'left' : this._left_handler,
 				'right' : this._right_handler,
 				'up' : this._up_handler,
@@ -29,8 +28,6 @@
 				'ctrl-shift-end' : this._ctrl_shift_end_handler,
 				'home' : this._home_handler,
 				'end' : this._end_handler,
-				'ctrl-b' : this._ctrl_b_handler,
-				'ctrl-i' : this._ctrl_i_handler,
 				'pageup' : this._pageup_handler,
 				'pagedown' : this._pagedown_handler
 			};
@@ -45,45 +42,26 @@
 				40 : 'down'
 			}
 		},
-		_ctrl_v_handler: function(){
-			if($.opera||$.ie){
-				this._stop_keypress = true;
-				this._paste_handler(null);
-				return true;
-			}
+		_ctrl_x_handler: function(){
+            if($.ie||$.firefox||$.opera){
+                this._copy_handler(null);
+                return true;
+            }
 		},
 		_ctrl_c_handler : function(){
 			if($.ie||$.firefox||$.opera){
-				/**
-				 * _stop_keypress是为了阻止firefox下面keypress事件
-				 */
-				this._stop_keypress = true;
 				this._copy_handler(null);
 				return true;
 			}
 		},
-		_ctrl_x_handler : function(){
-			if($.ie||$.firefox||$.opera){
-				this._stop_keypress = true;
-				this._cut_handler(null);
-				return true;
-			}
-		},
-		_save_handler : function() {
-			ctrlSaveNote();
-		},
+
 		_pageup_handler : function() {
 			this.container.scrollTop -= 15 * this.line_height * this.render.scale;
 		},
 		_pagedown_handler : function() {
 			this.container.scrollTop += 15 * this.line_height * this.render.scale;
 		},
-		_ctrl_b_handler : function() {
-			ctrlSetBold(true);
-		},
-		_ctrl_i_handler : function(){
-			ctrlSetItalic(true);
-		},
+
 		_shift_home_handler : function() {
 			if(this.caret_pos.para_at < 0)
 				return;
@@ -103,9 +81,9 @@
 			this._shift_select(-1);
 		},
 		_ctrl_shift_end_handler : function() {
-			if(this.caret_pos.index === this.cur_page.ele_array.length - 1)
+			if(this.caret_pos.index === this.cur_page.text.length - 1)
 				return;
-			this._shift_select(this.cur_page.ele_array.length - 1);
+			this._shift_select(this.cur_page.text.length - 1);
 		},
 		_home_handler : function() {
 			
@@ -125,20 +103,11 @@
 			this.render.paint();
 		},
 		_ctrl_end_handler : function() {
-			this._setCaret(this.cur_page.getCaretByIndex(this.cur_page.ele_array.length - 1));
+			this._setCaret(this.cur_page.getCaretByIndex(this.cur_page.text.length - 1));
 			this.cur_page.select(null);
 			this.render.paint();
 		},
-		_undo_handler : function() {
-			if(this.cur_mode === 'readonly')
-				return;
-			this.history.undo();
-		},
-		_redo_handler : function() {
-			if(this.cur_mode === 'readonly')
-				return;
-			this.history.redo();
-		},
+
 		_ctrl_a_handler : function() {
 		 
 			this._setCaret(this.cur_page.selectAll());
@@ -171,7 +140,6 @@
 				p.select(fc, n_c);
 			}
 			this._setCaret(n_c);
-			this._resetStyle();
 			this.render.paint();
 		},
 		_shift_up_handler : function() {
@@ -187,32 +155,32 @@
 
 		},
 		_shift_right_handler : function() {
-			if(this.caret_pos.index >= this.cur_page.ele_array.length - 1)
+			if(this.caret_pos.index >= this.cur_page.text.length - 1)
 				return;
 			this._shift_select(this.caret_pos.index + 1);
 		},
 		_ctrl_shift_left_handler : function() {
 			if(this.caret_pos.index < 0)
 				return;
-			this._shift_select(this.wordSeg.getLeft(this.cur_page.ele_array, this.caret_pos.index));
+			this._shift_select(D._WordSeg.getLeft(this.cur_page.text, this.caret_pos.index));
 		},
 		_ctrl_shift_right_handler : function() {
-			if(this.caret_pos.index >= this.cur_page.ele_array.length - 1)
+			if(this.caret_pos.index >= this.cur_page.text.length - 1)
 				return;
-			this._shift_select(this.wordSeg.getRight(this.cur_page.ele_array, this.caret_pos.index + 1));
+			this._shift_select(D._WordSeg.getRight(this.cur_page.text, this.caret_pos.index + 1));
 		},
 		_ctrl_left_handler : function() {
 			var idx = this.caret_pos.index;
 			if(idx >= 0) {
-				this._setCaret(this.cur_page.getCaretByIndex(this.wordSeg.getLeft(this.cur_page.ele_array, idx)));
+				this._setCaret(this.cur_page.getCaretByIndex(D._WordSeg.getLeft(this.cur_page.text, idx)));
 			}
 			this.cur_page.select(null);
 			this.render.paint();
 		},
 		_ctrl_right_handler : function() {
-			var idx = this.caret_pos.index + 1, err = this.cur_page.ele_array;
+			var idx = this.caret_pos.index + 1, err = this.cur_page.text;
 			if(idx < err.length) {
-				this._setCaret(this.cur_page.getCaretByIndex(this.wordSeg.getRight(err, idx)));
+				this._setCaret(this.cur_page.getCaretByIndex(D._WordSeg.getRight(err, idx)));
 			}
 			this.cur_page.select(null);
 			this.render.paint();
@@ -225,13 +193,11 @@
 		},
 		_left_handler : function() {
 			//向左按键
-			if(!this.__ime_on__)
-				this.moveCaret("left");
+		    this.moveCaret("left");
 		},
 		_right_handler : function() {
 			//向右s
-			if(!this.__ime_on__)
-				this.moveCaret("right");
+			this.moveCaret("right");
 		},
 		_up_handler : function() {
 			//向上
@@ -259,4 +225,4 @@
 			return false;
 		}
 	});
-})(Daisy.Text, Daisy.$);
+})(dLighter._Core, dLighter.$);

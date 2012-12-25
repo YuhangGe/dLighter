@@ -4,10 +4,10 @@
  * Email: abraham1@163.com
  */
 (function(D, $) {
-    var _Theme = function(theme) {
+    var _Theme = function(theme, font_name, font_size) {
         var _g = theme.global ? theme.global : {};
-        this.font_size = _g.font_size ? _g.font_size : 16;
-        this.font_name = _g.font_name ? _g.font_name : "consolas";
+        this.font_size = font_size ? font_size : (_g.font_size ? _g.font_size : D.DEFAULT_FONTSIZE);
+        this.font_name = font_name ? font_name : (_g.font_name ? _g.font_name : D.DEFAULT_FONTNAME);
         this.background = _g.background ? _g.background : 'white';
         this.color = _g.color ? _g.color : 'black';
         this.bold = _g.bold ? true : false;
@@ -98,15 +98,42 @@
     };
     $.extend(D, {
         _theme_list : {},
+        _theme_hash : {},
+        DEFAULT_FONTSIZE : 20,
+        DEFAULT_FONTNAME : "consolas",
         register : function(theme) {
-            this._theme_list[theme.name] = new _Theme(theme);
+            this._theme_list[theme.name] = theme;
+            var key = theme.name + (theme.font_name?theme.font_name: D.DEFAULT_FONTNAME) + (theme.font_size?theme.font_size: D.DEFAULT_FONTSIZE);
+            this._theme_hash[key] = new _Theme(theme);
         },
-        get : function(name) {
-            if(!this._theme_list[name]) {
-                return this._theme_list['plain'];
-            } else {
-                return this._theme_list[name];
+        get : function(name, config) {
+            config = config ? config : {};
+            var _t = this._theme_list[name];
+            if(!_t) {
+                _t = this._theme_list['plain'];
             }
+            var key = _t.name + (config.font_name?config.font_name:(_t.font_name?_t.font_name: D.DEFAULT_FONTNAME)) + (config.font_size?config.font_size:(_t.font_size?_t.font_size: D.DEFAULT_FONTSIZE));
+            var theme = this._theme_hash[key];
+            if(!theme) {
+                theme = new _Theme(_t, config.font_name, config.font_size);
+                this._theme_hash[key] = theme;
+            }
+            return theme;
+
+        }
+    });
+
+    D.register({
+        name : 'plain',
+        global : {
+            background : 'white',
+            color : 'black'
+        },
+        selected : {
+            background : 'rgba(160,160,160,0.5)'
+        },
+        highlight : {
+            background : 'rgba(210,210,210,0.1)'
         }
     });
 })(dLighter._Theme, dLighter.$);

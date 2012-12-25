@@ -10,7 +10,7 @@
 			font_size : '20',
             font_name : 'consolas',
 			background : 'black',
-			color : 'white'
+			color : 'white',
 		},
 		selected : {
 			background : 'rgba(160,160,160,0.5)'

@@ -22,8 +22,8 @@
         this.style_array = [];
         this.width_array = [];
         this.para_info = [];
+        this.max_line_width = 0;
         this.style_delegate = $.createDelegate(this, this.style_callback);
-        this.paint_delegate = $.createDelegate(this, this.paint_callback);
         this._init();
 	};
 	D._Page.prototype = {
@@ -33,7 +33,7 @@
             }
             this.text = txt;
             if(typeof window.Int8Array !== 'undefined') {
-                this.style_array = new Uint8Array(txt.length);
+                this.style_array = new Int8Array(txt.length);
                 this.width_array = new Float32Array(txt.length);
             } else {
                 this.style_array = new Array(txt.length);
@@ -41,7 +41,6 @@
             }
             this._init();
             this._layout();
-            this.lighter.lexer.lex(this.text, this.style_delegate, this.paint_delegate);
         },
         style_callback : function(start, length, style_name) {
             var idx = this.lighter.lang_style.getStyleIndex(style_name);
@@ -66,20 +65,22 @@
                 ci = pi;
             }
             this.para_info.push(new D._Paragraph(ci, tx.length-ci-1));
+
             /*
              * 然后再对每个段落计算其排版
              */
+            this.lighter.render.calc_padding_left(this.para_info.length);
             var ls = 0;
             for(var i=0;i<this.para_info.length;i++) {
-                this.para_info[0].line_start = ls;
-                ls += this.lighter.render._measure(this.para_info[i]);
+                this.para_info[i].line_start = ls;
+                this.para_info[i].line_cross = this.lighter.render._measure(this.para_info[i]);
+                ls += this.para_info[i].line_cross;
             }
             this.line_number = ls;
             this.page_height = this.line_height * this.line_number;
         },
 
         _init : function() {
-			this.para_number = 0;
 			this.para_info.length = 0;
 			this.line_number = 0;
 			this.select_mode = false;
@@ -96,7 +97,9 @@
 			}
             this.line_height = this.lighter.line_height;
             this.page_height = 0;
-		},
+            this.max_line_width = 0;
+
+        },
 		
 		selectAll : function() {
 			return this.selectByIndex(-1, this.text.length - 1);
@@ -131,12 +134,11 @@
 		 * 返回文本最末尾。
 		 */
 		_getElementCaret_xy : function(x, y, is_dblclick) {
-			var rd = this.lighter.render, line_height = rd.line_height, row = Math.floor(y / line_height), p_i = this._getParaByRow(row), para = this.para_info[p_i], idx = para.index, left = 0, bottom = (row + 1) * line_height, p_at = -1;
-			var lp = this.para_info[this.para_info.length - 1], max_bot = (lp.line_start + lp.line_cross) * line_height;
-			var rtl = para.rtl;
+            y = y<0 ? 0 : y;
 
-			if (x < 0 || y < 0)
-				return -1;
+            var rd = this.lighter.render, line_height = rd.line_height, row = Math.floor(y / line_height), p_i = this._getParaByRow(row), para = this.para_info[p_i], idx = para.index, left = 0, bottom = (row + 1) * line_height, p_at = -1;
+			var lp = this.para_info[this.para_info.length - 1], max_bot = (lp.line_start + lp.line_cross) * line_height;
+
 
 			if (bottom > max_bot) {
 				row = lp.line_start + lp.line_cross - 1;
@@ -145,20 +147,19 @@
 					x = rd.width;
 				}
 			}
-            var line = para.lines[row - para.line_start];
-            x = rtl ? rd.width - x : x;
-
+            var l_off = rd.padding_num + rd.padding_left;
+            x -= l_off;
             x = x<0 ? 0 : x;
 			//$.log("row:%d,p:%d",row,p_i)
 			if (para.length > 0) {
 				var k = para.index + 1, e = k + para.length, line = para.lines[row - para.line_start];
-				var left = 0, e_arr = this.text, cw = 0, pre_i = (row > para.line_start) ? para.lines[row - para.line_start - 1].end_index + 1 : 0;
+				var left = 0, e_arr = this.text, w_arr = this.width_array, s_arr = this.style_array, cw = 0, pre_i = (row > para.line_start) ? para.lines[row - para.line_start - 1].end_index + 1 : 0;
 				var _got = false;
                 out_loop:
 				for (var i = 0; i < line.unti_dir.length; i++) {
 					var _ud = line.unti_dir[i];
 					for (; pre_i < _ud.index; pre_i++) {
-						cw = e_arr[para.index + 1 + pre_i].width;
+						cw = w_arr[para.index + 1 + pre_i];
 						if (left + cw > x) {
 							_got = true;
 							break out_loop;
@@ -168,7 +169,7 @@
 					if (left + _ud.width > x) {
 						left += _ud.width;
 						for (; pre_i < _ud.index + _ud.length; pre_i++) {
-							cw = e_arr[para.index + 1 + pre_i].width;
+							cw = w_arr[para.index + 1 + pre_i];
 							if (left - cw <= x) {
 								break;
 							}
@@ -184,7 +185,7 @@
 				if (!_got) {
 
 					for (; pre_i <= line.end_index; pre_i++) {
-						cw = e_arr[para.index + 1 + pre_i].width;
+						cw = w_arr[para.index + 1 + pre_i];
 
 						if (left + cw > x) {
 							_got = true;
@@ -206,7 +207,7 @@
 				para_at : p_at,
 				index : idx,
 				line : row - para.line_start,
-				left : rtl ? rd.width + rd.padding_left + rd.padding_right - left - l_off : left + l_off,
+				left :  left + l_off,
 				bottom : bottom
 			}
 		},
@@ -223,6 +224,40 @@
 			//this.render.paint();
 			return tc;
 		},
+        getCaretByIndex : function(index) {
+
+            if (index === -1)
+                return {
+                    index : -1,
+                    para : 0,
+                    para_at : -1,
+                    left :  0,
+                    line : 0,
+                    top : this.lighter.line_height - this.lighter.font_height
+                };
+            for (var i = 0; i < this.para_info.length; i++) {
+                var p = this.para_info[i];
+                if (p.index + p.length >= index) {
+                    return this._getCaret_p(i, index - p.index - 1);
+                }
+            }
+        },
+        /**
+         * 得到index所指字符之前（左边）的游标位置。
+         *
+         */
+        getBeforeCaretByIndex : function(index) {
+            var n_c = this.getCaretByIndex(index);
+            var ec = this.text.charCodeAt(index);
+            if (D.Char.isRTL(ec)) {
+                n_c.left += this.width_array[index];
+            } else {
+                n_c.left -= this.width_array[index];
+            }
+            n_c.index--;
+            n_c.para_at--;
+            return n_c;
+        },
 		/**
 		 * 得到caret所在的那行的起始位置caret
 		 */
@@ -231,17 +266,16 @@
 
 			var n_c = this._getCaret_p(caret.para, p_at);
 			if (l_at !== 0) {
-				var e = this.char_array[p.index + p_at + 1], ec = this.lighter.render._getCode(e);
-				if (Text.Char.isRTL(ec) || (ec < 0 && p.rtl)) {
-					n_c.left += e.width;
+				var ei = p.index + p_at + 1, ec = this.text.charCodeAt(ei);
+				if (D.Char.isRTL(ec)) {
+					n_c.left += this.width_array[ei];
 				} else {
-					n_c.left -= e.width;
+					n_c.left -= this.width_array[ei];
 				}
 				n_c.index--;
 				n_c.para_at--;
 			}
 			return n_c;
-			//this._getCaret_xy(p.rtl? this.lighter.render.width - 1 : 0, caret.top + 1);
 
 		},
 		/**
@@ -264,7 +298,7 @@
 					para_at : -1,
 				}
 			}
-			for (var i = 0; i < this.para_number; i++) {
+			for (var i = 0; i < this.para_info.length; i++) {
 				var p = this.para_info[i];
 				if (p.index + p.length >= index) {
 					return {
@@ -284,21 +318,13 @@
         _getLineInfo : function(idx) {
             var _t = 0, rtn = {
                 width : 0,
-                offset : 0,
-                rtl : false
-            }, A = Text._Paragraph.Align, rd = this.lighter.render;
+                offset : 0
+            }, rd = this.lighter.render;
             for(var i=0;i<this.para_info.length;i++) {
                 var _p = this.para_info[i];
                 if(_p.lines.length + _t > idx) {
                     rtn.width = _p.lines[idx-_t].width;
-                    rtn.rtl = _p.rtl;
-                    if(_p.align === A.MIDDLE) {
-                        rtn.offset = Math.round((rd.width-rtn.width)/2+rd.padding_left);
-                    } else if(_p.align === A.RIGHT) {
-                        rtn.offset = _p.rtl ? rd.padding_left : rd.width-rtn.width+rd.padding_left;
-                    } else {
-                        rtn.offset = _p.rtl ? rd.width - rtn.width + rd.padding_left: rd.padding_left;
-                    }
+                    rtn.offset = rd.padding_num + rd.padding_left;
                     break;
                 } else {
                     _t += _p.lines.length;
@@ -310,17 +336,11 @@
             var rtn = {
                 width : 0,
                 offset : 0
-            }, A = Text._Paragraph.Align, rd = this.lighter.render;
+            }, rd = this.lighter.render;
 
-                var _p = this.para_info[pidx], _l = _p.lines[lidx];
-                rtn.width= _l!=null?_l.width:0
-            if(_p.align === A.MIDDLE) {
-                rtn.offset = Math.round((rd.width-rtn.width)/2+rd.padding_left);
-            } else if(_p.align === A.RIGHT) {
-                rtn.offset = _p.rtl ? rd.padding_left : rd.width-rtn.width+rd.padding_left;
-            } else {
-                rtn.offset = _p.rtl ? rd.width - rtn.width + rd.padding_left: rd.padding_left;
-            }
+            var _p = this.para_info[pidx], _l = _p.lines[lidx];
+            rtn.width= _l!=null?_l.width:0
+            rtn.offset = rd.padding_num + rd.padding_left;
 
             return rtn;
         },
@@ -331,30 +351,20 @@
 
 			var rd = this.lighter.render, line_height = rd.line_height, row = Math.floor(y / line_height), p_i = this._getParaByRow(row), para = this.para_info[p_i], idx = para.index, left = 0, bottom = (row + 1) * line_height, p_at = -1;
 			var lp = this.para_info[this.para_info.length - 1], max_bot = (lp.line_start + lp.line_cross) * line_height;
-			var rtl = para.rtl;
 
             if (bottom > max_bot) {
                 bottom = max_bot;
                 row = lp.line_start + lp.line_cross - 1;
             }
             var line = para.lines[row - para.line_start];
-
-			x = rtl ? rd.width + rd.padding_left + rd.padding_right - x : x;
-            var A = Text._Paragraph.Align, l_off = 0;
-            if(para.align === A.MIDDLE) {
-               l_off = Math.round((rd.width-line.width)/2+(rtl?rd.padding_right:rd.padding_left));
-            } else if(para.align === A.RIGHT) {
-               l_off = rd.width-line.width+(rtl?rd.padding_right:rd.padding_left);
-            } else if(para.align === A.LEFT) {
-                l_off = para.rtl ? rd.padding_right : rd.padding_left;
-            }
+            var l_off = rd.padding_num + rd.padding_left;
             x -= l_off;
             x = x < 0 ? 0 : x;
 
 			//$.log("row:%d,p:%d",row,p_i)
 			if (para.length > 0) {
 				var k = para.index + 1, e = k + para.length;
-				var left = 0, e_arr = this.char_array, cw = 0, pre_i = (row > para.line_start) ? para.lines[row - para.line_start - 1].end_index + 1 : 0;
+				var left = 0, e_arr = this.text, w_arr = this.width_array, cw = 0, pre_i = (row > para.line_start) ? para.lines[row - para.line_start - 1].end_index + 1 : 0;
 				var _got = false;
 
 
@@ -362,7 +372,7 @@
 				for (var i = 0; i < line.unti_dir.length; i++) {
 					var _ud = line.unti_dir[i];
 					for (; pre_i < _ud.index; pre_i++) {
-						cw = e_arr[para.index + 1 + pre_i].width;
+						cw = w_arr[para.index + 1 + pre_i];
 						if (left + cw / 2 > x) {
 							_got = true;
 							break out_loop;
@@ -378,7 +388,7 @@
 					if (left + _ud.width > x) {
 						left += _ud.width;
 						for (; pre_i < _ud.index + _ud.length; pre_i++) {
-							cw = e_arr[para.index + 1 + pre_i].width;
+							cw = w_arr[para.index + 1 + pre_i];
 							if (left - cw / 2 <= x) {
 								break;
 							}
@@ -397,7 +407,7 @@
 				}
 				if (!_got) {
 					for (; pre_i <= line.end_index; pre_i++) {
-						cw = e_arr[para.index + 1 + pre_i].width;
+						cw = w_arr[para.index + 1 + pre_i];
 						if (left + cw / 2 > x)
 							break;
 						else
@@ -416,7 +426,7 @@
 				para_at : p_at,
 				line : row,
 				index : idx,
-				left : rtl ? rd.width + rd.padding_left+rd.padding_right - left - l_off : left + l_off,
+				left : left + l_off,
 				top : bottom - this.lighter.line_height
 			};
 			//
@@ -432,14 +442,14 @@
 		_getCaret_p : function(p_idx, p_at) {
 			//$.log("%d,%d,%d",p_idx,p_at,this.char_array.length);
 			var para = this.para_info[p_idx], e_idx = para.index + ( p_at = (p_at === null ? para.length - 1 : p_at)) + 1, line_at = para.line_start, left = 0, rd = this.lighter.render, bottom = (line_at + 1) * rd.line_height;
-			var e_arr = this.char_array, l_off = rd.padding_left, A = Text._Paragraph.Align, line = null;
+			var e_arr = this.text, s_arr = this.style_array, w_arr = this.width_array, l_off = rd.padding_num + rd.padding_left, line = null;
 			if (p_at >= 0) {
 				//$.log(e_idx)
-				var ele = this.char_array[e_idx];
-				while (!ele.visible && p_at >= -1) {
+				var ele = e_arr[e_idx];
+				while (s_arr[e_idx]<0 && p_at >= -1) {
 					e_idx--;
 					p_at--;
-					ele = this.char_array[e_idx];
+					ele = e_arr[e_idx];
 				}
 				var s_idx = 0, ud = null;
 				//$.log(p_at)
@@ -456,25 +466,25 @@
 								break;
 							} else if (ud.index + ud.length - 1 < p_at) {
 								for (; pre_i < ud.index; pre_i++) {
-									left += e_arr[pre_i + para.index + 1].width;
+									left += w_arr[pre_i + para.index + 1];
 
 								}
 								left += ud.width;
 								pre_i = ud.index + ud.length;
 							} else {
 								for (; pre_i < ud.index; pre_i++) {
-									left += e_arr[pre_i + para.index + 1].width;
+									left += w_arr[pre_i + para.index + 1];
 								}
 								left += ud.width;
 								for (; pre_i <= p_at; pre_i++) {
-									left -= e_arr[pre_i + para.index + 1].width;
+									left -= w_arr[pre_i + para.index + 1];
 								}
 								//直接跳出最外层循环。
 								break out;
 							}
 						}
 						for (; pre_i <= p_at; pre_i++) {
-							left += e_arr[pre_i + para.index + 1].width;
+							left += w_arr[pre_i + para.index + 1];
 						}
 						break;
 					}
@@ -486,7 +496,7 @@
                 line = para.lines[0];
             }
 
-			left = para.rtl ? rd.width + rd.padding_left + rd.padding_right - left - l_off : left + l_off;
+			left += l_off;
 			//$.log(left)
 			return {
 				para : p_idx,

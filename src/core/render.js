@@ -11,23 +11,34 @@
 		
 		this.width = lighter.canvas_width;
 		this.height = lighter.canvas_height;
+        this.baseline_offset = lighter.baseline_offset;
+        this.padding_left = 5;
+        this.padding_num = 0;
         this.measure_width = lighter.break_line ? this.width : Infinity;
+
 		this.line_height = lighter.line_height;
 
 		this.ctx.lineCap = "round";
 		this.ctx.lineJoin = "round";
-
 		this.ctx.font = lighter.theme.font;
 		this.SPACE_WIDTH = this.ctx.measureText(" ").width;
 	}
     D._Render.SELECT_PADDING = 8;
 	D._Render.prototype = {
-		
+		calc_padding_left : function(max_num) {
+            var mn = this.lighter.line_number_start + max_num - 1;
+            this.ctx.font = this.lighter.theme.font;
+            this.padding_num = this.ctx.measureText(mn.toString()).width;
+            if(this.padding_num < 2*this.SPACE_WIDTH) {
+                this.padding_num = 2*this.SPACE_WIDTH;
+            }
+            this.measure_width = this.lighter.break_line ? this.width-this.padding_num - this.padding_left : Infinity;
+        },
 		_paintSelectRange : function(from, to, top, w, h) {
-			var caret = from === null ? to : from, e_arr = this.page.char_array, para = this.page.para_info[caret.para], l_idx = caret.line - para.line_start, lines = para.lines, line = lines[l_idx], fi = from === null ? (l_idx > 0 ? lines[l_idx - 1].end_index + 1 : 0) : from.index - para.index, ti = to === null ? line.end_index : to.index - para.index - 1;
+			var caret = from === null ? to : from, w_arr = this.page.width_array, para = this.page.para_info[caret.para], l_idx = caret.line - para.line_start, lines = para.lines, line = lines[l_idx], fi = from === null ? (l_idx > 0 ? lines[l_idx - 1].end_index + 1 : 0) : from.index - para.index, ti = to === null ? line.end_index : to.index - para.index - 1;
             var l_info = this.page._getLineInfo_p(caret.para, l_idx);
-
-			var idx = 0, left = (from === null ? (para.rtl ? w-l_info.offset : l_info.offset) : from.left), right = left, _g_f = false, _finish = false;
+//            $.log(l_info)
+			var idx = 0, left = (from === null ? l_info.offset : from.left), right = left, _g_f = false, _finish = false;
 //            if(to===null)
 //            $.log("f1:%s",left);
             for (var i = 0; i < line.unti_dir.length; i++) {
@@ -41,7 +52,7 @@
 						_g_f = true;
 					}
 					idx = fi;
-					left = from === null ? (para.rtl ? w : l_info.offset) : from.left;
+					left = from === null ? l_info.offset : from.left;
 //                    if(to===null)
 //                    $.log("f2:%s",left);
 
@@ -53,27 +64,27 @@
 						break;
 					}
 					for (; idx < _u.index; idx++) {
-						right += (para.rtl ? -1 : 1) * e_arr[idx + para.index + 1].width;
+						right += w_arr[idx + para.index + 1];
 					}
 					if (ti < _ul) {
 						this.ctx.fillRect(left, top, right - left, h);
-						left = right + (para.rtl ? -1 : 1) * _u.width;
+						left = right + _u.width;
 						right = left;
 						for (; idx <= ti; idx++) {
-							right -= (para.rtl ? -1 : 1) * e_arr[idx + para.index + 1].width;
+							right -= w_arr[idx + para.index + 1];
 						}
 						this.ctx.fillRect(left, top, right - left, h);
 						_finish = true;
 						break;
 					} else {
-						right += (para.rtl ? -1 : 1) * _u.width;
+						right += _u.width;
 						idx = _ul;
 					}
 				} else {
 					if (ti < _ul) {
 						if (to === null) {
 							for (; idx < _ul; idx++) {
-								right -= (para.rtl ? -1 : 1) * e_arr[idx + para.index + 1].width;
+								right -= w_arr[idx + para.index + 1];
 							}
 						} else {
 							right = to.left;
@@ -83,11 +94,11 @@
 						break;
 					} else {
 						for (; idx < _ul; idx++) {
-							right -= (para.rtl ? -1 : 1) * e_arr[idx + para.index + 1].width;
+							right -= w_arr[idx + para.index + 1]; //jjia
 						}
 						//$.log('r')
 						this.ctx.fillRect(left, top, right - left, h);
-                        left = right + (para.rtl ? -1 : 1) * _u.width;
+                        left = right + _u.width;
 						right = left;
 					}
 					_g_f = true;
@@ -95,32 +106,32 @@
 			}
 
 			if (!_finish) {
-				right = to === null ? (para.rtl ? l_info.offset - Text._Render.SELECT_PADDING : l_info.offset + l_info.width + Text._Render.SELECT_PADDING) : to.left;
+				right = to === null ? (l_info.offset + l_info.width + 8) : to.left;
 				this.ctx.fillRect(left, top, right - left, h);
 			} else if(to === null) {
-                this.ctx.fillRect(para.rtl ? l_info.offset - Text._Render.SELECT_PADDING : l_info.offset+l_info.width,top, 8, h);
+                this.ctx.fillRect(l_info.offset+l_info.width,top, 8, h);
             }
         },
 		_paintSelect : function(from, to) {
-			this.ctx.fillStyle = "rgba(0,255,0,0.2)";
-			var s_l = from.line, e_l = to.line, c_h = this.line_height, c_w = this.inner_width,b_o = this.baseline_offset;
-			var s_t = this.lighter.parent.scroll_top,
+			this.ctx.fillStyle = this.lighter.theme.selected_background;
+			var s_l = from.line, e_l = to.line, c_h = this.line_height, c_w = this.width
+			var s_t = this.lighter.scroll_top,
 				line_start = Math.floor(s_t/c_h),
 				top = (s_l>=line_start?s_l:line_start)*c_h - s_t;
 
 			if (s_l === e_l) {
 				if(s_l>=line_start){
-					this._paintSelectRange(from, to, top + b_o, c_w, c_h)
+					this._paintSelectRange(from, to, top, c_w, c_h)
 				}
 			} else {
 				if(s_l>=line_start){
-					this._paintSelectRange(from, null, top+b_o, c_w, c_h);
+					this._paintSelectRange(from, null, top, c_w, c_h);
 					top += c_h;
 				}
 				var i = s_l + 1 < line_start ? line_start : s_l + 1;
 				for (; i < e_l; i++) {
                     var _info = this.page._getLineInfo(i);
-					this.ctx.fillRect(_info.offset-(_info.rtl?Text._Render.SELECT_PADDING:0), top+b_o, _info.width+Text._Render.SELECT_PADDING, c_h);
+					this.ctx.fillRect(_info.offset, top, _info.width+ D._Render.SELECT_PADDING, c_h);
 					top += c_h;
 					if(top>this.height){
 						break;
@@ -128,7 +139,7 @@
 				}
 				if(top<=this.height){
 					from = this.page.getCaretLineStart(to);
-					this._paintSelectRange(from, to, top+b_o, c_w, c_h);
+					this._paintSelectRange(from, to, top, c_w, c_h);
 				}
 				//$.log(to)
 				
@@ -147,14 +158,12 @@
 
 
 			this.ctx.font = style.font;
-
 //			if (style.background) {
 //				//$.log('bg:%d,%d,%d,%d',pre_ele.left,pre_ele.top,w,h)
 //				//$.log("%s,%s,%s",str,left,width)
 //				this.ctx.fillStyle = style.background;
 //				this.ctx.fillRect(w_left, bottom - h + this.baseline_offset, width, h);
 //			}
-
 			this.ctx.fillStyle = style.color;
 			this.ctx.fillText(str, left, bottom);
 
@@ -185,13 +194,17 @@
 				r_w += w_arr[i];
 				w += w_arr[i];
 
-				if (D.Char.isBiaoDian(c_c)) {
-					this._paintString(r_str, s_arr[i], hor, bottom, w_arr[i], rtl);
-				} else if (n_c<0 || D.Char.isBiaoDian(n_c) || s_arr[i+1]!==s_arr[i]) {
+				//if (D.Char.isBiaoDian(c_c)) {
+					//this._paintString(r_str, s_arr[i], hor, bottom, w_arr[i], rtl);
+			//	} else
+                if ((n_c<0 || s_arr[i+1]!==s_arr[i]) && s_arr[i]>=0) {
 					this._paintString(r_str, s_arr[i], hor, bottom, w, rtl);
-				} else {
-					continue;
-				}
+				} else if(s_arr[i]<0) {
+                    //s_arr[i]<0表明当前已经到了行末尾的不可见空格处，跳出循环
+                    break;
+                } else {
+                    continue;
+                }
 				//$.log("hor: "+hor);
 				//$.log(r_str)
 				//$.log(w)
@@ -206,7 +219,7 @@
 		_paintLine : function(si, ei, p_idx, unti_dir, bottom) {
 			//$.log("pl:%d,%d,%d",si,ei, p_idx)
 			var fi = si;
-            var hor = 0; // rtl ? this.inner_width + this.padding_left+this.padding_right - hor_offset : hor_offset;
+            var hor = this.padding_num + this.padding_left; // rtl ? this.inner_width + this.padding_left+this.padding_right - hor_offset : hor_offset;
 			//var hor = rtl ? this.width : 0, a_off = (this.width - width) / 2;
 			for (var i = 0; i < unti_dir.length; i++) {
 
@@ -238,6 +251,8 @@
 			var s_t = this.lighter.scroll_top,
                 s_l = this.lighter.scroll_left,
 				l_h = this.line_height,
+                l_s = this.lighter.line_number_start,
+                _t = this.lighter.theme,
 				para = this.page.para_info, total_line = 0, t_h = s_t,
 				line_start = 0, bottom = 0;
 			if(t_h<=0){
@@ -254,27 +269,17 @@
 			}
 			para_loop:
 			for (;i < para.length; i++) {
-				var ep = para[i], ls = ep.lines, si = 0;
 
+                this.ctx.font = _t.font;
+                this.ctx.fillStyle = _t.color;
+                this.ctx.textAlign = "right";
+                this.ctx.fillText(l_s + i, this.padding_num, bottom - this.baseline_offset);
+                var ep = para[i], ls = ep.lines, si = 0;
                 for (var j = 0; j < ls.length; j++) {
-//                    var hor_offset = this.padding_left;
-//                    switch (ep.align) {
-//                        case A.LEFT :
-//                            hor_offset = ep.rtl ? this.padding_right : this.padding_left;
-//                            break;
-//                        case A.MIDDLE :
-//                            hor_offset = Math.round((this.inner_width-ls[j].width)/2+(ep.rtl ? this.padding_right : this.padding_left));
-//                            break;
-//                        case A.RIGHT:
-//                            hor_offset = this.inner_width-ls[j].width + (ep.rtl? this.padding_right : this.padding_left);
-//                            break;
-//                    }
-                    //$.log(hor_offset);
-                    //hor_offset -= s_l;//todo
-					this._paintLine(si, ls[j].end_index, ep.index + 1, ls[j].unti_dir, bottom);
+					this._paintLine(si, ls[j].end_index, ep.index + 1, ls[j].unti_dir, bottom - this.baseline_offset);
 					si = ls[j].end_index + 1;
 					bottom += l_h;
-					if(bottom>=this.height+l_h){
+					if(bottom>this.height+l_h){
 						break para_loop;
 					}
 				}

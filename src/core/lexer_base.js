@@ -17,7 +17,7 @@
         this.chr = -1;
         this.START_ACTION = 0;
         this.i_s = 0;
-        this.yydefault = "default";
+        this.yydefault = "plain";
         this.yystyle = null;
         this.TABLE = null;
     }

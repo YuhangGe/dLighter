@@ -1,7 +1,7 @@
 (function(D, $) {
     D.config = {
         tagName : "pre",
-        theme : 'notepadplusplus'
+        theme : 'aptana3'
     }
     D.do = function() {
         if(! $.hasCanvas) {
@@ -30,7 +30,7 @@
         var _lang = ce.getAttribute("lang") || ce.getAttribute("language") || "plain";
         var _bk_line = ce.getAttribute("breakline") == "true" ? true : false;
         var _class = ce.getAttribute("class");
-
+        var _line_start = ce.getAttribute("line_number_start") || ce.getAttribute("lns") || "1";
         var _container = document.createElement("div");
         var _s = window.getComputedStyle(ce, null);
         for(var i=0;i<STYLE_NAMES.length;i++) {
@@ -57,18 +57,25 @@
             + '<textarea id="dLighter-caret-'+_id+'" spellcheck="false" cols="0" rows="0" class="dLighter-caret" wrap="wrap" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px; opacity: 0;"></textarea>'
             + '<!-- dLighter end -->';
 
-
+        var theme = D._Theme.get(_theme, {
+            font_size : parseInt(_s.getPropertyValue("font-size"))
+        });
         var lighter = new D._Core._Lighter(
-            $("dLighter-canvas-"+_id),
-            $("dLighter-caret-"+_id),
-            $("dLighter-scroll-ver-button-"+_id),
-            $("dLighter-scroll-hor-button-"+_id), {
+            {
+                container : $("dLighter-"+_id),
+                canvas : $("dLighter-canvas-"+_id),
+                caret : $("dLighter-caret-"+_id),
+                ver_scroll : $("dLighter-scroll-ver-button-"+_id),
+                hor_scroll : $("dLighter-scroll-hor-button-"+_id)
+            }, {
             width : _width,
             height : _height,
             language : _lang,
             break_line : _bk_line,
             text : ce.textContent.replace(/\t/g,"    ").replace(/\r/g, ""),
-            theme : _theme
+            theme : theme,
+            lexer :D._Lexer.get(_lang),
+            line_number_start : parseInt(_line_start)
         });
 
         return lighter;

@@ -1,5 +1,5 @@
-(function(Text, $){
-	$.extend(Text._Editor.prototype, {
+(function(D, $){
+	$.extend(D._Lighter.prototype, {
 		initCaret : function(){
 			this.caret_interval = null// window.setInterval(, 1000);
 			this.caret_timeout = null;
@@ -50,7 +50,7 @@
 		_caretShow : function(){
 			// $.log("show")
             if(!this.caret_show) {
-			    this.render._showCaret(this.caret_left,this.caret_top, 1, this.caret_height, "black");
+			    this.render._showCaret(this.caret_left,this.caret_top, 1, this.caret_height, "white");
                 this.caret_show = true;
             }
 		},
@@ -73,25 +73,23 @@
 		},
 		
 		_setCaret : function(caret) {
-			var p = this.parent;
 			if(this.caret_data!==null){
                 this._caretStopFlash();
 			}
 
             this.caret_pos = caret;
-            if(this.floated===false) {
-                var st1 = this.caret_pos.top ,
-                    st2 = st1 + p.line_height - p.canvas_height;
-                if(st2 > p.scroll_top || st1 < p.scroll_top) {
-                    p.scroll_top = (st2>p.scroll_top?st2:st1)+10;
-                    p.scroll_ver.scroll(p.scroll_top);
-                    p.drawer.paint();
-                    p.texter.paint();
-                    /**
-                     * todo hor scroll
-                     */
-                }
-            }
+//
+//                var st1 = this.caret_pos.top ,
+//                    st2 = st1 + this.line_height - p.canvas_height;
+//                if(st2 > p.scroll_top || st1 < p.scroll_top) {
+//                    p.scroll_top = (st2>p.scroll_top?st2:st1)+10;
+//                    p.scroll_ver.scroll(p.scroll_top);
+//                    p.drawer.paint();
+//                    p.texter.paint();
+//                    /**
+//                     * todo hor scroll
+//                     */
+//                }
 
 			/**
 			 * 把reset caret的操作延迟到当前函数之后。目的是为了让render.paint函数执行之后再resetCaret 
@@ -104,17 +102,15 @@
 			this.caret_timeout = window.setTimeout(this.caret_delegate, 0);
 		},
 		_resetCaret : function() {
-			var p = this.parent;
-			this.caret_left = this.caret_pos.left- p.scroll_left;
-			this.caret_top = this.caret_pos.top - p.scroll_top + this.baseline_offset;
+			this.caret_left = this.caret_pos.left- this.scroll_left;
+			this.caret_top = this.caret_pos.top - this.scroll_top;
 			this.caret.style.top = this.caret_top + 'px';
             this.caret_data = this.render.ctx.getImageData(this.caret_left-1, this.caret_top-1, 3, this.caret_height+2);
 			if(this.focused){
 				this._caretBeginFlash();
 			}
-			
 			this.caret_timeout = null;
 		}
 	});
 	
-})(Daisy.Text, Daisy.$);
+})(dLighter._Core, dLighter.$);
