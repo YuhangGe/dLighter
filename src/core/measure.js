@@ -177,13 +177,8 @@
 			return this.ctx.measureText(str).width;
 		},
 		_measure : function(para) {
-			//$.log(para.rtl ? "right_to_left" : 'left_to_right')
-
 			para.lines = [new D._Line(-1, [], 0)];
-
 			return this._doMeasure(para);
-
-
 		},
 
 		_m_LTR : function(left, e_arr, w_arr, s_arr, idx, l_at, para, s_idx, e_idx) {

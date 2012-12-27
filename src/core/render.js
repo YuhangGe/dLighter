@@ -165,7 +165,10 @@
 //				this.ctx.fillRect(w_left, bottom - h + this.baseline_offset, width, h);
 //			}
 			this.ctx.fillStyle = style.color;
-			this.ctx.fillText(str, left, bottom);
+            /**
+             * Math.round是因为整数的坐标可以绘制出更为平滑的文字
+             */
+			this.ctx.fillText(str, Math.round(left), Math.round(bottom));
 
             //$.log(str+left +"," + bottom)
             //$.log(style.font);
@@ -292,15 +295,21 @@
 			this.ctx.save();
 
 			//this.ctx.scale(this.scale, this.scale);
-			this.ctx.clearRect(0, 0, this.width, this.height);
+            this.ctx.fillStyle = this.lighter.theme.background;
+			this.ctx.fillRect(0, 0, this.width, this.height);
+//            this.ctx.clearRect(0, 0, this.width, this.height);
+
             this.ctx.translate(-this.lighter.scroll_left, 0);
+
+            if (this.page.select_mode) {
+                this._paintSelect(this.page.select_range.from, this.page.select_range.to);
+            }
+
 			if (this.page.text.length > 0) {
 				this._paintContent();
 			}
 
-			if (this.page.select_mode) {
-				this._paintSelect(this.page.select_range.from, this.page.select_range.to);
-			}
+
 			this.ctx.restore();
 
 
@@ -310,7 +319,9 @@
 			if(top+height>0) {
                 this.ctx.save();
                 this.ctx.fillStyle = color;
-                this.ctx.globalCompositeOperation = "xor";
+//                $.log(color);
+//                this.ctx.globalCompositeOperation = "xor";
+//                $.log("%s,%s,%s,%s",left, top, width, height)
                 this.ctx.fillRect(left, top, width, height);
                 this.ctx.restore();
             }

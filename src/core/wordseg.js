@@ -40,7 +40,7 @@
 			return this._getRight(arr, r, this.TYPE.SPACE);
 		},
 		getLeft : function(arr, idx) {
-			var ce = arr[idx], ct = this._getCharType(ce.value);
+			var ct = this._getCharType(arr.charCodeAt(idx));
 			var l =  this._getLeft(arr, idx, ct);
 			if(ct === this.TYPE.SPACE && l>=0) {
 				return this._getLeft(arr, l, this._getCharType(arr.charCodeAt(l)));

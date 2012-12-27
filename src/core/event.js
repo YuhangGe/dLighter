@@ -11,11 +11,7 @@
 			this.focus();
 		},
 		_blur_handler : function(e) {
-			if (e.explicitOriginalTarget === this.canvas || document.activeElement === this.container) {
-				window.setTimeout(this.caret_focus_delegate, 0);
-			} else {
-				this.blur();
-			}
+		    this.blur();
 		},
 		_deal_leftmouse_down : function(e, point) {
 			if (this.__mouse_down_time__ === 1 && $.getPTPRange(this.__pre_point__, point) < 10) {
@@ -58,11 +54,17 @@
 			this.__left_mouse_down__ = true;
 			var p = this._getEventPoint(e);
 			this._deal_leftmouse_down(e, p);
-		},
+
+        },
 		_mousedown_handler : function(e) {
 			if (e.button === 0) {
 				this._leftmousedown_handler(e);
 			}
+            /**
+             * 非常重要的一行代码，防止点击canvas后caret失去焦点
+             */
+            e.preventDefault();
+
             if(typeof this.canvas.setCapture === 'function') {
                 this.canvas.setCapture(true);
             }
@@ -75,7 +77,7 @@
 			if (e.button === 0) {
 				this._leftmouseup_handler(e, is_chrome);
 			}
-            if(typeof this.canvas.setCapture() === 'function') {
+            if(typeof this.canvas.setCapture === 'function') {
                 this.canvas.setCapture(false);
             }
 		},
@@ -122,60 +124,27 @@
 		},
 		_chrome_mousedown_handler : function(e) {
 
-			this._mousedown_handler(e, true);
+			this._mousedown_handler(e);
 			$.addEvent(window, 'mousemove', this.__cmv_handler);
 			$.addEvent(window, 'mouseup', this.__cmu_handler);
 		},
-
-		_copy_handler : function(e) {
-
-			var rtn = false;
-			if (this.cur_page.select_mode) {
-				this.clipboard.setData("item", this.cur_page.copySelect(), e);
-				rtn = true;	
-			}
-			if (e != null)
-				$.stopEvent(e);
-			return rtn;
-		},
-        _paste_handler : function(e) {
-            $.stopEvent(e);
-            var me = this;
-            window.setTimeout(function() {
-                me.caret.value = "";
-            });
-        },
-		_cut_handler : function(e) {
-			this._copy_handler(e);
-		},
+//
+//		_copy_handler : function(e) {
+//        	if (this.cur_page.select_mode) {
+//                this.clipboard.setText(this.cur_page.copySelect(), e);
+//			}
+//			if (e != null)
+//				$.stopEvent(e);
+//		},
+//
+//		_cut_handler : function(e) {
+//			this._copy_handler(e);
+//		},
 
 		_keydown_handler : function(e) {
-			//$.log(this.read_only);
-
 			if (this._shortkey_handler(e)) {
 				$.stopEvent(e);
-				return;
 			}
-			/**
-			 * 对ctrl-c 和ctrl-v ctrl-x单独处理，因为不同 浏览器这三个快捷键处理不一样。
-			 *
-			 * firefox 和 ie 下面当caret(即textarea)为空时，快捷键ctrl+c不能触发 oncopy事件，
-			 * 需要手动处理
-			 *
-			 */
-            var ctrlKey = $.macOS ? e.metaKey : e.ctrlKey;
-			if (ctrlKey && e.keyCode === 67 && ($.ie || $.firefox || $.opera)) {
-				//$.log('cp')
-				this._copy_handler(null);
-				$.stopEvent(e);
-				return;
-			} else if (ctrlKey && e.keyCode === 88 && ($.ie || $.firefox || $.opera)) {
-				this._cut_handler(null);
-				$.stopEvent(e);
-				return;
-			}
-
-
 		},
 
 		_dblclick_handler : function(p) {
@@ -224,23 +193,9 @@
 			});
 
 			$.addEvent(this.canvas, 'mouseup', $.createDelegate(this, this._focus_handler));
-			$.addEvent(this.caret, 'mouseup', $.createDelegate(this, this._mouseup_handler));
-			$.addEvent(this.caret, 'blur', $.createDelegate(this, this._blur_handler));
-			$.addEvent(this.caret, "keydown", $.createDelegate(this, this._keydown_handler));
+            $.addEvent(this.caret, "keydown", $.createDelegate(this, this._keydown_handler));
+            $.addEvent(this.caret, 'blur', $.createDelegate(this, this._blur_handler));
 
-
-			/**
-			 * chrome 和 safri可以使用copy, cut, paste事件操作剪贴板。
-			 * firefox和ie当input为空时ctrl-c不能触发copy事件，只通过检测按键来实现。但firefox粘贴空数据也能触发ctrl-v，所以使用paste事件
-			 * opera 没有copy, cut, paste事件，也 只通过检测按键来实现。
-			 */
-			if ($.chrome || $.safri) {
-				$.addEvent(this.caret, 'copy', $.createDelegate(this, this._copy_handler));
-				$.addEvent(this.caret, 'cut', $.createDelegate(this, this._cut_handler));
-				$.addEvent(this.caret, 'paste', $.createDelegate(this, this._paste_handler));
-			} else if ($.firefox) {
-				$.addEvent(this.caret, 'paste', $.createDelegate(this, this._paste_handler));
-			}
 		}
 		
 	});

@@ -10,6 +10,7 @@
         this.font_name = font_name ? font_name : (_g.font_name ? _g.font_name : D.DEFAULT_FONTNAME);
         this.background = _g.background ? _g.background : 'white';
         this.color = _g.color ? _g.color : 'black';
+        this.caret_color = _g.caret_color ? _g.caret_color : this.color;
         this.bold = _g.bold ? true : false;
         this.italic = _g.italic ? true : false;
         this.scroll_breadth = _g.scroll_breadth ? _g.scroll_breadth : 10;
@@ -20,27 +21,37 @@
 
 
         this.font = (this.bold ? "bold " : "") + (this.italic ? "italic " : "") + this.font_size + "px " + this.font_name;
-        var _lang = theme.languages ? theme.languages : {};
 
+        var _lang = theme.language ? theme.language : {};
+        var _code = theme.code ? theme.code : {};
+
+        this.code_style = new _LangStyle({
+            font : this.font,
+            color : this.color
+        });
         this.lang_style_hash = {};
 
+        this._initCode(_code);
         this._initLang(_lang);
 
     };
     _Theme.prototype = {
+        _initCode : function(_code) {
+            for(var s in _code) {
+                var t = _code[s];
+                var font = (t.bold?"bold ":"") + (t.italic?"italic ":"")+(t.font_size ? t.font_size : this.font_size)+"px "+(t.font_name? t.font_name:this.font_name);
+                var color = t.color ? t.color : this.color;
+                this.code_style.addStyle(s, {
+                    font : font,
+                    color: color
+                });
+            }
+        },
         _initLang : function(_lang) {
-            var plain_lang_style = new _LangStyle({
-                font : this.font,
-                color : this.color
-            });
-            this._addLangStyle("plain", plain_lang_style);
 
             for(var ln in _lang) {
                 var _l = _lang[ln];
-                var _ls = new _LangStyle({
-                    font : this.font,
-                    color : this.color
-                });
+                var _ls = this.code_style.copy();
                 for(var s in _l) {
                     var t = _l[s];
                     var font = (t.bold?"bold ":"") + (t.italic?"italic ":"")+(t.font_size ? t.font_size : this.font_size)+"px "+(t.font_name? t.font_name:this.font_name);
@@ -64,7 +75,7 @@
         getLanguageStyle : function(name) {
             var ls = this.lang_style_hash[name];
             if(ls == null) {
-                return this.lang_style_hash['plain'];
+                return this.code_style;
             } else {
                 return ls;
             }
@@ -72,10 +83,10 @@
     };
 
     var _LangStyle = function(plain_style) {
-        this.style_hash = {
+        this.style_hash = plain_style ? {
             plain : 0
-        };
-        this.style_array = [plain_style];
+        } : {};
+        this.style_array = plain_style ? [plain_style] : [];
     };
     _LangStyle.prototype = {
         getStyle : function(index) {
@@ -93,7 +104,17 @@
         },
         getStyleIndex : function(style_name) {
             var i = this.style_hash[style_name];
-            return i==null ? 0 : i;
+            return i ? i : 0;
+        },
+        copy : function() {
+            var rtn = new _LangStyle();
+            rtn.style_array.length = this.style_array.length;
+            for(var s in this.style_hash) {
+                var i = this.style_hash[s];
+                rtn.style_hash[s] = i;
+                rtn.style_array[i] = this.style_array[i];
+            }
+            return rtn;
         }
     };
     $.extend(D, {

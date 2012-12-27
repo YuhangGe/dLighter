@@ -23,8 +23,8 @@
     <script type="text/javascript" src="../src/core/lexer.js"></script>
     <script type="text/javascript" src="../src/core/lexer_base.js"></script>
     <script type="text/javascript" src="../src/lexer/lexer_js.js"></script>
-    <script type="text/javascript" src="../src/theme/aptana3.js"></script>
-    <script type="text/javascript" src="../src/theme/notepadplusplus.js"></script>
+    <script type="text/javascript" src="../src/theme/dlighter.js"></script>
+    <script type="text/javascript" src="../src/theme/noteplus.js"></script>
 
     <!--<script type="text/javascript" src="../src/core/wordseg.js"></script>-->
     <style type="text/css">
@@ -65,7 +65,8 @@
             };
         })();
         $(function() {
-           //dLighter.do();
+//            dLighter.config.theme = "noteplus";
+//            dLighter.do();
            li = dLighter.createLighter($("pre")[0]);
            //console.log($("#st").baseline());
         });
@@ -77,29 +78,40 @@
     <h1>dLighter Demo</h1>
     <p>Demo 1</p>
     <div style="border: 1px solid blue;">
-        <pre lang="js" lns="102">
-            // adjlsd ينسمي تيمسيتم تيمستي يتمس
-            paint : function() {
-
-
-            }
-        </pre>
+        <pre lang="js" lns="102">// adjlsd ينسمي تيمسيتم تيمستي يتمس
+            paint : function(a, kki, d) {
+           /*
+            * comment 1
+            */
+            /**
+             * comment 2
+             */
+            Var t = 10;
+                var a = 10.56;
+            var b = {
+                a : 10,
+                k  : 'hello'
+            };
+            var r = /^go\d\w*/g;
+document.getElementById('d');
+            this.value = "100" + 10.34
+            }</pre>
     </div>
     <p>Demo 2</p>
     <div style="text-align: center;">
         <div style="text-align:left; display: inline-block; width: 600px; height: 400px; border: 1px solid #ff4500;">
-            <pre lang="js">
-                (function(){
-                    alert("hello.");
+            <pre lang="vb">
+                public sub a()
+                dim i as integer = 10
 
-
-                })();
+                end sub
             </pre>
         </div>
     </div>
     <div style="font-family: consolas;font-size: 50px;border: 1px solid blue;position: relative;">
         <span id="s1" style="font-size: 0px; border: 1px solid green;">aijJ</span>
         <span id="st" style="vertical-align: baseline; border: 1px solid red;">aijJ</span>
+        <input type="text" id="txt1" value="test"/>
     </div>
 </body>
 </html>

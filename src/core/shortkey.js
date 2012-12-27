@@ -4,8 +4,8 @@
 		initShortKey : function() {
 			this.SHORTKEY_TABLE = {
 				'ctrl-a' : this._ctrl_a_handler,
-                'ctrl-c' : this._ctrl_c_handler,
-                'ctrl-x' : this._ctrl_x_handler,
+//                'ctrl-c' : this._ctrl_c_handler,
+//                'ctrl-x' : this._ctrl_x_handler,
 				'ctrl-up' : this._ctrl_up_handler,
 				'ctrl-down' : this._ctrl_down_handler,
 				'ctrl-left' : this._ctrl_left_handler,
@@ -42,18 +42,18 @@
 				40 : 'down'
 			}
 		},
-		_ctrl_x_handler: function(){
-            if($.ie||$.firefox||$.opera){
-                this._copy_handler(null);
-                return true;
-            }
-		},
-		_ctrl_c_handler : function(){
-			if($.ie||$.firefox||$.opera){
-				this._copy_handler(null);
-				return true;
-			}
-		},
+//		_ctrl_x_handler: function(){
+//            if($.ie||$.firefox||$.opera){
+//                this._copy_handler(null);
+//                return true;
+//            }
+//		},
+//		_ctrl_c_handler : function(){
+//			if($.ie||$.firefox||$.opera){
+//				this._copy_handler(null);
+//				return true;
+//			}
+//		},
 
 		_pageup_handler : function() {
 			this.container.scrollTop -= 15 * this.line_height * this.render.scale;
@@ -143,15 +143,13 @@
 			this.render.paint();
 		},
 		_shift_up_handler : function() {
-			if(this.caret_pos.top - this.line_height > 0) {
-				this._shift_select(this.cur_page._getCaret_xy(this.caret_pos.left, this.caret_pos.top - this.line_height).index);
-			}
+		    this._shift_select(this.cur_page._getCaret_xy(this.caret_pos.left, this.caret_pos.top - this.line_height).index);
 		},
 		_shift_down_handler : function() {
-			var pi = this.cur_page.para_info, lp = pi[pi.length - 1];
-			if(this.caret_pos.top + this.line_height < (lp.line_start + lp.line_cross) * this.line_height) {
+//			var pi = this.cur_page.para_info, lp = pi[pi.length - 1];
+//			if(this.caret_pos.top + this.line_height < (lp.line_start + lp.line_cross) * this.line_height) {
 				this._shift_select(this.cur_page._getCaret_xy(this.caret_pos.left, this.caret_pos.top + this.line_height).index);
-			}
+//			}
 
 		},
 		_shift_right_handler : function() {
@@ -209,12 +207,6 @@
 		},
 		_shortkey_handler : function(e) {
 			var c = e.keyCode;
-			if((c===37 || c===39) && this.cur_page.para_info[this.caret_pos.para].rtl){
-				/**
-				 * 如果当前在rtl段落，左右键互反 
-				 */
-				c = (c===37?39:37);
-			}
 		    var ctrlKey = $.macOS ? e.metaKey : e.ctrlKey;
 			var c_key = (ctrlKey ? "ctrl-" : "") + (e.shiftKey ? "shift-" : "") + (this.KEY_TABLE[c] == null ? String.fromCharCode(c).toLowerCase() : this.KEY_TABLE[c]), k_func = this.SHORTKEY_TABLE[c_key];
 			if( typeof k_func === 'function') {

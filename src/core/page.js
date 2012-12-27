@@ -117,7 +117,8 @@
 					to : to
 				}
 			}
-		},
+            this.lighter.selectTextCallback(this.select_mode ? this.text.substring(from.index+1, to.index+1) : "");
+        },
 		_getParaByRow : function(row) {
 			for (var i = 0; i < this.para_info.length; i++) {
 				var p = this.para_info[i];
@@ -217,24 +218,21 @@
 		 */
 		selectByIndex : function(from, to) {
 			var fc = this.getBeforeCaretByIndex(from + 1), tc = this.getCaretByIndex(to);
-
-			this.select_mode = true;
-			this.select_range.from = fc;
-			this.select_range.to = tc;
-			//this.render.paint();
+            this.select(fc, tc);
 			return tc;
 		},
         getCaretByIndex : function(index) {
 
-            if (index === -1)
+            if (index === -1) {
                 return {
                     index : -1,
                     para : 0,
                     para_at : -1,
-                    left :  0,
+                    left :  this.lighter.render.padding_num + this.lighter.render.padding_left,
                     line : 0,
-                    top : this.lighter.line_height - this.lighter.font_height
+                    top : 0
                 };
+            }
             for (var i = 0; i < this.para_info.length; i++) {
                 var p = this.para_info[i];
                 if (p.index + p.length >= index) {
@@ -295,7 +293,7 @@
 				return {
 					index : -1,
 					para : 0,
-					para_at : -1,
+					para_at : -1
 				}
 			}
 			for (var i = 0; i < this.para_info.length; i++) {
@@ -517,28 +515,21 @@
 			var p = this.para_info[p_id], fc = null, tc = this._getCaret_p(p_id, p.length - 1);
 			if (p.length > 0) {
 				fc = this._getCaret_p(p_id, -1);
-				this.select_mode = true;
 				this.select(fc, tc);
 			}
 			return tc;
 		},
 
-		/**
-		 * 复制
-		 */
-		copySelect : function() {
-			var e_r = this.char_array, f = this.select_range.from, t = this.select_range.to, items = [];
-			for (var i = f.index + 1; i <= t.index; i++) {
-				items.push(e_r[i].copy());
-			}
-			return {
-				items : items,
-				ranges : this._copySelectRanges(f.index, t.index)
-			};
-		},
+//		/**
+//		 * 复制
+//		 */
+//		copySelect : function() {
+//            var f = this.select_range.from.index+1, t = this.select_range.to.index;
+//            return this.text.substring(f, t);
+//		},
 
 		findText : function(txt, start) {
-			var arr = this.char_array, lf = this.last_find, t_next = lf.text === txt ? lf.next : (lf.next = $.getKmpNext(lf.text = txt));
+			var arr = this.text, lf = this.last_find, t_next = lf.text === txt ? lf.next : (lf.next = $.getKmpNext(lf.text = txt));
 			var i = (start < 0 || start >= arr.length) ? 0 : start, idx = 0;
 			/**
 			 * 在整个文本中从start位置循环查找字符串。

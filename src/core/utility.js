@@ -187,7 +187,7 @@ dLighter.$.extend(dLighter.$, {
         if(window.removeEventListener) {
             ele.removeEventListener(event, handler);
         } else {
-            ele.detachEvent('on' + event, handeler);
+            ele.detachEvent('on' + event, handler);
         }
     },
     createDelegate : function(instance, func) {
@@ -345,7 +345,7 @@ dLighter.$.extend(dLighter.$, {
      * 实现的原理是使用浏览器对dom元素的渲染结果，当span的font-size为0时其位置正好处于baseline的地方。
      */
     _calcFontInfo : function(font_size, font_name) {
-         con = document.createElement("div"), ele = document.createElement("span"), ele2 = document.createElement("span"), h = 0;
+        var con = document.createElement("div"), ele = document.createElement("span"), ele2 = document.createElement("span"), h = 0;
       //  con.style.visibility = "hidden";
         con.style.margin = "0px";
         con.style.padding = "0px";
@@ -370,7 +370,7 @@ dLighter.$.extend(dLighter.$, {
         document.body.appendChild(con);
         var h = con.offsetHeight;
         var bo = ele.offsetHeight + ele.offsetTop - ele2.offsetTop;
-        //document.body.removeChild(con);
+        document.body.removeChild(con);
         //$.log("font %s height:%d", font, h);
 //        $.log("%s,%s",h,bo)
         return {

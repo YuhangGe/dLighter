@@ -1,7 +1,7 @@
 (function(D, $) {
     D.config = {
         tagName : "pre",
-        theme : 'aptana3'
+        theme : 'dLighter'
     }
     D.do = function() {
         if(! $.hasCanvas) {
@@ -54,17 +54,30 @@
             + '<div id="dLighter-scroll-hor-bar-'+_id+'" class="dLighter-scroll-hor-bar">'
                 + '<div id="dLighter-scroll-hor-button-'+_id+'" class="dLighter-scroll-hor-button"></div>'
             + '</div>'
-            + '<textarea id="dLighter-caret-'+_id+'" spellcheck="false" cols="0" rows="0" class="dLighter-caret" wrap="wrap" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px; opacity: 0;"></textarea>'
+//            + '<textarea id="dLighter-caret-'+_id+'" spellcheck="false" cols="0" rows="0" class="dLighter-caret" wrap="wrap" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px; opacity: 0;"></textarea>'
             + '<!-- dLighter end -->';
+        /*
+         * 把input放在container里面始终会有focus时窗口的滚动条会滚动，
+         * 没有找到什么方法可以阻止这个行为。于是改变思路，把textarea直接放在documnet.body中，
+         * 并且position设置为fixed, left位置和当前caret_pos.left一置，top为0。
+         * 使用css的ime-mode:disabled是为了关闭ime输入法，否则用户在按键的时候还是会出现输入法的输入框.
+         * chrome和safari下面没用，但不影响。
+         */
+        var _caret = document.createElement("textarea");
+
+        _caret.style.imeMode = "disabled";
+        _caret.setAttribute("class", "dLighter-caret");
+        _caret.setAttribute("id", "dLighter-caret-"+_id);
+        document.body.appendChild(_caret);
 
         var theme = D._Theme.get(_theme, {
             font_size : parseInt(_s.getPropertyValue("font-size"))
         });
         var lighter = new D._Core._Lighter(
             {
-                container : $("dLighter-"+_id),
+                container : _container,
                 canvas : $("dLighter-canvas-"+_id),
-                caret : $("dLighter-caret-"+_id),
+                caret : _caret,
                 ver_scroll : $("dLighter-scroll-ver-button-"+_id),
                 hor_scroll : $("dLighter-scroll-hor-button-"+_id)
             }, {
@@ -72,7 +85,7 @@
             height : _height,
             language : _lang,
             break_line : _bk_line,
-            text : ce.textContent.replace(/\t/g,"    ").replace(/\r/g, ""),
+            text : (ce.textContent || ce.innerText || "  ").replace(/\t/g,"    ").replace(/\r/g, ""),
             theme : theme,
             lexer :D._Lexer.get(_lang),
             line_number_start : parseInt(_line_start)

@@ -20,35 +20,24 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="page.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/core/page.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="442" column="19" selection-start="12281" selection-end="12286" vertical-scroll-proportion="-5.3454547">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="measure.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/core/measure.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="349" column="27" selection-start="8924" selection-end="8929" vertical-scroll-proportion="-11.923077">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="62" selection-start="1165" selection-end="1165" vertical-scroll-proportion="-12.892858">
+            <state line="79" column="0" selection-start="3192" selection-end="3192" vertical-scroll-proportion="-1.4642857">
               <folding>
-                <marker date="1356450095000" expanded="true" signature="2419:2431" placeholder="..." />
-                <marker date="1356450095000" expanded="true" signature="2485:2501" placeholder="..." />
-                <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1356601999000" expanded="false" signature="2413:2425" placeholder="..." />
+                <marker date="1356601999000" expanded="false" signature="2479:2495" placeholder="..." />
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dom.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/core/dom.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="63" column="34" selection-start="3054" selection-end="3054" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -56,25 +45,61 @@
       <file leaf-file-name="event.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/core/event.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="175" column="13" selection-start="5088" selection-end="5088" vertical-scroll-proportion="0.0">
+            <state line="122" column="0" selection-start="3685" selection-end="3685" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="wordseg.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/core/wordseg.js">
+      <file leaf-file-name="dlighter.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/theme/dlighter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="29" selection-start="278" selection-end="278" vertical-scroll-proportion="31.23077">
+            <state line="56" column="46" selection-start="1615" selection-end="1615" vertical-scroll-proportion="0.6935484">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="shortkey.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/core/shortkey.js">
+      <file leaf-file-name="render.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/core/render.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="97" column="32" selection-start="3086" selection-end="3086" vertical-scroll-proportion="0.0">
+            <state line="323" column="33" selection-start="10129" selection-end="10129" vertical-scroll-proportion="-9.923077">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lexer_js.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/lexer/lexer_js.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="68" column="49" selection-start="11410" selection-end="11410" vertical-scroll-proportion="-12.153846">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="noteplus.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/theme/noteplus.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="33" selection-start="173" selection-end="179" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="theme.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/core/theme.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="38" selection-start="797" selection-end="797" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lighter.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/core/lighter.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="106" column="36" selection-start="4258" selection-end="4258" vertical-scroll-proportion="-57.846153">
               <folding />
             </state>
           </provider>
@@ -83,34 +108,7 @@
       <file leaf-file-name="caret.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/core/caret.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="45" selection-start="3033" selection-end="3033" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="utility.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/core/utility.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="375" column="10" selection-start="12516" selection-end="12516" vertical-scroll-proportion="-5.3461537">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="js-printf.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/js-printf.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="173" column="9" selection-start="5718" selection-end="5718" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="render.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/core/render.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="54" selection-start="1769" selection-end="1769" vertical-scroll-proportion="0.23924269">
+            <state line="64" column="19" selection-start="2049" selection-end="2049" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -126,22 +124,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/theme/notepadplusplus.js" />
-        <option value="$PROJECT_DIR$/src/core/dom.js" />
-        <option value="$PROJECT_DIR$/src/theme/aptana3.js" />
+        <option value="$PROJECT_DIR$/src/lexer/lexer_xml.js" />
+        <option value="$PROJECT_DIR$/src/lexer/lexer_css.js" />
         <option value="$PROJECT_DIR$/src/core/lexer_base.js" />
-        <option value="$PROJECT_DIR$/src/core/text.caret.js" />
-        <option value="$PROJECT_DIR$/demo/lighter.css" />
-        <option value="$PROJECT_DIR$/src/core/lighter.js" />
-        <option value="$PROJECT_DIR$/src/core/caret.js" />
-        <option value="$PROJECT_DIR$/src/core/measure.js" />
-        <option value="$PROJECT_DIR$/demo/index.html" />
-        <option value="$PROJECT_DIR$/src/core/event.js" />
-        <option value="$PROJECT_DIR$/src/core/wordseg.js" />
         <option value="$PROJECT_DIR$/src/core/shortkey.js" />
+        <option value="$PROJECT_DIR$/src/core/clipboard.js" />
         <option value="$PROJECT_DIR$/src/core/page.js" />
-        <option value="$PROJECT_DIR$/src/core/utility.js" />
+        <option value="$PROJECT_DIR$/src/core/lighter.js" />
+        <option value="$PROJECT_DIR$/src/theme/noteplus.js" />
+        <option value="$PROJECT_DIR$/src/lexer/lexer_js.js" />
         <option value="$PROJECT_DIR$/src/core/render.js" />
+        <option value="$PROJECT_DIR$/src/core/caret.js" />
+        <option value="$PROJECT_DIR$/src/core/theme.js" />
+        <option value="$PROJECT_DIR$/src/core/event.js" />
+        <option value="$PROJECT_DIR$/src/core/dom.js" />
+        <option value="$PROJECT_DIR$/demo/index.html" />
+        <option value="$PROJECT_DIR$/src/theme/dlighter.js" />
       </list>
     </option>
   </component>
@@ -285,11 +283,12 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="options.lastSelected" value="fileTemplates" />
+    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../alicelex" />
     <property name="FullScreen" value="false" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PublishConfig">
     <servers>
@@ -353,7 +352,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25681493" sideWeight="0.671151" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2682927" sideWeight="0.671151" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -420,120 +419,118 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/lexer/lexer_js.js">
+    <entry file="file://$PROJECT_DIR$/src/lexer/lexer_xml.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="26" selection-start="9968" selection-end="9968" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/theme/aptana3.js">
+    <entry file="file://$PROJECT_DIR$/src/lexer/lexer_css.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="10" selection-start="266" selection-end="266" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/core/lexer_base.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="28" selection-start="435" selection-end="435" vertical-scroll-proportion="0.0">
+        <state line="25" column="38" selection-start="569" selection-end="569" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/dom.js">
+    <entry file="file://$PROJECT_DIR$/src/core/not_used_clipboard.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="24" selection-start="84" selection-end="84" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/lighter.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="17" selection-start="365" selection-end="365" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/lighter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="53" selection-start="779" selection-end="779" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/caret.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="45" selection-start="3033" selection-end="3033" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="62" selection-start="1165" selection-end="1165" vertical-scroll-proportion="-12.892858">
-          <folding>
-            <marker date="1356450095000" expanded="true" signature="2419:2431" placeholder="..." />
-            <marker date="1356450095000" expanded="true" signature="2485:2501" placeholder="..." />
-            <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/event.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="175" column="13" selection-start="5088" selection-end="5088" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/wordseg.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="29" selection-start="278" selection-end="278" vertical-scroll-proportion="31.23077">
+        <state line="4" column="48" selection-start="147" selection-end="147" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/core/shortkey.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="97" column="32" selection-start="3086" selection-end="3086" vertical-scroll-proportion="0.0">
+        <state line="134" column="28" selection-start="4081" selection-end="4081" vertical-scroll-proportion="-11.807693">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/core/page.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="442" column="19" selection-start="12281" selection-end="12286" vertical-scroll-proportion="-5.3454547">
+        <state line="119" column="34" selection-start="3482" selection-end="3482" vertical-scroll-proportion="-9.863636">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/measure.js">
+    <entry file="file://$PROJECT_DIR$/src/theme/noteplus.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="349" column="27" selection-start="8924" selection-end="8929" vertical-scroll-proportion="-11.923077">
+        <state line="9" column="33" selection-start="173" selection-end="179" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/utility.js">
+    <entry file="file://$PROJECT_DIR$/src/lexer/lexer_js.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="375" column="10" selection-start="12516" selection-end="12516" vertical-scroll-proportion="-5.3461537">
+        <state line="68" column="49" selection-start="11410" selection-end="11410" vertical-scroll-proportion="-12.153846">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/js-printf.js">
+    <entry file="file://$PROJECT_DIR$/src/core/lighter.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="173" column="9" selection-start="5718" selection-end="5718" vertical-scroll-proportion="0.0">
+        <state line="106" column="36" selection-start="4258" selection-end="4258" vertical-scroll-proportion="-57.846153">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/caret.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="19" selection-start="2049" selection-end="2049" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/theme.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="38" selection-start="797" selection-end="797" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/dom.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="34" selection-start="3054" selection-end="3054" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/event.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="122" column="0" selection-start="3685" selection-end="3685" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/core/render.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="54" selection-start="1769" selection-end="1769" vertical-scroll-proportion="0.23924269">
+        <state line="323" column="33" selection-start="10129" selection-end="10129" vertical-scroll-proportion="-9.923077">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="0" selection-start="3192" selection-end="3192" vertical-scroll-proportion="-1.4642857">
+          <folding>
+            <marker date="1356601999000" expanded="false" signature="2413:2425" placeholder="..." />
+            <marker date="1356601999000" expanded="false" signature="2479:2495" placeholder="..." />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/theme/dlighter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="46" selection-start="1615" selection-end="1615" vertical-scroll-proportion="0.6935484">
           <folding />
         </state>
       </provider>

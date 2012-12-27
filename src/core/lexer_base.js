@@ -23,14 +23,11 @@
     }
     D._LexerBase.prototype = {
         read_ch : function() {
-            if(this.idx >= this.end)
-                return this.chr = -1;
-            else {
-                return this.chr = this.src.charCodeAt(this.idx++);
-            }
+            throw "must be overwrite";
         },
         action : function(action) {
-            //do nothing
+            //do nothing, must be overwrite
+            throw "must be overwrite";
         },
         do_lex : function() {
             var go_on = true;
