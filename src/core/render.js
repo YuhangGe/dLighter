@@ -12,8 +12,6 @@
 		this.width = lighter.canvas_width;
 		this.height = lighter.canvas_height;
         this.baseline_offset = lighter.baseline_offset;
-        this.padding_left = 5;
-        this.padding_num = 0;
         this.measure_width = lighter.break_line ? this.width : Infinity;
 
 		this.line_height = lighter.line_height;
@@ -21,17 +19,21 @@
 		this.ctx.lineCap = "round";
 		this.ctx.lineJoin = "round";
 		this.ctx.font = lighter.theme.font;
-		this.SPACE_WIDTH = this.ctx.measureText(" ").width;
-	}
+        this.SPACE_WIDTH = this.ctx.measureText(" ").width;
+        this.padding_left = Math.round(1.5 * this.SPACE_WIDTH);
+        this.padding_num = 0;
+
+    }
     D._Render.SELECT_PADDING = 8;
 	D._Render.prototype = {
 		calc_padding_left : function(max_num) {
             var mn = this.lighter.line_number_start + max_num - 1;
             this.ctx.font = this.lighter.theme.font;
             this.padding_num = this.ctx.measureText(mn.toString()).width;
-            if(this.padding_num < 2*this.SPACE_WIDTH) {
-                this.padding_num = 2*this.SPACE_WIDTH;
+            if(this.padding_num < 3*this.SPACE_WIDTH) {
+                this.padding_num = 3*this.SPACE_WIDTH;
             }
+            this.padding_num += Math.round(1.5*this.SPACE_WIDTH);
             this.measure_width = this.lighter.break_line ? this.width-this.padding_num - this.padding_left : Infinity;
         },
 		_paintSelectRange : function(from, to, top, w, h) {
@@ -274,9 +276,11 @@
 			for (;i < para.length; i++) {
 
                 this.ctx.font = _t.font;
-                this.ctx.fillStyle = _t.color;
+                this.ctx.fillStyle = _t.gutter_number_color;
                 this.ctx.textAlign = "right";
-                this.ctx.fillText(l_s + i, this.padding_num, bottom - this.baseline_offset);
+                this.ctx.fillText(l_s + i, this.padding_num - this.SPACE_WIDTH, bottom - this.baseline_offset);
+                this.ctx.fillStyle = _t.gutter_line_color;
+                this.ctx.fillRect(this.padding_num, 0, 3, this.height);
                 var ep = para[i], ls = ep.lines, si = 0;
                 for (var j = 0; j < ls.length; j++) {
 					this._paintLine(si, ls[j].end_index, ep.index + 1, ls[j].unti_dir, bottom - this.baseline_offset);

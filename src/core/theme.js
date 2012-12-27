@@ -14,6 +14,9 @@
         this.bold = _g.bold ? true : false;
         this.italic = _g.italic ? true : false;
         this.scroll_breadth = _g.scroll_breadth ? _g.scroll_breadth : 10;
+        var _u = theme.gutter ? theme.gutter : {};
+        this.gutter_number_color = _u.number_color ? _u.number_color : this.color;
+        this.gutter_line_color = _u.line_color ? _u.line_color : this.background;
         var _s = theme.selected ? theme.selected : {};
         this.selected_background = _s.background ? _s.background : 'rgba(125,125,125,0.3)';
         var _h = theme.highlight ? theme.highlight : {};
@@ -120,7 +123,7 @@
     $.extend(D, {
         _theme_list : {},
         _theme_hash : {},
-        DEFAULT_FONTSIZE : 20,
+        DEFAULT_FONTSIZE : 16,
         DEFAULT_FONTNAME : "consolas",
         register : function(theme) {
             this._theme_list[theme.name] = theme;

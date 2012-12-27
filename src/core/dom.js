@@ -71,7 +71,8 @@
         document.body.appendChild(_caret);
 
         var theme = D._Theme.get(_theme, {
-            font_size : parseInt(_s.getPropertyValue("font-size"))
+            font_size : parseInt(_s.getPropertyValue("font-size")),
+            font_name : _s.getPropertyValue("font-family")
         });
         var lighter = new D._Core._Lighter(
             {

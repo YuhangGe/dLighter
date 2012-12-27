@@ -35,8 +35,8 @@
                     this.yystyle = "param";
                     break;
                 case 12:
-                    this.yystyle = "doccomment";
-                    this.yydefault = "doccomment";
+                    this.yystyle = "doc_comment";
+                    this.yydefault = "doc_comment";
                     this.yygoto(DOC_COMMENT);
                     break;
                 case 15:
@@ -94,12 +94,12 @@
                     this.yystyle = "comment";
                     break;
                 case 13:
-                    this.yystyle = "doccomment";
+                    this.yystyle = "doc_comment";
                     this.yydefault = "plain";
                     this.yygoto(DEFAULT);
                     break;
                 case 14:
-                    this.yystyle = "doccomment";
+                    this.yystyle = "doc_comment";
                     break;
                 case 18:
                     this.yystyle = "string";
