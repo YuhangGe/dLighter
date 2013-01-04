@@ -143,265 +143,270 @@ dLighter = {
                 $.addEvent(this.ele, 'mousedown', $.createDelegate(this, this._chrome_mousedown_handler));
             }
         }
-    }
-})(dLighter.$);
+    };
 
-dLighter.$.extend(dLighter.$, {
-    log : function(msg) {
-        if(typeof jQuery.log === 'function') {
-            jQuery.log.apply(this, arguments);
-        } else {
-            console.log.apply(this, arguments);
-        }
-    },
-    getEventPoint : function(e) {
-        var x= 0,y=0;
-        if ( typeof e.offsetX !== 'undefined') {
-            x = e.offsetX;
-            y = e.offsetY;
-        } else if ( typeof e.x !== 'undefined') {
-            x = e.x, y = e.y
-        } else if ( typeof e.layerX !== 'undefined') {
-            x = e.layerX;
-            y = e.layerY;
-        } else {
-            throw "no x,y in event(_getEventPoint)";
-        }
-        return {
-            x : x,
-            y : y
-        };
-    },
-    addEvent : function(ele, event, handler) {
-        if( typeof ele === 'string')
-            ele = $(ele);
-        if(window.addEventListener) {
-            ele.addEventListener(event, handler);
-        } else {
-            ele.attachEvent('on' + event, handler);
-        }
-    },
-    delEvent : function(ele, event, handler) {
-        if( typeof ele === 'string')
-            ele = $(ele);
-        if(window.removeEventListener) {
-            ele.removeEventListener(event, handler);
-        } else {
-            ele.detachEvent('on' + event, handler);
-        }
-    },
-    createDelegate : function(instance, func) {
-        return function() {
-            func.apply(instance, arguments);
-        }
-    },
-    stopEvent : function(e) {
-        if(e == null)
-            return;
-        if(e.preventDefault) {
-            e.preventDefault();
-        } else {
-            e.returnValue = false;
-        }
-        if(e.stopPropagation) {
-            e.stopPropagation();
-        } else {
-            e.cancelBubble = true;
-        }
-    },
-    addWheelEvent : function(ele, handler) {
-        if( typeof ele === 'string')
-            ele = $(ele);
-        if(window.addEventListener) {
-            if($.firefox)
-                ele.addEventListener('DOMMouseScroll', handler);
-            else
-                ele.addEventListener('mousewheel', handler);
-        } else {
-            ele.attachEvent('onmousewheel', handler);
-        }
-    },
-    /**
-     * js 面向对象。实现了基本的继承和多态。由xiaoge设计编写。
-     *
-     */
-    inherit : function(inheritClass, baseClass) {
-        if(typeof inheritClass === 'undefined' || typeof baseClass ==='undefined'){
-            console.trace();
-            throw "inherit error!";
-        }
-        //首先把父类的prototype中的函数继承到子类中
-        for(var pFunc in baseClass.prototype) {
-            var sp = inheritClass.prototype[pFunc];
-            //如果子类中没有这个函数，添加
-            if( typeof sp === 'undefined') {
-                inheritClass.prototype[pFunc] = baseClass.prototype[pFunc];
+
+    $.extend($, {
+        log : function(msg) {
+            if(typeof jQuery.log === 'function') {
+                jQuery.log.apply(this, arguments);
+            } else {
+                console.log.apply(this, arguments);
             }
-            //如果子类已经有这个函数，则忽略。以后可使用下面的callBase函数调用父类的方法
-
-        }
-        //保存继承树，当有多级继承时要借住继承树对父类进行访问
-        inheritClass.__base_objects__ = new Array();
-        inheritClass.__base_objects__.push(baseClass);
-
-        if( typeof baseClass.__base_objects__ !== 'undefined') {
-            for(var i = 0; i < baseClass.__base_objects__.length; i++)
-                inheritClass.__base_objects__.push(baseClass.__base_objects__[i]);
-        }
-
+        },
+        getEventPoint : function(e) {
+            var x= 0,y=0;
+            if ( typeof e.offsetX !== 'undefined') {
+                x = e.offsetX;
+                y = e.offsetY;
+            } else if ( typeof e.x !== 'undefined') {
+                x = e.x, y = e.y
+            } else if ( typeof e.layerX !== 'undefined') {
+                x = e.layerX;
+                y = e.layerY;
+            } else {
+                throw "no x,y in event(_getEventPoint)";
+            }
+            return {
+                x : x,
+                y : y
+            };
+        },
+        addEvent : function(ele, event, handler) {
+            if( typeof ele === 'string')
+                ele = $(ele);
+            if(window.addEventListener) {
+                ele.addEventListener(event, handler);
+            } else {
+                ele.attachEvent('on' + event, handler);
+            }
+        },
+        delEvent : function(ele, event, handler) {
+            if( typeof ele === 'string')
+                ele = $(ele);
+            if(window.removeEventListener) {
+                ele.removeEventListener(event, handler);
+            } else {
+                ele.detachEvent('on' + event, handler);
+            }
+        },
+        createDelegate : function(instance, func) {
+            return function() {
+                func.apply(instance, arguments);
+            }
+        },
+        stopEvent : function(e) {
+            if(e == null)
+                return;
+            if(e.preventDefault) {
+                e.preventDefault();
+            } else {
+                e.returnValue = false;
+            }
+            if(e.stopPropagation) {
+                e.stopPropagation();
+            } else {
+                e.cancelBubble = true;
+            }
+        },
+        addWheelEvent : function(ele, handler) {
+            if( typeof ele === 'string')
+                ele = $(ele);
+            if(window.addEventListener) {
+                if(this.firefox) {
+                    $.log('addwheel')
+                    ele.addEventListener('DOMMouseScroll', handler);
+                }
+                else
+                    ele.addEventListener('mousewheel', handler);
+            } else {
+                ele.attachEvent('onmousewheel', handler);
+            }
+        },
         /**
-         * 执行父类构造函数，相当于java中的this.super()
-         * 不使用super是因为super是ECMAScript保留关键字.
-         * @param {arguments} args 参数，可以不提供
+         * js 面向对象。实现了基本的继承和多态。由xiaoge设计编写。
+         *
          */
-        inheritClass.prototype.base = function(args) {
+        inherit : function(inheritClass, baseClass) {
+            if(typeof inheritClass === 'undefined' || typeof baseClass ==='undefined'){
+                console.trace();
+                throw "inherit error!";
+            }
+            //首先把父类的prototype中的函数继承到子类中
+            for(var pFunc in baseClass.prototype) {
+                var sp = inheritClass.prototype[pFunc];
+                //如果子类中没有这个函数，添加
+                if( typeof sp === 'undefined') {
+                    inheritClass.prototype[pFunc] = baseClass.prototype[pFunc];
+                }
+                //如果子类已经有这个函数，则忽略。以后可使用下面的callBase函数调用父类的方法
 
-            var baseClass = null, rtn = undefined;
-            if( typeof this.__inherit_deep__ === 'undefined') {
-                this.__inherit_deep__ = 0;
-            } else {
-                this.__inherit_deep__++;
-                //$.dprint("d+:"+this.__inherit_deep__);
+            }
+            //保存继承树，当有多级继承时要借住继承树对父类进行访问
+            inheritClass.__base_objects__ = new Array();
+            inheritClass.__base_objects__.push(baseClass);
+
+            if( typeof baseClass.__base_objects__ !== 'undefined') {
+                for(var i = 0; i < baseClass.__base_objects__.length; i++)
+                    inheritClass.__base_objects__.push(baseClass.__base_objects__[i]);
             }
 
-            baseClass = inheritClass.__base_objects__[this.__inherit_deep__];
+            /**
+             * 执行父类构造函数，相当于java中的this.super()
+             * 不使用super是因为super是ECMAScript保留关键字.
+             * @param {arguments} args 参数，可以不提供
+             */
+            inheritClass.prototype.base = function(args) {
 
-            if( typeof args === "undefined" || args == null) {
-                rtn = baseClass.call(this);
-            } else if( args instanceof Array === true) {
-                rtn = baseClass.apply(this, args);
-            } else {
-                var _args = new Array();
-                for(var i = 0; i < arguments.length; i++)
-                    _args.push(arguments[i]);
-                rtn = baseClass.apply(this, _args);
-            }
+                var baseClass = null, rtn = undefined;
+                if( typeof this.__inherit_deep__ === 'undefined') {
+                    this.__inherit_deep__ = 0;
+                } else {
+                    this.__inherit_deep__++;
+                    //$.dprint("d+:"+this.__inherit_deep__);
+                }
 
-            this.__inherit_deep__--;
+                baseClass = inheritClass.__base_objects__[this.__inherit_deep__];
 
-            //$.dprint("d-:"+this.__inherit_deep__);
-            return rtn;
-        }
-        /**
-         * 给继承的子类添加调用父函数的方法
-         * @param {string} method 父类的函数的名称
-         * @param {arguments} args 参数，可以不提供
-         */
-        inheritClass.prototype.callBase = function(method, args) {
-
-            var baseClass = null, rtn = undefined;
-
-            if( typeof this.__inherit_deep__ === 'undefined') {
-                this.__inherit_deep__ = 0;
-
-            } else {
-                this.__inherit_deep__++;
-                //$.dprint("d+:"+this.__inherit_deep__);
-            }
-
-            //$.dprint(this.__inherit_deep__);
-            baseClass = inheritClass.__base_objects__[this.__inherit_deep__];
-
-            var med = baseClass.prototype[method];
-            if( typeof med === 'function') {
-                if( typeof args === "undefined" || args === null) {
-                    rtn = med.call(this);
+                if( typeof args === "undefined" || args == null) {
+                    rtn = baseClass.call(this);
                 } else if( args instanceof Array === true) {
-                    rtn = med.apply(this, args);
+                    rtn = baseClass.apply(this, args);
                 } else {
                     var _args = new Array();
-                    //从位置1开始，因为第0位参数是method的名称
-                    for(var i = 1; i < arguments.length; i++) {
+                    for(var i = 0; i < arguments.length; i++)
                         _args.push(arguments[i]);
-                    }
-                    rtn = med.apply(this, _args);
+                    rtn = baseClass.apply(this, _args);
                 }
-            } else {
-                throw "There is no method:" + method + " in baseClass";
+
+                this.__inherit_deep__--;
+
+                //$.dprint("d-:"+this.__inherit_deep__);
+                return rtn;
             }
+            /**
+             * 给继承的子类添加调用父函数的方法
+             * @param {string} method 父类的函数的名称
+             * @param {arguments} args 参数，可以不提供
+             */
+            inheritClass.prototype.callBase = function(method, args) {
 
-            this.__inherit_deep__--;
+                var baseClass = null, rtn = undefined;
 
-            //$.dprint("d-:"+this.__inherit_deep__);
-            //$.dprint("----");
-            return rtn;
-        }
-    },
-    FONT_INFO_TABLE : {},
-    getFontInfo : function(size, name) {
-        if(this.FONT_INFO_TABLE[name] == null) {
-            this.FONT_INFO_TABLE[name] = {};
-        }
-        var h = this.FONT_INFO_TABLE[name][size];
-        if(h == null) {
-            h = this.FONT_INFO_TABLE[name][size] = this._calcFontInfo(size, name);
-        }
-        return h;
-    },
-    /*
-     * 计算font_size大小的字号，font_name名称的字体的信息
-     *  height : 当前字体的高度
-     * baseline: 当前字体的baseline线距离底部的距离
-     * 实现的原理是使用浏览器对dom元素的渲染结果，当span的font-size为0时其位置正好处于baseline的地方。
-     */
-    _calcFontInfo : function(font_size, font_name) {
-        var con = document.createElement("div"), ele = document.createElement("span"), ele2 = document.createElement("span"), h = 0;
-      //  con.style.visibility = "hidden";
-        con.style.margin = "0px";
-        con.style.padding = "0px";
-        con.style.position = "relative";
-        ele.style.font = font_size + "px " + font_name;
-        ele.style.margin = "0px";
-        ele.style.padding = "0px";
-       // ele.style.visibility = "hidden";
-        ele.style.verticalAlign = "baseline";
+                if( typeof this.__inherit_deep__ === 'undefined') {
+                    this.__inherit_deep__ = 0;
+
+                } else {
+                    this.__inherit_deep__++;
+                    //$.dprint("d+:"+this.__inherit_deep__);
+                }
+
+                //$.dprint(this.__inherit_deep__);
+                baseClass = inheritClass.__base_objects__[this.__inherit_deep__];
+
+                var med = baseClass.prototype[method];
+                if( typeof med === 'function') {
+                    if( typeof args === "undefined" || args === null) {
+                        rtn = med.call(this);
+                    } else if( args instanceof Array === true) {
+                        rtn = med.apply(this, args);
+                    } else {
+                        var _args = new Array();
+                        //从位置1开始，因为第0位参数是method的名称
+                        for(var i = 1; i < arguments.length; i++) {
+                            _args.push(arguments[i]);
+                        }
+                        rtn = med.apply(this, _args);
+                    }
+                } else {
+                    throw "There is no method:" + method + " in baseClass";
+                }
+
+                this.__inherit_deep__--;
+
+                //$.dprint("d-:"+this.__inherit_deep__);
+                //$.dprint("----");
+                return rtn;
+            }
+        },
+        FONT_INFO_TABLE : {},
+        getFontInfo : function(size, name) {
+            if(this.FONT_INFO_TABLE[name] == null) {
+                this.FONT_INFO_TABLE[name] = {};
+            }
+            var h = this.FONT_INFO_TABLE[name][size];
+            if(h == null) {
+                h = this.FONT_INFO_TABLE[name][size] = this._calcFontInfo(size, name);
+            }
+            return h;
+        },
+        /*
+         * 计算font_size大小的字号，font_name名称的字体的信息
+         *  height : 当前字体的高度
+         * baseline: 当前字体的baseline线距离底部的距离
+         * 实现的原理是使用浏览器对dom元素的渲染结果，当span的font-size为0时其位置正好处于baseline的地方。
+         */
+        _calcFontInfo : function(font_size, font_name) {
+            var con = document.createElement("div"), ele = document.createElement("span"), ele2 = document.createElement("span"), h = 0;
+            //  con.style.visibility = "hidden";
+            con.style.margin = "0px";
+            con.style.padding = "0px";
+            con.style.position = "relative";
+            ele.style.font = font_size + "px " + font_name;
+            ele.style.margin = "0px";
+            ele.style.padding = "0px";
+            // ele.style.visibility = "hidden";
+            ele.style.verticalAlign = "baseline";
 
 
-        ele2.style.font = "0px " + font_name;
-        ele2.style.margin = "0px";
-        ele2.style.padding = "0px";
-     //   ele2.style.visibility = "hidden";
-        ele2.style.verticalAlign = "baseline";
-        var test_string = "@白羊座小葛 04-02.I Love Daisy.南京大学";
-        ele.innerHTML = test_string;
-        ele2.innerHTML = test_string;
-        con.appendChild(ele2);
-        con.appendChild(ele);
-        document.body.appendChild(con);
-        var h = con.offsetHeight;
-        var bo = ele.offsetHeight + ele.offsetTop - ele2.offsetTop;
-        document.body.removeChild(con);
-        //$.log("font %s height:%d", font, h);
+            ele2.style.font = "0px " + font_name;
+            ele2.style.margin = "0px";
+            ele2.style.padding = "0px";
+            //   ele2.style.visibility = "hidden";
+            ele2.style.verticalAlign = "baseline";
+            var test_string = "@白羊座小葛 04-02.I Love Daisy.南京大学";
+            ele.innerHTML = test_string;
+            ele2.innerHTML = test_string;
+            con.appendChild(ele2);
+            con.appendChild(ele);
+            document.body.appendChild(con);
+            var h = con.offsetHeight;
+            var bo = ele.offsetHeight + ele.offsetTop - ele2.offsetTop;
+            document.body.removeChild(con);
+            //$.log("font %s height:%d", font, h);
 //        $.log("%s,%s",h,bo)
-        return {
-            height : h,
-            baseline : ele2.offsetTop,
-            baseline_offset : bo
-        };
-    },
-    /**
-     * 计算两点距离(Point To Point)
-     */
-    getPTPRange : function(point1, point2) {
-        return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
-    },
-    getEventPoint : function(e) {
-        var x= 0,y=0;
-        if ( typeof e.offsetX !== 'undefined') {
-            x = e.offsetX;
-            y = e.offsetY;
-        } else if ( typeof e.x !== 'undefined') {
-            x = e.x, y = e.y
-        } else if ( typeof e.layerX !== 'undefined') {
-            x = e.layerX;
-            y = e.layerY;
-        } else {
-            throw "no x,y in event(_getEventPoint)";
+            return {
+                height : h,
+                baseline : ele2.offsetTop,
+                baseline_offset : bo
+            };
+        },
+        /**
+         * 计算两点距离(Point To Point)
+         */
+        getPTPRange : function(point1, point2) {
+            return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
+        },
+        getEventPoint : function(e) {
+            var x= 0,y=0;
+            if ( typeof e.offsetX !== 'undefined') {
+                x = e.offsetX;
+                y = e.offsetY;
+            } else if ( typeof e.x !== 'undefined') {
+                x = e.x, y = e.y
+            } else if ( typeof e.layerX !== 'undefined') {
+                x = e.layerX;
+                y = e.layerY;
+            } else {
+                throw "no x,y in event(_getEventPoint)";
+            }
+            return {
+                x : x,
+                y : y
+            };
         }
-        return {
-            x : x,
-            y : y
-        };
-    }
 
-});
+    });
+
+})(dLighter.$);
+

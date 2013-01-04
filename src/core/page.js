@@ -24,6 +24,16 @@
         this.para_info = [];
         this.max_line_width = 0;
         this.style_delegate = $.createDelegate(this, this.style_callback);
+
+        this.sync = {
+            finished : false,
+            do : $.createDelegate(this, this._syncMeasure),
+            init :$.createDelegate(this, this._syncInit),
+            cur_step : 0,
+            total_step : 0,
+            line_start : 0
+        };
+
         this._init();
 	};
 	D._Page.prototype = {
@@ -48,8 +58,56 @@
                 this.style_array[i] = idx;
             }
         },
-        paint_callback : function() {
-            this.lighter.paint();
+        _measure : function() {
+            var rd = this.lighter.render;
+            rd.measure_cache = {};
+            rd.m_num = 0;
+//            var _t = new Date().getTime();
+            var ls = 0;
+            for(var i=0;i<this.para_info.length;i++) {
+                this.para_info[i].line_start = ls;
+                this.para_info[i].line_cross = this.lighter.render._measure(this.para_info[i]);
+                ls += this.para_info[i].line_cross;
+            }
+//            $.log("measure time:%s", new Date().getTime()-_t);
+            this.line_number = ls;
+            this.page_height = this.line_height * this.line_number;
+        },
+        _syncInit : function(total_step) {
+            this.sync.finished  = 0;
+            this.sync.cur_step = 0;
+            this.sync.line_start = 0;
+            this.sync.total_step = total_step;
+        },
+        _syncMeasure : function(scheduler) {
+            var s = this.sync;
+            if(s.finished || s.cur_step >= s.total_step) {
+                s.finished = true;
+                scheduler.measure_step = s.total_step;
+                return;
+            }
+            var s_b = scheduler.BREAK_TIME;
+            var t_s = new Date().getTime();
+            var c_s = t_s;
+            /*
+             *
+             */
+            while(c_s - t_s <= s_b) {
+                var _p = this.para_info[s.cur_step];
+                _p.line_start = s.line_start;
+                _p.line_cross = this.lighter.render._measure(_p);
+                s.line_start += _p.line_cross;
+                s.cur_step++;
+                if(s.cur_step>= s.total_step) {
+                    s.finished = true;
+                    break;
+                } else {
+                    c_s = new Date().getTime();
+                }
+            }
+            this.line_number = s.line_start;
+            this.page_height = this.line_height * this.line_number;
+            scheduler.measure_step = s.cur_step;
         },
         _layout : function(){
             /*
@@ -65,19 +123,7 @@
                 ci = pi;
             }
             this.para_info.push(new D._Paragraph(ci, tx.length-ci-1));
-
-            /*
-             * 然后再对每个段落计算其排版
-             */
             this.lighter.render.calc_padding_left(this.para_info.length);
-            var ls = 0;
-            for(var i=0;i<this.para_info.length;i++) {
-                this.para_info[i].line_start = ls;
-                this.para_info[i].line_cross = this.lighter.render._measure(this.para_info[i]);
-                ls += this.para_info[i].line_cross;
-            }
-            this.line_number = ls;
-            this.page_height = this.line_height * this.line_number;
         },
 
         _init : function() {

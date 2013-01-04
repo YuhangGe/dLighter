@@ -20,6 +20,15 @@
         this.yydefault = "plain";
         this.yystyle = null;
         this.TABLE = null;
+        this.sync = {
+            finished : false,
+            do : $.createDelegate(this, this._syncLex),
+            init :$.createDelegate(this, this._syncInit),
+            cur_step : 0,
+            total_step : 0,
+            cur_idx : 0,
+            cur_para : 0
+        };
     }
     D._LexerBase.prototype = {
         read_ch : function() {
@@ -29,9 +38,15 @@
             //do nothing, must be overwrite
             throw "must be overwrite";
         },
-        do_lex : function() {
-            var go_on = true;
+        do_lex : function(sync, b_time) {
+            var go_on = true, t_s, c_s;
             this.idx = 0;
+            if(sync) {
+                t_s = new Date().getTime();
+                c_s = t_s;
+                this.idx = this.sync.cur_idx;
+            }
+
             while(go_on) {
                 var yylen = 0;
                 var state = this.i_s, action = ACT_TYPE.NO_ACTION;
@@ -49,6 +64,7 @@
                         }
                         if(pre_idx >= this.end) {
                             go_on = false;
+                            this.sync.finished = true;
                         }
                         break;
                     } else {
@@ -103,6 +119,13 @@
 
                 this.action(action);
                 this.style_callback(pre_idx, yylen, this.yystyle);
+
+                if(sync && go_on) {
+                    c_s = new Date().getTime();
+                    if(c_s - t_s >= b_time) {
+                        go_on = false;
+                    }
+                }
             }
 
         },
@@ -113,17 +136,36 @@
          *
          * @param src 源文本
          * @param style_callback 设置区域的格式的回调函数，用来通知lighter设置文本的颜色格式
-         * @param paint_callback 重绘区域的回调函数，用来通知lighter我重绘显示区域。当前是在lex工作结束后调用。
-         * todo 如果src文本巨大会导致卡，可以将文本分段，使用setTimeout来实现，每渲染一段调用一次paint_callback
          */
-        lex : function(src, style_callback, paint_callback) {
+        lex : function(src, style_callback) {
             this.src = src;
             this.style_callback = style_callback;
-            this.paint_callback = paint_callback;
             this.end = this.src.length;
             this.i_s = this.START_ACTION;
-            this.do_lex();
-            this.paint_callback();
+//            var d = new Date().getTime();
+            this.do_lex(false);
+//            $.log("lex time:%s", new Date().getTime()-d);
+        },
+        _syncLex : function(scheduler) {
+            var s = this.sync;
+            if(s.finished) {
+                scheduler.measure_step = s.total_step;
+                return;
+            }
+            this.do_lex(true, scheduler.BREAK_TIME);
+            s.cur_idx = this.idx;
+            s.cur_step = s.cur_para;
+            scheduler.lex_step = s.cur_step;
+        },
+        _syncInit : function(total_step, src, style_callback) {
+            this.sync.finished = false;
+            this.sync.cur_step = 0;
+            this.sync.total_step = total_step;
+            this.sync.cur_idx = 0;
+            this.src = src;
+            this.style_callback = style_callback;
+            this.end = this.src.length;
+            this.i_s = this.START_ACTION;
         }
     }
 })(dLighter._Lexer, dLighter.$);

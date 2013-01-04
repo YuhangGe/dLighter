@@ -23,7 +23,11 @@
             if(this.idx >= this.end)
                 return this.chr = -1;
             else {
-                return this.chr = this.src.charCodeAt(this.idx++);
+                this.chr = this.src.charCodeAt(this.idx++);
+                if(this.chr === 10) { // chr === '\n'
+                    this.sync.cur_para++;
+                }
+                return this.chr;
             }
         },
         action : function(action) {

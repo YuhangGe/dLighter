@@ -13,7 +13,7 @@
         this.caret_color = _g.caret_color ? _g.caret_color : this.color;
         this.bold = _g.bold ? true : false;
         this.italic = _g.italic ? true : false;
-        this.scroll_breadth = _g.scroll_breadth ? _g.scroll_breadth : 10;
+        this.scroll_breadth = _g.scroll_breadth ? _g.scroll_breadth : 12;
         var _u = theme.gutter ? theme.gutter : {};
         this.gutter_number_color = _u.number_color ? _u.number_color : this.color;
         this.gutter_line_color = _u.line_color ? _u.line_color : this.background;

@@ -222,7 +222,7 @@
 			return r_w;
 		},
 		_paintLine : function(si, ei, p_idx, unti_dir, bottom) {
-			//$.log("pl:%d,%d,%d",si,ei, p_idx)
+//			$.log("pl:%d,%d,%d",si,ei, p_idx)
 			var fi = si;
             var hor = this.padding_num + this.padding_left; // rtl ? this.inner_width + this.padding_left+this.padding_right - hor_offset : hor_offset;
 			//var hor = rtl ? this.width : 0, a_off = (this.width - width) / 2;
@@ -274,7 +274,7 @@
 			}
 			para_loop:
 			for (;i < para.length; i++) {
-
+//                $.log("pline:%s",i);
                 this.ctx.font = _t.font;
                 this.ctx.fillStyle = _t.gutter_number_color;
                 this.ctx.textAlign = "right";
@@ -302,7 +302,7 @@
             this.ctx.fillStyle = this.lighter.theme.background;
 			this.ctx.fillRect(0, 0, this.width, this.height);
 //            this.ctx.clearRect(0, 0, this.width, this.height);
-
+//
             this.ctx.translate(-this.lighter.scroll_left, 0);
 
             if (this.page.select_mode) {

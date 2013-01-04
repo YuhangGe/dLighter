@@ -19,9 +19,13 @@
             this.line_height = this.font_height;
             this.break_line = true;
             this.scroll_breadth = this.theme.scroll_breadth;
-            this.width = config.width;
-            this.height = config.height;
-            this.canvas.parentElement.style.background = this.theme.background;
+
+            this.width = config.width > D._Lighter.MAX_CANVAS_WIDTH ? D._Lighter.MAX_CANVAS_WIDTH : config.width;
+            this.max_height = config.max_height ? config.max_height : D._Lighter.MAX_CANVAS_HEIGHT;
+            this.height_fixed = config.height > 0 ? true : false;
+            this.height = config.height > 0 ? config.height : this.max_height;
+
+            this.container.style.background = this.theme.background;
             this.canvas_width = this.width - this.scroll_breadth;
             this.canvas_height = this.height;
             this.canvas.width = this.canvas_width;
@@ -29,8 +33,6 @@
             this.scroll_left = 0;
             this.scroll_top = 0;
             this.line_number_start = config.line_number_start;
-            this.cur_page = new D._Page(this);
-//            this.clipboard = new D._Clipboard(this);
             this.caret_pos = {
                 index : -1,
                 para : 0,
@@ -39,8 +41,13 @@
                 line : 0,
                 top : 0
             }
-
+            /*
+             * _page, _Render, _Scheduler的初始化顺序不能更改，
+             * 它们之间互相有依赖。
+             */
+            this.cur_page = new D._Page(this);
             this.render = new D._Render(this);
+            this.scheduler = new D._Scheduler(this);
 
             this.caret_left = 0;
             this.caret_top = 0;
@@ -52,12 +59,6 @@
             this.scroll_ver.attachWheelEvent(this.canvas);
             this.scroll_ver.setBreadth(this.scroll_breadth);
             this.scroll_hor.setBreadth(this.scroll_breadth);
-            this.scroll_ver.hide();
-            this.scroll_hor.hide();
-            this.paint_delegate = $.createDelegate(this, this.paint_handelr);
-            this.lex_delegate = $.createDelegate(this, this.lex_handler);
-
-            this.container_origin_height = this.container.offsetHeight;
             this.initCaret();
             this.initEvent();
 
@@ -65,36 +66,57 @@
                 this.setText(config.text);
             }
         }
+        D._Lighter.MAX_CANVAS_HEIGHT = 3000;
+        D._Lighter.MAX_CANVAS_WIDTH = 3000;
         D._Lighter.prototype = {
+            onScroll : function(type, value) {
+//                $.log("%s,%s",type, value);
+                this._caretStopFlash();
+                if(type==='ver') {
+                    this.scroll_top = value;
+                } else {
+                    this.scroll_left = value;
+                }
+                this.paint();
+                this._resetCaret();
+            },
             resize : function() {
-                var ph = this.cur_page.page_height, h = ph;
+                var ph = this.cur_page.page_height, _th = ph > this.max_height ? this.max_height : ph;
+                var ch = this.height_fixed ? this.height : _th;
+                var h = this.height_fixed ? this.height : _th;
                 if(this.cur_page.max_line_width > this.width) {
+                    this.scroll_hor.setScrollMax(this.cur_page.max_line_width-this.width);
+                    this.scroll_hor.setLength(this.width - this.scroll_breadth);
                     this.scroll_hor.show();
-                    h += this.scroll_breadth;
+                    if(!this.height_fixed) {
+                        h += this.scroll_breadth;
+                    } else {
+                        ch -= this.scroll_breadth;
+                    }
                 } else {
                     this.scroll_hor.hide();
                 }
-                this.canvas_height = ph;
-                this.render.height = this.canvas_height;
-                this.canvas.height = ph;
-                this.height = h;
-                if(h > this.container_origin_height) {
-                    this.container.style.height = h + "px";
+                if(ch<ph) {
+                    this.scroll_ver.setLength(h);
+                    this.scroll_ver.setScrollMax(ph - ch);
+                    this.scroll_ver.scroll(this.scroll_top);
+                    this.scroll_ver.show();
                 } else {
-                    this.container.style.height = this.container_origin_height + "px";
+                    this.scroll_ver.hide();
+                }
+
+                this.canvas_height = ch;
+                this.render.height = ch;
+                this.canvas.height = ch;
+                this.height = h;
+                if(!this.height_fixed) {
+                    this.container.style.height = h + "px";
                 }
             },
-            paint_handelr : function() {
-                this.paint();
-            },
-            lex_handler : function() {
-                this.lexer.lex(this.cur_page.text, this.cur_page.style_delegate, this.paint_delegate);
-            },
+
             setText : function(text) {
                 this.cur_page.setText(text);
-                this.resize();
-                this.paint();
-                window.setTimeout(this.lex_delegate, 0);
+                this.scheduler.fuck();
             },
             /*
              * 由_Page调用,当_Page中的文字被选中时。
@@ -126,7 +148,9 @@
             },
 
             paint : function() {
+//                var _t = new Date().getTime();
                 this.render.paint();
+//                $.log("paint time:%s", new Date().getTime()-_t);
             },
 
             findText : function(txt) {

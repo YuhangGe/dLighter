@@ -173,8 +173,9 @@
 		},
 
 		_measureStrElement : function(style_index, str) {
-			this.ctx.font = this.lighter.lang_style.style_array[style_index].font;
-			return this.ctx.measureText(str).width;
+            this.ctx.font = this.lighter.lang_style.style_array[style_index].font;
+            var w = this.ctx.measureText(str).width;
+			return w;
 		},
 		_measure : function(para) {
 			para.lines = [new D._Line(-1, [], 0)];

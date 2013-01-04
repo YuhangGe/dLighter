@@ -12,6 +12,7 @@
     <script type="text/javascript" src="../src/core/page.js"></script>
     <script type="text/javascript" src="../src/core/render.js"></script>
     <script type="text/javascript" src="../src/core/measure.js"></script>
+    <script type="text/javascript" src="../src/core/scheduler.js"></script>
     <script type="text/javascript" src="../src/core/scroll.js"></script>
     <script type="text/javascript" src="../src/core/theme.js"></script>
     <script type="text/javascript" src="../src/core/event.js"></script>
@@ -64,39 +65,28 @@
                 return detectBaseline(this.get(0));
             };
         })();
-        $(function() {
-//            dLighter.config.theme = "noteplus";
-            dLighter.do();
-//           li = dLighter.createLighter($("pre")[0]);
-           //console.log($("#st").baseline());
-        });
 
-
+        function doTest() {
+//            var d = new Date().getTime();
+            li = dLighter.createLighter($("pre")[0]);
+//            console.log(new Date().getTime()-d);
+        }
+        function doCopy() {
+            $($("pre")[0]).text($("#ta").val());
+        }
     </script>
 </head>
 <body>
     <h1>dLighter Demo</h1>
     <p>Demo 1</p>
+    <div><input type="button" onclick="doCopy();" value="Copy" /><input type="button" onclick="doTest();" value="Test"></div>
     <div>
-        <pre lang="js">// adjlsd ينسمي تيمسيتم تيمستي يتمس
-            paint : function(a, kki, d) {
-           /*
-            * comment 1
-            */
-            /**
-             * comment 2
-             */
-            Var t = 10;
-                var a = 10.56;
-            var b = {
-                a : 10,
-                k  : 'hello'
-            };
-            alert("我爱小静");
-            var r = /^go\d\w*/g;
-document.getElementById('d');
-            this.value = "100" + 10.34
-            }</pre>
+        <textarea id="ta"></textarea>
+    </div>
+    <div>
+        <pre lang="js" src="../src/core/utility.js">
+            //hello world
+        </pre>
     </div>
     <p>Demo 2</p>
     <div style="text-align: center;">

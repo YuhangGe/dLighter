@@ -19,8 +19,7 @@
 		this.s_list = [];
 		this.wheel_handler = $.createDelegate(this, this._scrollwheel_handler);
 		this._scroll_down_ = false;
-		this.s_disable = true;
-		this.s_btn.style.display = "none";
+		this.s_disable = false;
 		this._initEvent();
 	}
 
@@ -53,6 +52,11 @@
          */
 		setLength : function(length){
             this.s_btn_lengh = Math.round(length / 5);
+            if(this.s_btn_lengh<5) {
+                this.s_btn_lengh = 5;
+            } else if(this.s_btn_lengh>200) {
+                this.s_btn_lengh = 200;
+            }
             this.s_length = length - this.s_btn_lengh;
             this.s_max = length;
             if(this.type === 'ver') {
@@ -79,6 +83,7 @@
             if(this.type === 'hor')
                 return;
 			for(var i=0;i<arguments.length;i++){
+                $.log(arguments[i])
 				$.addWheelEvent(arguments[i], this.wheel_handler);
 			}
 		},
@@ -110,9 +115,9 @@
 			}
 			this.s_value = value < 0 ? 0 : (value > this.s_max ? this.s_max : value);
 			this.s_btn.style.top = Math.round(this.s_value/this.s_max*this.s_length) + "px";
-            for(var i=0;i<this.s_list.length;i++){
-                this.s_list[i].onScrollValue(this.type, this.s_value);
-            }
+//            for(var i=0;i<this.s_list.length;i++){
+//                this.s_list[i].onScrollValue(this.type, this.s_value);
+//            }
 		},
 		_scroll : function(top){
 			//$.log("%s,%s",top, this.s_length)
@@ -202,7 +207,7 @@
 		},
 		
 		_scrollwheel_handler : function(e){
-			//$.log('wheel')
+//			$.log('wheel')
 
 			if(this.s_disable || e.ctrlKey || e.metaKey)
 				return;
@@ -213,7 +218,7 @@
             } else if(typeof e.wheelDelta !== 'undefined') {
                 deltaY = e.wheelDelta / 6;
             } else if(e.detail) {
-                deltaY = -e.detail / 10;
+                deltaY = -e.detail * 10;
             }
             var delta = this.type === 'hor' ? deltaX : deltaY;
             if(delta === NaN) {
@@ -247,7 +252,7 @@
 				throw "no y in event(_getScrollOffset)";
 			}
 			//$.log('y:%s',y);
-            $.log("%s,%s",y,x);
+            //$.log("%s,%s",y,x);
 			return (this.type === 'ver' ? y : x);
 		}
 	}
