@@ -27,7 +27,7 @@
 
         this.sync = {
             finished : false,
-            do : $.createDelegate(this, this._syncMeasure),
+            go : $.createDelegate(this, this._syncMeasure),
             init :$.createDelegate(this, this._syncInit),
             cur_step : 0,
             total_step : 0,

@@ -17,7 +17,7 @@
             this.font_height = li.height;
             this.baseline_offset = li.baseline_offset;
             this.line_height = this.font_height;
-            this.break_line = true;
+            this.break_line = config.break_line ? true : false;
             this.scroll_breadth = this.theme.scroll_breadth;
 
             this.width = config.width > D._Lighter.MAX_CANVAS_WIDTH ? D._Lighter.MAX_CANVAS_WIDTH : config.width;
@@ -84,9 +84,10 @@
                 var ph = this.cur_page.page_height, _th = ph > this.max_height ? this.max_height : ph;
                 var ch = this.height_fixed ? this.height : _th;
                 var h = this.height_fixed ? this.height : _th;
-                if(this.cur_page.max_line_width > this.width) {
-                    this.scroll_hor.setScrollMax(this.cur_page.max_line_width-this.width);
-                    this.scroll_hor.setLength(this.width - this.scroll_breadth);
+                if(this.cur_page.max_line_width > this.canvas_width) {
+                    this.scroll_hor.setScrollMax(this.cur_page.max_line_width-this.canvas_width + 1000);
+                    this.scroll_hor.setLength(this.canvas_width);
+                    this.scroll_hor.scroll(this.scroll_left);
                     this.scroll_hor.show();
                     if(!this.height_fixed) {
                         h += this.scroll_breadth;

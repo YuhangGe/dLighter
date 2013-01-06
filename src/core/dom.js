@@ -4,16 +4,16 @@
         theme : 'dLighter',
         max_height : 2000
     };
-    D.do = function() {
+    D.go = function() {
         if(! $.hasCanvas) {
             alert("dLighter is not supported by your browser");
             return;
         }
         var codes = document.getElementsByTagName(D.config.tag_name);
         for(var i=0;i<codes.length;i++) {
-            var ce = codes[i], src = ce.getAttribute("src").trim();
-            if(src!=="") {
-                D._ajaxCreate(ce, src);
+            var ce = codes[i], src = ce.getAttribute("src");
+            if(src && src.trim()!=="") {
+                D._ajaxCreate(ce, src.trim());
             } else {
                 var text = ce.textContent || ce.innerText || "  ";
                 D._create(ce, text);
@@ -32,7 +32,7 @@
             jQuery.get(this.src, this.load_delegate, "text");
         },
         onload : function(rtn) {
-            $.log(rtn);
+//            $.log(rtn);
             D._create(this.ce, rtn);
         }
     }
@@ -47,7 +47,7 @@
         var STYLE_NAMES = ['position', 'display', 'left', 'top'];
         var _theme = ce.getAttribute("theme") || D.config.theme || "plain";
         var _lang = ce.getAttribute("lang") || ce.getAttribute("language") || "plain";
-        var _bk_line = ce.getAttribute("breakline") == "true" ? true : false;
+        var _bk_line = ce.getAttribute("break_line") == "true" ? true : false;
         var _class = ce.getAttribute("class");
         var _line_start = ce.getAttribute("line_number_start") || ce.getAttribute("lns") || "1";
         var _container = document.createElement("div");

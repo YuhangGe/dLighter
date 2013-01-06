@@ -148,7 +148,7 @@ dLighter = {
 
     $.extend($, {
         log : function(msg) {
-            if(typeof jQuery.log === 'function') {
+            if(typeof jQuery !=='undefined' && jQuery.log === 'function') {
                 jQuery.log.apply(this, arguments);
             } else {
                 console.log.apply(this, arguments);

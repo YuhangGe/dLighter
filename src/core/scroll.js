@@ -41,10 +41,15 @@
          * 设置宽窄，对于水平滚动条，是设置高度，对于垂直滚动条是设置宽度
          */
 		setBreadth : function(breadth){
+
             if(this.type==='ver') {
-                this.s_bar.style.width = this.s_btn.style.width = breadth + "px";
+                this.s_bar.style.width = breadth + "px";
+                this.s_btn.style.width = (breadth - 6) + "px";
+                this.s_btn.style.left = "4px";
             } else {
-                this.s_bar.style.height = this.s_btn.style.height = breadth + "px";
+                this.s_bar.style.height = breadth + "px";
+                this.s_btn.style.height = (breadth - 6) + "px";
+                this.s_btn.style.top = "4px";
             }
 		},
         /*
@@ -213,8 +218,8 @@
 				return;
 			var	deltaX = NaN, deltaY = NaN;
 			if(typeof e.wheelDeltaX !== 'undefined') {
-				deltaX = e.wheelDeltaX / 6;
-                deltaY = e.wheelDeltaY / 6;
+				deltaX = e.wheelDeltaX;
+                deltaY = e.wheelDeltaY;
             } else if(typeof e.wheelDelta !== 'undefined') {
                 deltaY = e.wheelDelta / 6;
             } else if(e.detail) {
@@ -233,7 +238,7 @@
             this._scroll(this.s_btn.offsetTop - delta);
 			
 		},
-		_getScrollOffset : function(e, is_chrome) {
+		_getScrollOffset : function(e) {
 			var y = 0, x = 0;
 //			if (is_chrome) {
 //				var off = $.getOffset(this.s_bar);

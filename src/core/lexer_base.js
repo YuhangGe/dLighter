@@ -22,7 +22,7 @@
         this.TABLE = null;
         this.sync = {
             finished : false,
-            do : $.createDelegate(this, this._syncLex),
+            go : $.createDelegate(this, this._syncLex),
             init :$.createDelegate(this, this._syncInit),
             cur_step : 0,
             total_step : 0,

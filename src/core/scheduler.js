@@ -68,18 +68,18 @@
                 return;
             } else if(this.page.sync.finished) {
 //                $.log("measure finished. do lexer");
-                this.lexer.sync.do(this);
+                this.lexer.sync.go(this);
             } else if(this.lexer.sync.finished) {
 //                $.log("lexer finished. do measure");
-                this.page.sync.do(this);
+                this.page.sync.go(this);
                 this._adjust();
             } else if(this.lex_step - this.measure_step >= this.GAP){
 //                $.log("lexer has go ahead. do measure");
-                this.page.sync.do(this);
+                this.page.sync.go(this);
                 this._adjust();
             } else {
 //                $.log("measure has come on. do lexer");
-                this.lexer.sync.do(this);
+                this.lexer.sync.go(this);
             }
             this.s_timeout = window.setTimeout(this.s_delegate, 100);
         },

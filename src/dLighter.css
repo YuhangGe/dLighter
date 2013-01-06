@@ -37,7 +37,8 @@
 
 .dLighter-scroll-ver-bar {
     position : absolute;
-    background: rgba(50,50,50,0.2);
+    /*background: rgba(50,50,50,0.2);*/
+    background: #fafafa;
     right : 0px;
     top : 0px;
     width : 15px;
@@ -47,7 +48,8 @@
 
 .dLighter-scroll-ver-button {
     position : absolute;
-    background: rgba(0,0,255,0.4);
+    /*background: rgba(0,0,255,0.4);*/
+    background: #b8b8b8;
     right : 0px;
     top : 0px;
     width : 15px;
@@ -57,19 +59,24 @@
 
 .dLighter-scroll-hor-bar {
     position : absolute;
-    background: rgba(50,50,50,0.2);
+    /*background: rgba(50,50,50,0.2);*/
+    background: #fafafa;
+    border-top: 1px solid #f0f0f0;
     bottom : 0px;
     left : 0px;
     width : 700px;
     height : 15px;
     display: none;
+    opacity: 0.6;
 }
 
 .dLighter-scroll-hor-button {
     position : absolute;
-    background: rgba(0,0,255,0.4);
+    /*background: rgba(0,0,255,0.4);*/
+    background: #b8b8b8;
     bottom : 0px;
     left : 0px;
     width : 50px;
     height : 15px;
+    border-radius: 30px;
 }
