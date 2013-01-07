@@ -1,0 +1,84 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: dLighter\n"
+"POT-Creation-Date: 2013-01-07 11:00+0800\n"
+"PO-Revision-Date: 2013-01-07 11:19+0800\n"
+"Last-Translator: XiaoGe <abraham1@163.com>\n"
+"Language-Team: XiaoGe <abraham1@163.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-KeywordsList: _e;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .\n"
+"Language: zh_CN\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+msgid "dLighter Syntax Highlight"
+msgstr "dLighter代码高亮"
+
+msgid "XiaoGe"
+msgstr "白羊座小葛"
+
+msgid "http://xiaoge.me"
+msgstr "http://weibo.com/abeyuhang"
+
+msgid ""
+"dLighter provides syntax highlighting. Wrap code blocks with <pre></pre> tag."
+msgstr ""
+"dLighter是基于html5的代码高亮插件，对<pre></pre>标签中的代码进行高亮渲染。"
+
+msgid "Default Theme"
+msgstr "默认主题"
+
+msgid "Show Line Number"
+msgstr "显示行号"
+
+msgid "Yes"
+msgstr "是"
+
+msgid "No"
+msgstr "否"
+
+msgid "Break Line"
+msgstr "自动换行"
+
+msgid "Usage"
+msgstr "使用方法"
+
+msgid ""
+"<b>Notice!</b>dLighter Syntax Highlight only supports browser whitch has html5 <code>Canvas</code> element. "
+"That is, dLighter dosenot work on IE8 and less."
+msgstr ""
+"<b>注意!</b>dLighter代码高亮插件需要html5的<code>canvas</code>元素支持。这意味着IE8及以下的浏览器不能使用该插件。"
+
+msgid "Example"
+msgstr "使用示例"
+
+msgid "More"
+msgstr "更多说明"
+
+msgid "Donate"
+msgstr "捐赠"
+
+msgid "Donate for dLighter Syntax Highlight"
+msgstr "为dLighter代码高亮插件进行捐赠"
+
+msgid "or"
+msgstr "或者"
+
+msgid "If you find my work useful and you want to encourage the development of more free resources, you can do it by donating."
+msgstr ""
+"目前dLighter代码高亮库以及以它为基础的WordPress插件都还在开发完善中。"
+"如果您认可这个项目并希望为其发展做出贡献，欢迎您通过PayPal或者支付宝进行捐赠。"
+
+msgid ""
+"dLighter is a code syntax highlighter based on html5. "
+"For more infomation, please see <a href='http://xiaoge.me/dlighter' target='_blank'>dLighter's Homepage</a>. "
+"Also, dLighter is a open source project base on Apache Licence 2.0. "
+"You can view dLighter's <a href='https://github.com/YuhangGe/dLighter.git' target='_blank'>source at GitHub</a>."
+
+msgstr ""
+"dLighter Syntax Highlight for WordPress是全新的WordPress代码高亮插件，它以dLighter代码高亮库为核心。"
+"关于dLighter的更多使用方法和配置，请参考<a href='http://xiaoge.me/dlighter' target='_blank'>dLighter的主页</a>。"
+"同时，dLighter还是基于Apache Licence 2.0协议的开源项目，你可以访问dLighter在<a href='https://github.com/YuhangGe/dLighter.git' target='_blank'>GitHub上的源代码主页</a>。"

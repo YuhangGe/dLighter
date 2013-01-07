@@ -40,29 +40,39 @@
         var _a = new D._ajax(ce, src);
         _a.load();
     };
-    D._create = function(ce, text) {
-        var _width = parseInt(ce.getAttribute("width")) || ce.offsetWidth;
-        var _height = parseInt(ce.getAttribute("height"));
 
-        var STYLE_NAMES = ['position', 'display', 'left', 'top'];
-        var _theme = ce.getAttribute("theme") || D.config.theme || "plain";
-        var _lang = ce.getAttribute("lang") || ce.getAttribute("language") || "plain";
-        var _bk_line = ce.getAttribute("break_line") == "true" ? true : false;
-        var _class = ce.getAttribute("class");
-        var _line_start = ce.getAttribute("line_number_start") || ce.getAttribute("lns") || "1";
+    var _a = function(ele, attr_name, attr_value) {
+        if(typeof attr_value === 'undefined') {
+            return ele.getAttribute(attr_name);
+        } else {
+            ele.setAttribute(attr_name, attr_value);
+        }
+    };
+
+    D._create = function(ce, text) {
+        var _width = parseInt(_a(ce,"width")) || ce.offsetWidth;
+        var _height = parseInt(_a(ce, "height"));
+
+        var STYLE_NAMES = ['position', 'display', 'left', 'top', 'margin-left', 'margin-top', 'margin-right', 'margin-bottom'];
+        var STYLE_NAMES_ALIAS = ['position', 'display', 'left', 'top', 'marginLeft', 'marginTop', 'marginRight', 'marginBottom'];
+        var _theme = _a(ce, "theme") || D.config.theme || "plain";
+        var _lang = _a(ce, "lang") || ce.getAttribute("language") || "plain";
+        var _bk_line = _a(ce, "break_line") == "true" ? true : false;
+        var _class = _a(ce, "class");
+        var _line_start = _a(ce, "line_number_start") || _a(ce, "lns") || "1";
         var _container = document.createElement("div");
         var _s = window.getComputedStyle(ce, null);
         for(var i=0;i<STYLE_NAMES.length;i++) {
-            _container.style[STYLE_NAMES[i]] = _s.getPropertyValue(STYLE_NAMES[i]);
+            _container.style[STYLE_NAMES_ALIAS[i]] = _s.getPropertyValue(STYLE_NAMES[i]);
         }
         var _id = D.__lighter__id++;
-        _container.setAttribute("class", _class ? _class + " dLighter" : "dLighter");
-        _container.setAttribute("id", "dLighter-"+ _id)
+        _a(_container, "class", _class ? _class + " dLighter" : "dLighter");
+        _a(_container,"id", "dLighter-"+ _id)
         _container.style.position = "relative";
         _container.style.overflow = "hidden";
         _container.style.width = _width + "px";
         _container.style.height = _height + "px";
-        ce.parentElement.appendChild(_container);
+        ce.parentElement.insertBefore(_container, ce);
         ce.style.display = "none";
 
         _container.innerHTML = '<!-- dLighter(http://xiaoge.me) -->'

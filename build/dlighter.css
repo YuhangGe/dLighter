@@ -1,0 +1,82 @@
+.dLighter-canvas {
+    cursor: text;
+    margin: 0px;
+    outline: none;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+
+}
+
+.dLighter-caret {
+    position: fixed;
+    display: block;
+    width: 0px;
+    height : 0px;
+    background: green;
+    opacity :0;
+    left: 0px;
+    top: 0px;
+    padding: 0px;
+    margin: 0px;
+    outline: none;
+    resize: none;
+    /*
+     * important! overflow hidden in chrome
+     */
+    overflow: hidden;
+}
+
+.dLighter {
+    padding: 0px;
+    overflow: hidden;
+    position: relative;
+    outline: none;
+    background:#FFFFCC;
+}
+
+.dLighter-scroll-ver-bar {
+    position : absolute;
+    /*background: rgba(50,50,50,0.2);*/
+    background: #fafafa;
+    right : 0px;
+    top : 0px;
+    width : 15px;
+    height : 700px;
+    display: none;
+}
+
+.dLighter-scroll-ver-button {
+    position : absolute;
+    /*background: rgba(0,0,255,0.4);*/
+    background: #b8b8b8;
+    right : 0px;
+    top : 0px;
+    width : 15px;
+    height : 50px;
+    border-radius: 30px;
+}
+
+.dLighter-scroll-hor-bar {
+    position : absolute;
+    /*background: rgba(50,50,50,0.2);*/
+    background: #fafafa;
+    border-top: 1px solid #f0f0f0;
+    bottom : 0px;
+    left : 0px;
+    width : 700px;
+    height : 15px;
+    display: none;
+    opacity: 0.6;
+}
+
+.dLighter-scroll-hor-button {
+    position : absolute;
+    /*background: rgba(0,0,255,0.4);*/
+    background: #b8b8b8;
+    bottom : 0px;
+    left : 0px;
+    width : 50px;
+    height : 15px;
+    border-radius: 30px;
+}

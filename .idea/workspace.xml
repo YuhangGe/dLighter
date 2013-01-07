@@ -20,10 +20,19 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="dLighter.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dLighter.php">
+      <file leaf-file-name="build.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="35" selection-start="765" selection-end="765" vertical-scroll-proportion="0.29533678">
+            <state line="74" column="0" selection-start="2099" selection-end="2099" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="utility.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/core/utility.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="154" column="33" selection-start="5069" selection-end="5069" vertical-scroll-proportion="0.54293627">
               <folding />
             </state>
           </provider>
@@ -32,7 +41,7 @@
       <file leaf-file-name="dLighter-admin.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dLighter-admin.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="36" selection-start="3777" selection-end="3777" vertical-scroll-proportion="-66.5">
+            <state line="99" column="26" selection-start="5398" selection-end="5398" vertical-scroll-proportion="-11.857142">
               <folding>
                 <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -40,39 +49,28 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="dLighter.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dLighter.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="35" selection-start="721" selection-end="721" vertical-scroll-proportion="-5.428571">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="dom.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/core/dom.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="43" selection-start="525" selection-end="525" vertical-scroll-proportion="0.0">
+            <state line="65" column="34" selection-start="2378" selection-end="2378" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dlighter.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build/dlighter.js">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/demo/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="423" column="18" selection-start="14630" selection-end="14630" vertical-scroll-proportion="-41.76923">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="wp-code-highlight.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp_plugin/wp-code-highlight/wp-code-highlight.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="42" selection-start="1123" selection-end="1123" vertical-scroll-proportion="-7.107143">
-              <folding>
-                <element signature="e#6#387#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dLighter.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/dLighter.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="16" column="32" selection-start="551" selection-end="551" vertical-scroll-proportion="-10.857142">
               <folding />
             </state>
           </provider>
@@ -81,28 +79,19 @@
       <file leaf-file-name="daisy.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo/daisy.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="52" selection-start="157" selection-end="157" vertical-scroll-proportion="-3.392857">
+            <state line="82" column="36" selection-start="3363" selection-end="3363" vertical-scroll-proportion="-42.392857">
               <folding>
-                <marker date="1357485453000" expanded="false" signature="2294:2306" placeholder="..." />
-                <marker date="1357485453000" expanded="false" signature="2360:2376" placeholder="..." />
+                <marker date="1357552959000" expanded="false" signature="2294:2306" placeholder="..." />
+                <marker date="1357552959000" expanded="false" signature="2360:2376" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/demo/index.html">
+      <file leaf-file-name="wp_code_highlight_admin.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wp_plugin/wp-code-highlight/wp_code_highlight_admin.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="62" selection-start="167" selection-end="167" vertical-scroll-proportion="-3.392857">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="lighter.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/core/lighter.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="20" selection-start="2973" selection-end="2973" vertical-scroll-proportion="0.0">
+            <state line="129" column="9" selection-start="6509" selection-end="6539" vertical-scroll-proportion="-9.821428">
               <folding />
             </state>
           </provider>
@@ -118,21 +107,21 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/core/scheduler.js" />
-        <option value="$PROJECT_DIR$/src/core/page.js" />
         <option value="$PROJECT_DIR$/src/core/lexer_base.js" />
         <option value="$PROJECT_DIR$/src/core/theme.js" />
         <option value="$PROJECT_DIR$/demo/lighter.css" />
         <option value="$PROJECT_DIR$/src/core/lighter.js" />
         <option value="$PROJECT_DIR$/src/core/scroll.js" />
         <option value="$PROJECT_DIR$/wp_plugin/dLighter/dLighter-options.php" />
-        <option value="$PROJECT_DIR$/demo/daisy.html" />
-        <option value="$PROJECT_DIR$/demo/index.html" />
-        <option value="$PROJECT_DIR$/build.js" />
+        <option value="$PROJECT_DIR$/wp_plugin/dLighter/po2mo" />
         <option value="$PROJECT_DIR$/wp_plugin/dLighter/dLighter-admin.php" />
-        <option value="$PROJECT_DIR$/src/core/dom.js" />
+        <option value="$PROJECT_DIR$/wp_plugin/dLighter/dLighter-zh_CN.po" />
+        <option value="$PROJECT_DIR$/demo/index.html" />
+        <option value="$PROJECT_DIR$/demo/daisy.html" />
         <option value="$PROJECT_DIR$/build/dlighter.js" />
+        <option value="$PROJECT_DIR$/src/core/dom.js" />
         <option value="$PROJECT_DIR$/wp_plugin/dLighter/dLighter.php" />
+        <option value="$PROJECT_DIR$/build.js" />
         <option value="$PROJECT_DIR$/src/core/utility.js" />
       </list>
     </option>
@@ -169,7 +158,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -256,6 +244,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="tools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dLighter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dLighter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -322,6 +324,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -331,8 +334,8 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../alicelex" />
     <property name="FullScreen" value="false" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PublishConfig">
     <servers>
@@ -361,6 +364,9 @@
   <component name="RunManager">
     <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
       <method />
     </configuration>
     <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
@@ -401,19 +407,19 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32884902" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2984218" sideWeight="0.671151" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30272597" sideWeight="0.671151" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32884902" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32884902" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -474,100 +480,9 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wp_plugin/wp-code-highlight/js/wp-code-highlight-button.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp_plugin/wp-code-highlight/wp_code_highlight_admin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="2" selection-start="0" selection-end="6827" vertical-scroll-proportion="-3.392857">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/dLighter.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/daisy.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="52" selection-start="157" selection-end="157" vertical-scroll-proportion="-3.392857">
-          <folding>
-            <marker date="1357485453000" expanded="false" signature="2294:2306" placeholder="..." />
-            <marker date="1357485453000" expanded="false" signature="2360:2376" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="4" selection-start="978" selection-end="978" vertical-scroll-proportion="0.7354839">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build/dlighter.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dlighter.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="62" selection-start="167" selection-end="167" vertical-scroll-proportion="-3.392857">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp_plugin/wp-code-highlight/wp-code-highlight.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="42" selection-start="1123" selection-end="1123" vertical-scroll-proportion="-7.107143">
-          <folding>
-            <element signature="e#6#387#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dLighter-admin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="36" selection-start="3777" selection-end="3777" vertical-scroll-proportion="-66.5">
-          <folding>
-            <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/dom.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="43" selection-start="525" selection-end="525" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dlighter.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build/dlighter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="423" column="18" selection-start="14630" selection-end="14630" vertical-scroll-proportion="-41.76923">
           <folding />
         </state>
       </provider>
@@ -579,16 +494,105 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/utility.js">
+    <entry file="file://$PROJECT_DIR$/wp_plugin/wp-code-highlight/wp-code-highlight.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="150" column="46" selection-start="4933" selection-end="4933" vertical-scroll-proportion="0.29948366">
+        <state line="22" column="69" selection-start="833" selection-end="833" vertical-scroll-proportion="27.142857">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dlighter.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/po2mo">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="101" selection-end="146" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp_plugin/wp-code-highlight/wp_code_highlight_admin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="129" column="9" selection-start="6509" selection-end="6539" vertical-scroll-proportion="-9.821428">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="32" selection-start="551" selection-end="551" vertical-scroll-proportion="-10.857142">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/daisy.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="82" column="36" selection-start="3363" selection-end="3363" vertical-scroll-proportion="-42.392857">
+          <folding>
+            <marker date="1357552959000" expanded="false" signature="2294:2306" placeholder="..." />
+            <marker date="1357552959000" expanded="false" signature="2360:2376" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build/dlighter.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="7336" selection-start="7326" selection-end="7336" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build/dlighter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="469" column="23" selection-start="16096" selection-end="16226" vertical-scroll-proportion="-1.6923077">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/dom.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="65" column="34" selection-start="2378" selection-end="2378" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dLighter-zh_CN.po">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="0" selection-start="1432" selection-end="1432" vertical-scroll-proportion="0.97932816">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dLighter-admin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="99" column="26" selection-start="5398" selection-end="5398" vertical-scroll-proportion="-11.857142">
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dLighter.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="35" selection-start="765" selection-end="765" vertical-scroll-proportion="0.29533678">
+        <state line="22" column="35" selection-start="721" selection-end="721" vertical-scroll-proportion="-5.428571">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="0" selection-start="2099" selection-end="2099" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/utility.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="154" column="33" selection-start="5069" selection-end="5069" vertical-scroll-proportion="0.54293627">
           <folding />
         </state>
       </provider>

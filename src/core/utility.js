@@ -147,11 +147,12 @@ dLighter = {
 
 
     $.extend($, {
+
         log : function(msg) {
             if(typeof jQuery !=='undefined' && jQuery.log === 'function') {
                 jQuery.log.apply(this, arguments);
             } else {
-                console.log.apply(this, arguments);
+                console.log(msg);
             }
         },
         getEventPoint : function(e) {

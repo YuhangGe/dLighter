@@ -2,17 +2,17 @@
 /*
 Plugin Name: dLighter Syntax Highlight
 Plugin URI: http://xiaoge.me/dlighter
-Description: dLighter provides syntax highlighting. Wrap code blocks with <code>&lt;pre&gt;</code> and <code>&lt;/pre&gt;</code>
+Description: dLighter provides syntax highlighting. Wrap code blocks with <pre></pre> tag.
 Version: 1.0.0
-Author: xiaoge
-Author URI: http://xiaoge.me/
+Author: XiaoGe
+Author URI: http://xiaoge.me
 Text Domain: dLighter
 Domain Path: /lang
 */
 function load_dLighter_lang(){
     $currentLocale = get_locale();
     if(!empty($currentLocale)) {
-        $moFile = dirname(__FILE__) . "/lang/dLighter-" . $currentLocale . ".mo";
+        $moFile = dirname(__FILE__) . "/dLighter-" . $currentLocale . ".mo";
         if(@file_exists($moFile) && is_readable($moFile)) load_textdomain('dLighter', $moFile);
     }
 }
@@ -50,13 +50,17 @@ function dLighter_plugin_menu() {
         wp_die ( __ ( 'You do not have sufficient permissions to access this page.' ) );
     }
 
-    add_options_page ( 'dLighter settings', 'dLighter', 'manage_options', 'dlighter-unique-identifier', 'dLighter_auth_options' );
+    add_options_page ( 'dLighter settings', "dLighter Highlight", 'manage_options', 'dlighter-unique-identifier', 'dLighter_options' );
 
 }
 
-function dLighter_auth_options() {
+function dLighter_options() {
     if (! current_user_can ( 'manage_options' )) {
         wp_die ( __ ( 'You do not have sufficient permissions to access this page.' ) );
     }
     include_once dirname ( __FILE__ ) . "/dLighter-admin.php";
+}
+
+if(is_admin()){
+    add_action('admin_menu', 'dLighter_plugin_menu');
 }
