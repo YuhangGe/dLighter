@@ -1,0 +1,56 @@
+
+$ignorecase true
+
+IMP   !\s*important
+STR     (\"[^\"]*\")|(\'[^\']*\')
+WORD    [\a-_]([\a-_\d]*)
+NUM     \-?\d+(\.\d+)?
+
+TAG     (\#|\.)?{WORD}
+MAO  :
+WEI_END  [^\a-_\s]
+
+
+CSS_BEGIN \{
+
+URL_VALUE_BEGIN url\(
+URL_VALUE   [^\)]*
+URL_VALUE_END   \)
+VALUE [\w-_]+
+COLOR_VALUE   #?[a-fA-F0-9]+
+
+
+VALUE_END   [;\n]
+CSS_END \}
+
+OTHER [.\n]
+
+$$
+
+STR { $.log("STR:%s,%s", yytxt, yylen); }
+NUM { $.log("NUM:%s,%s", yytxt, yylen);}
+TAG { $.log("TAG:%s,%s", yytxt, yylen);}
+MAO { this.yygoto(WEI); }
+<WEI> WORD {$.log("WEI:%s,%s", yytxt, yylen);}
+<WEI> WEI_END {this.yygoto(DEFAULT);}
+
+CSS_BEGIN { this.yygoto(CSS); }
+<CSS> WORD { $.log("KEY:%s,%s", yytxt, yylen);}
+<CSS> MAO { this.yygoto(VALUE);}
+<VALUE> STR {$.log("VALUE STR:%s,%s",yytxt,yylen);}
+<VALUE> VALUE { $.log("VALUE :%s,%s", yytxt, yylen);}
+<VALUE> COLOR_VALUE { $.log("COLOR VALUE:%s,%s", yytxt, yylen);}
+<VALUE> URL_VALUE_BEGIN { this.yygoto(URL);}
+<URL>  URL_VALUE  { $.log("URL VALUE:%s,%s", yytxt, yylen);}
+<URL> URL_VALUE_END {this.yygoto(VALUE);}
+<VALUE> VALUE_END { this.yygoto(CSS);}
+<CSS> IMP {$.log("!important");}
+<CSS> CSS_END {this.yygoto(DEFAULT);}
+
+<WEI> OTHER {}
+<CSS> OTHER {}
+<VALUE> OTHER {}
+<URL> OTHER {}
+OTHER {}
+
+$$

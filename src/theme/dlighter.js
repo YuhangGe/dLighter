@@ -58,6 +58,8 @@
                 param : {color:'#ff1493',italic:true}
             },
             'css' : {
+                wei : {color : '#008080'},
+                number : {color : '#ff1493'},
                 important : {color : 'red', italic: true}
             },
             'xml,html,xhtml,xslt' : {

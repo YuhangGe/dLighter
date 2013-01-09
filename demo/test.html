@@ -4,7 +4,22 @@
     <title>dLighter Test</title>
     <meta content="text/html" charset="utf-8">
     <script type="text/javascript" src="../lib/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="../lib/js-printf.js"></script>
+    <script type="text/javascript">
+        function test() {
+
+        }
+    </script>
     <style type="text/css">
+        p {
+            border: 1px solid blue;
+        }
+        span {
+            border: 1px solid white;
+        }
+        p:nth-child( 1 ) span{
+            border: 1px solid green;
+        }
         code {
             border: 1px solid blue;
             position: absolute;
@@ -13,6 +28,12 @@
     </style>
 </head>
 <body>
+    <input type="button" value="Click" onclick="test();"><br/>
+    <p id="p">
+        <span>
+            Good
+        </span>
+    </p>
     <code lang="javascript">
         function(a){
             alert(a);

@@ -117,6 +117,7 @@
                     }
                 }
 
+                this.yystyle = this.yydefault;
                 this.action(action);
                 this.style_callback(pre_idx, yylen, this.yystyle);
 

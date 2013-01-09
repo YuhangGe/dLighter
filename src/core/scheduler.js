@@ -6,8 +6,8 @@
  */
 (function(D, $) {
     D._Scheduler = function(lighter) {
-        this.GAP = 1800; //由于lex的速度远远高于measure，设定当lex的行数超过measure的行数的1800行后就执行measure，否则连续执行lex
-        this.BREAK_TIME = 280; //每次执行时间不应该超过280毫秒
+        this.GAP = 1000; //由于lex的速度远远高于measure，设定当lex的行数超过measure的行数的1000行后就执行measure，否则连续执行lex
+        this.BREAK_TIME = 20; //每次执行时间不应该超过20毫秒
         this.measure_step = 0;
         this.lex_step = 0;
         this.lighter = lighter;
@@ -81,11 +81,12 @@
 //                $.log("measure has come on. do lexer");
                 this.lexer.sync.go(this);
             }
-            this.s_timeout = window.setTimeout(this.s_delegate, 100);
+            this.s_timeout = window.setTimeout(this.s_delegate, 0);
         },
         _adjust : function() {
             this.lighter.resize();
             this.render.paint();
+
 //            $.log("paint");
         }
     }

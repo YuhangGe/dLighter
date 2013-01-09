@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f9415ba9-b1b1-4ab6-ab87-d205311efbc0" name="Default" comment="" />
+    <list default="true" id="f9415ba9-b1b1-4ab6-ab87-d205311efbc0" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/alicelex/lexer_css.lex" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/alicelex/lexer_js.lex" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/alicelex/lexer_xml.lex" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/dlighter.css" afterPath="$PROJECT_DIR$/build/dlighter.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/daisy.html" afterPath="$PROJECT_DIR$/demo/daisy.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/test.html" afterPath="$PROJECT_DIR$/demo/test.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/core/dom.js" afterPath="$PROJECT_DIR$/src/core/dom.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/core/lexer_base.js" afterPath="$PROJECT_DIR$/src/core/lexer_base.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/core/scheduler.js" afterPath="$PROJECT_DIR$/src/core/scheduler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/lexer/lexer_css.js" afterPath="$PROJECT_DIR$/src/lexer/lexer_css.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/theme/dlighter.js" afterPath="$PROJECT_DIR$/src/theme/dlighter.js" />
+    </list>
     <ignored path="dLighter.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,57 +34,19 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="build.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.js">
+      <file leaf-file-name="lexer_css.lex" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/alicelex/lexer_css.lex">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="0" selection-start="2099" selection-end="2099" vertical-scroll-proportion="0.0">
+            <state line="43" column="25" selection-start="793" selection-end="793" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="utility.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/core/utility.js">
+      <file leaf-file-name="lexer_css.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/lexer/lexer_css.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="154" column="33" selection-start="5069" selection-end="5069" vertical-scroll-proportion="0.54293627">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dLighter-admin.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dLighter-admin.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="99" column="26" selection-start="5398" selection-end="5398" vertical-scroll-proportion="-11.857142">
-              <folding>
-                <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dLighter.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dLighter.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="35" selection-start="721" selection-end="721" vertical-scroll-proportion="-5.428571">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dom.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/core/dom.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="34" selection-start="2378" selection-end="2378" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/demo/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="32" selection-start="551" selection-end="551" vertical-scroll-proportion="-10.857142">
+            <state line="99" column="29" selection-start="4745" selection-end="4745" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -79,19 +55,73 @@
       <file leaf-file-name="daisy.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo/daisy.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="82" column="36" selection-start="3363" selection-end="3363" vertical-scroll-proportion="-42.392857">
+            <state line="84" column="22" selection-start="3427" selection-end="3427" vertical-scroll-proportion="-9.142858">
               <folding>
-                <marker date="1357552959000" expanded="false" signature="2294:2306" placeholder="..." />
-                <marker date="1357552959000" expanded="false" signature="2360:2376" placeholder="..." />
+                <marker date="1357725406000" expanded="false" signature="2372:2384" placeholder="..." />
+                <marker date="1357725406000" expanded="false" signature="2438:2454" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="wp_code_highlight_admin.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp_plugin/wp-code-highlight/wp_code_highlight_admin.php">
+      <file leaf-file-name="lexer_css.txt" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/alicelex/debug/lexer_css.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="129" column="9" selection-start="6509" selection-end="6539" vertical-scroll-proportion="-9.821428">
+            <state line="14" column="0" selection-start="187" selection-end="187" vertical-scroll-proportion="-0.44032258">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dlighter.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/theme/dlighter.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="60" column="42" selection-start="1710" selection-end="1710" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lexer_base.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/core/lexer_base.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="119" column="45" selection-start="4118" selection-end="4127" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dlighter.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build/dlighter.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="67" column="15" selection-start="1228" selection-end="1228" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dom.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/core/dom.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="133" column="39" selection-start="5511" selection-end="5511" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lexer.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/core/lexer.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="38" column="7" selection-start="1261" selection-end="1261" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="scheduler.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/core/scheduler.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="88" column="0" selection-start="0" selection-end="3256" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -104,35 +134,39 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/core/lexer_base.js" />
-        <option value="$PROJECT_DIR$/src/core/theme.js" />
-        <option value="$PROJECT_DIR$/demo/lighter.css" />
-        <option value="$PROJECT_DIR$/src/core/lighter.js" />
-        <option value="$PROJECT_DIR$/src/core/scroll.js" />
-        <option value="$PROJECT_DIR$/wp_plugin/dLighter/dLighter-options.php" />
-        <option value="$PROJECT_DIR$/wp_plugin/dLighter/po2mo" />
-        <option value="$PROJECT_DIR$/wp_plugin/dLighter/dLighter-admin.php" />
-        <option value="$PROJECT_DIR$/wp_plugin/dLighter/dLighter-zh_CN.po" />
-        <option value="$PROJECT_DIR$/demo/index.html" />
-        <option value="$PROJECT_DIR$/demo/daisy.html" />
-        <option value="$PROJECT_DIR$/build/dlighter.js" />
-        <option value="$PROJECT_DIR$/src/core/dom.js" />
-        <option value="$PROJECT_DIR$/wp_plugin/dLighter/dLighter.php" />
         <option value="$PROJECT_DIR$/build.js" />
         <option value="$PROJECT_DIR$/src/core/utility.js" />
+        <option value="$PROJECT_DIR$/src/worker/meausre_worker.js" />
+        <option value="$PROJECT_DIR$/src/worker/lex_worker.js" />
+        <option value="$PROJECT_DIR$/demo/worker.js" />
+        <option value="$PROJECT_DIR$/src/core/dom.js" />
+        <option value="$PROJECT_DIR$/src/alicelex/lexer_js.lex" />
+        <option value="$PROJECT_DIR$/demo/test.html" />
+        <option value="$PROJECT_DIR$/build/dlighter.css" />
+        <option value="$PROJECT_DIR$/src/core/scheduler.js" />
+        <option value="$PROJECT_DIR$/src/theme/dlighter.js" />
+        <option value="$PROJECT_DIR$/src/alicelex/lexer_css.lex" />
+        <option value="$PROJECT_DIR$/src/alicelex/css" />
+        <option value="$PROJECT_DIR$/src/core/lexer_base.js" />
+        <option value="$PROJECT_DIR$/src/lexer/lexer_css.js" />
+        <option value="$PROJECT_DIR$/demo/daisy.html" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
+    <option name="x" value="4" />
     <option name="y" value="22" />
     <option name="width" value="1440" />
     <option name="height" value="790" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -276,7 +310,83 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="theme" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dLighter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dLighter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lexer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dLighter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dLighter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dLighter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dLighter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="alicelex" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dLighter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dLighter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="alicelex" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="debug" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -330,7 +440,7 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../alicelex" />
     <property name="FullScreen" value="false" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
@@ -357,6 +467,7 @@
       <recent name="$PROJECT_DIR$/lib" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/alicelex/debug" />
       <recent name="$PROJECT_DIR$/src/core" />
       <recent name="$PROJECT_DIR$/demo" />
     </key>
@@ -402,7 +513,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="790" extended-state="0" />
+    <frame x="4" y="22" width="1440" height="790" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -410,10 +521,10 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30272597" sideWeight="0.671151" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31205165" sideWeight="0.671151" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32884902" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32884902" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -480,119 +591,119 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/dLighter.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/lighter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="20" selection-start="2973" selection-end="2973" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp_plugin/wp-code-highlight/wp-code-highlight.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="69" selection-start="833" selection-end="833" vertical-scroll-proportion="27.142857">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dlighter.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/po2mo">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="101" selection-end="146" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp_plugin/wp-code-highlight/wp_code_highlight_admin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="129" column="9" selection-start="6509" selection-end="6539" vertical-scroll-proportion="-9.821428">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/demo/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="32" selection-start="551" selection-end="551" vertical-scroll-proportion="-10.857142">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/demo/daisy.html">
+    <entry file="file://$PROJECT_DIR$/src/lexer/lexer_xml.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="36" selection-start="3363" selection-end="3363" vertical-scroll-proportion="-42.392857">
+        <state line="5" column="0" selection-start="73" selection-end="73" vertical-scroll-proportion="0.0">
           <folding>
-            <marker date="1357552959000" expanded="false" signature="2294:2306" placeholder="..." />
-            <marker date="1357552959000" expanded="false" signature="2360:2376" placeholder="..." />
+            <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build/dlighter.min.js">
+    <entry file="file://$PROJECT_DIR$/src/alicelex/lexer_xml.lex">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="7336" selection-start="7326" selection-end="7336" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build/dlighter.js">
+    <entry file="file://$PROJECT_DIR$/src/alicelex/lexer_js.lex">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="469" column="23" selection-start="16096" selection-end="16226" vertical-scroll-proportion="-1.6923077">
+        <state line="1" column="39" selection-start="0" selection-end="57" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/lexer/lexer_js.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="18" selection-start="9837" selection-end="9837" vertical-scroll-proportion="-0.46952224">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="25" selection-start="519" selection-end="519" vertical-scroll-proportion="-8.142858">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/core/dom.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="34" selection-start="2378" selection-end="2378" vertical-scroll-proportion="0.0">
+        <state line="133" column="39" selection-start="5511" selection-end="5511" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dLighter-zh_CN.po">
+    <entry file="file://$PROJECT_DIR$/src/core/lexer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="0" selection-start="1432" selection-end="1432" vertical-scroll-proportion="0.97932816">
+        <state line="38" column="7" selection-start="1261" selection-end="1261" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dLighter-admin.php">
+    <entry file="file://$PROJECT_DIR$/src/core/scheduler.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="99" column="26" selection-start="5398" selection-end="5398" vertical-scroll-proportion="-11.857142">
+        <state line="88" column="0" selection-start="0" selection-end="3256" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/theme/dlighter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="60" column="42" selection-start="1710" selection-end="1710" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/lexer_base.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="119" column="45" selection-start="4118" selection-end="4127" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/lexer/lexer_css.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="99" column="29" selection-start="4745" selection-end="4745" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo/daisy.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="84" column="22" selection-start="3427" selection-end="3427" vertical-scroll-proportion="-9.142858">
           <folding>
-            <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <marker date="1357725406000" expanded="false" signature="2372:2384" placeholder="..." />
+            <marker date="1357725406000" expanded="false" signature="2438:2454" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp_plugin/dLighter/dLighter.php">
+    <entry file="file://$PROJECT_DIR$/build/dlighter.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="35" selection-start="721" selection-end="721" vertical-scroll-proportion="-5.428571">
+        <state line="67" column="15" selection-start="1228" selection-end="1228" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.js">
+    <entry file="file://$PROJECT_DIR$/src/alicelex/lexer_css.lex">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="0" selection-start="2099" selection-end="2099" vertical-scroll-proportion="0.0">
+        <state line="43" column="25" selection-start="793" selection-end="793" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/utility.js">
+    <entry file="file://$PROJECT_DIR$/src/alicelex/debug/lexer_css.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="154" column="33" selection-start="5069" selection-end="5069" vertical-scroll-proportion="0.54293627">
+        <state line="14" column="0" selection-start="187" selection-end="187" vertical-scroll-proportion="-0.44032258">
           <folding />
         </state>
       </provider>

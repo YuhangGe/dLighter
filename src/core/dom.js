@@ -11,7 +11,7 @@
         }
         var codes = document.getElementsByTagName(D.config.tag_name);
         for(var i=0;i<codes.length;i++) {
-            var ce = codes[i], src = ce.getAttribute("src");
+            var ce = codes[i], src = _a(ce, "src");
             if(src && src.trim()!=="") {
                 D._ajaxCreate(ce, src.trim());
             } else {
@@ -56,7 +56,7 @@
         var STYLE_NAMES = ['position', 'display', 'left', 'top', 'margin-left', 'margin-top', 'margin-right', 'margin-bottom'];
         var STYLE_NAMES_ALIAS = ['position', 'display', 'left', 'top', 'marginLeft', 'marginTop', 'marginRight', 'marginBottom'];
         var _theme = _a(ce, "theme") || D.config.theme || "plain";
-        var _lang = _a(ce, "lang") || ce.getAttribute("language") || "plain";
+        var _lang = _a(ce, "lang") || _a(ce, "language") || "plain";
         var _bk_line = _a(ce, "break_line") == "true" ? true : false;
         var _class = _a(ce, "class");
         var _line_start = _a(ce, "line_number_start") || _a(ce, "lns") || "1";
@@ -129,9 +129,9 @@
             alert("dLighter is not supported by your browser");
             return;
         }
-        var src = ce.getAttribute("src").trim();
-        if(src!=="") {
-            D._ajaxCreate(ce, src);
+        var src = _a(ce, "src");
+        if(src && src.trim()!=="") {
+            D._ajaxCreate(ce, src.trim());
         } else {
             var text = ce.textContent || ce.innerText || "  ";
             D._create(ce, text);
