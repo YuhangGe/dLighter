@@ -60,7 +60,7 @@
             'css' : {
                 wei : {color : '#008080'},
                 number : {color : '#ff1493'},
-                important : {color : 'red', italic: true}
+                important : {color : 'red', italic: true, bold:true}
             },
             'xml,html,xhtml,xslt' : {
                 property : {color : '#ff1493'}

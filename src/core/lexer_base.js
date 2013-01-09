@@ -73,13 +73,7 @@
                     var eqc = this.TABLE._eqc[this.chr];
 
                     if(eqc === undefined) {
-                        if(pre_action >= 0) {
-                            action = pre_action;
-                            yylen = pre_act_len;
-                            this.idx = pre_idx + pre_act_len;
-                        } else
-                            action = ACT_TYPE.UNKNOW_CHAR;
-                        break;
+                       continue;
                     }
                     var offset, next = -1, s = state;
 

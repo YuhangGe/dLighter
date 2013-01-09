@@ -1,14 +1,16 @@
 
-$ignorecase true
+$caseignore true
 
+
+CMT   \/\*[\d\D]*\*\/
 IMP   !\s*important
 STR     (\"[^\"]*\")|(\'[^\']*\')
-WORD    [\a-_]([\a-_\d]*)
+WORD    [\a\-_]([\a\-_\d]*)
 NUM     \-?\d+(\.\d+)?
 
 TAG     (\#|\.)?{WORD}
 MAO  :
-WEI_END  [^\a-_\s]
+WEI_END  [^\a\-_]
 
 
 CSS_BEGIN \{
@@ -27,6 +29,7 @@ OTHER [.\n]
 
 $$
 
+CMT { $.log("CMT : %s,%s",yytxt, yylen);}
 STR { $.log("STR:%s,%s", yytxt, yylen); }
 NUM { $.log("NUM:%s,%s", yytxt, yylen);}
 TAG { $.log("TAG:%s,%s", yytxt, yylen);}
@@ -34,13 +37,17 @@ MAO { this.yygoto(WEI); }
 <WEI> WORD {$.log("WEI:%s,%s", yytxt, yylen);}
 <WEI> WEI_END {this.yygoto(DEFAULT);}
 
+
 CSS_BEGIN { this.yygoto(CSS); }
 <CSS> WORD { $.log("KEY:%s,%s", yytxt, yylen);}
 <CSS> MAO { this.yygoto(VALUE);}
+<CSS> CMT { $.log("CMT : %s,%s",yytxt, yylen);}
+
 <VALUE> STR {$.log("VALUE STR:%s,%s",yytxt,yylen);}
 <VALUE> VALUE { $.log("VALUE :%s,%s", yytxt, yylen);}
 <VALUE> COLOR_VALUE { $.log("COLOR VALUE:%s,%s", yytxt, yylen);}
 <VALUE> URL_VALUE_BEGIN { this.yygoto(URL);}
+<VALUE> CMT { $.log("CMT : %s,%s",yytxt, yylen);}
 <URL>  URL_VALUE  { $.log("URL VALUE:%s,%s", yytxt, yylen);}
 <URL> URL_VALUE_END {this.yygoto(VALUE);}
 <VALUE> VALUE_END { this.yygoto(CSS);}

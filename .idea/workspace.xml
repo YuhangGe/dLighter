@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9415ba9-b1b1-4ab6-ab87-d205311efbc0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/alicelex/lexer_css.lex" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/alicelex/lexer_js.lex" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/alicelex/lexer_xml.lex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/dlighter.css" afterPath="$PROJECT_DIR$/build/dlighter.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/daisy.html" afterPath="$PROJECT_DIR$/demo/daisy.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/test.html" afterPath="$PROJECT_DIR$/demo/test.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/core/dom.js" afterPath="$PROJECT_DIR$/src/core/dom.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/alicelex/debug/lexer_css.txt" afterPath="$PROJECT_DIR$/src/alicelex/debug/lexer_css.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/alicelex/lexer_css.lex" afterPath="$PROJECT_DIR$/src/alicelex/lexer_css.lex" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/core/lexer_base.js" afterPath="$PROJECT_DIR$/src/core/lexer_base.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/core/scheduler.js" afterPath="$PROJECT_DIR$/src/core/scheduler.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/lexer/lexer_css.js" afterPath="$PROJECT_DIR$/src/lexer/lexer_css.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/theme/dlighter.js" afterPath="$PROJECT_DIR$/src/theme/dlighter.js" />
     </list>
@@ -37,16 +30,16 @@
       <file leaf-file-name="lexer_css.lex" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/alicelex/lexer_css.lex">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="25" selection-start="793" selection-end="793" vertical-scroll-proportion="0.0">
+            <state line="51" column="27" selection-start="0" selection-end="1253" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="lexer_css.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="lexer_css.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/lexer/lexer_css.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="99" column="29" selection-start="4745" selection-end="4745" vertical-scroll-proportion="0.0">
+            <state line="105" column="25" selection-start="5236" selection-end="5236" vertical-scroll-proportion="3.2866557">
               <folding />
             </state>
           </provider>
@@ -64,10 +57,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="lexer_css.txt" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="lexer_css.txt" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/alicelex/debug/lexer_css.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="0" selection-start="187" selection-end="187" vertical-scroll-proportion="-0.44032258">
+            <state line="12" column="16" selection-start="194" selection-end="194" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -76,7 +69,7 @@
       <file leaf-file-name="dlighter.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/theme/dlighter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="42" selection-start="1710" selection-end="1710" vertical-scroll-proportion="0.0">
+            <state line="62" column="67" selection-start="1824" selection-end="1824" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -85,7 +78,7 @@
       <file leaf-file-name="lexer_base.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/core/lexer_base.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="119" column="45" selection-start="4118" selection-end="4127" vertical-scroll-proportion="0.0">
+            <state line="80" column="30" selection-start="2513" selection-end="2513" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -94,7 +87,7 @@
       <file leaf-file-name="dlighter.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build/dlighter.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="15" selection-start="1228" selection-end="1228" vertical-scroll-proportion="0.0">
+            <state line="26" column="21" selection-start="443" selection-end="443" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -140,7 +133,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/build.js" />
         <option value="$PROJECT_DIR$/src/core/utility.js" />
         <option value="$PROJECT_DIR$/src/worker/meausre_worker.js" />
         <option value="$PROJECT_DIR$/src/worker/lex_worker.js" />
@@ -148,14 +140,15 @@
         <option value="$PROJECT_DIR$/src/core/dom.js" />
         <option value="$PROJECT_DIR$/src/alicelex/lexer_js.lex" />
         <option value="$PROJECT_DIR$/demo/test.html" />
-        <option value="$PROJECT_DIR$/build/dlighter.css" />
         <option value="$PROJECT_DIR$/src/core/scheduler.js" />
+        <option value="$PROJECT_DIR$/src/alicelex/css" />
+        <option value="$PROJECT_DIR$/demo/daisy.html" />
+        <option value="$PROJECT_DIR$/build/dlighter.css" />
+        <option value="$PROJECT_DIR$/src/core/lexer_base.js" />
+        <option value="$PROJECT_DIR$/src/alicelex/debug/lexer_css.txt" />
         <option value="$PROJECT_DIR$/src/theme/dlighter.js" />
         <option value="$PROJECT_DIR$/src/alicelex/lexer_css.lex" />
-        <option value="$PROJECT_DIR$/src/alicelex/css" />
-        <option value="$PROJECT_DIR$/src/core/lexer_base.js" />
         <option value="$PROJECT_DIR$/src/lexer/lexer_css.js" />
-        <option value="$PROJECT_DIR$/demo/daisy.html" />
       </list>
     </option>
   </component>
@@ -656,27 +649,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/theme/dlighter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="42" selection-start="1710" selection-end="1710" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/lexer_base.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="119" column="45" selection-start="4118" selection-end="4127" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/lexer/lexer_css.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="99" column="29" selection-start="4745" selection-end="4745" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/demo/daisy.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="84" column="22" selection-start="3427" selection-end="3427" vertical-scroll-proportion="-9.142858">
@@ -689,21 +661,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/build/dlighter.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="15" selection-start="1228" selection-end="1228" vertical-scroll-proportion="0.0">
+        <state line="26" column="21" selection-start="443" selection-end="443" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/alicelex/lexer_css.lex">
+    <entry file="file://$PROJECT_DIR$/src/core/lexer_base.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="25" selection-start="793" selection-end="793" vertical-scroll-proportion="0.0">
+        <state line="80" column="30" selection-start="2513" selection-end="2513" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/alicelex/debug/lexer_css.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="187" selection-end="187" vertical-scroll-proportion="-0.44032258">
+        <state line="12" column="16" selection-start="194" selection-end="194" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/theme/dlighter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="62" column="67" selection-start="1824" selection-end="1824" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/alicelex/lexer_css.lex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="27" selection-start="0" selection-end="1253" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/lexer/lexer_css.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="105" column="25" selection-start="5236" selection-end="5236" vertical-scroll-proportion="3.2866557">
           <folding />
         </state>
       </provider>
