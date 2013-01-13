@@ -26,11 +26,13 @@
         this.style_delegate = $.createDelegate(this, this.style_callback);
 
         this.sync = {
+            break_time : 50,
             finished : false,
             go : $.createDelegate(this, this._syncMeasure),
             init :$.createDelegate(this, this._syncInit),
-            cur_step : 0,
-            total_step : 0,
+            delta_step : 0,
+            cur_para : 0,
+            total_para : 0,
             line_start : 0
         };
 
@@ -73,32 +75,33 @@
             this.line_number = ls;
             this.page_height = this.line_height * this.line_number;
         },
-        _syncInit : function(total_step) {
+        _syncInit : function(break_time) {
             this.sync.finished  = 0;
-            this.sync.cur_step = 0;
+            this.sync.break_time = break_time;
+            this.sync.delta_step = 0;
             this.sync.line_start = 0;
-            this.sync.total_step = total_step;
+            this.sync.cur_para = 0;
+            this.sync.total_para = this.para_info.length;
         },
-        _syncMeasure : function(scheduler) {
+        _syncMeasure : function(time) {
             var s = this.sync;
-            if(s.finished || s.cur_step >= s.total_step) {
-                s.finished = true;
-                scheduler.measure_step = s.total_step;
+            if(s.finished) {
                 return;
             }
-            var s_b = scheduler.BREAK_TIME;
             var t_s = new Date().getTime();
             var c_s = t_s;
+            s.delta_step = 0;
             /*
              *
              */
-            while(c_s - t_s <= s_b) {
-                var _p = this.para_info[s.cur_step];
+            while(c_s - t_s <= D._Scheduler.BREAK_TIME) {
+                var _p = this.para_info[s.cur_para];
                 _p.line_start = s.line_start;
                 _p.line_cross = this.lighter.render._measure(_p);
                 s.line_start += _p.line_cross;
-                s.cur_step++;
-                if(s.cur_step>= s.total_step) {
+                s.cur_para++;
+                s.delta_step++;
+                if(s.cur_para>= s.total_para) {
                     s.finished = true;
                     break;
                 } else {
@@ -107,7 +110,7 @@
             }
             this.line_number = s.line_start;
             this.page_height = this.line_height * this.line_number;
-            scheduler.measure_step = s.cur_step;
+            return s.delta_step;
         },
         _layout : function(){
             /*

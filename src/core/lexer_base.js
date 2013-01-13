@@ -17,31 +17,36 @@
         this.chr = -1;
         this.START_ACTION = 0;
         this.i_s = 0;
+        this.ig = false;// 是否忽略大小写
         this.yydefault = "plain";
         this.yystyle = null;
         this.TABLE = null;
-        this.sync = {
-            finished : false,
-            go : $.createDelegate(this, this._syncLex),
-            init :$.createDelegate(this, this._syncInit),
-            cur_step : 0,
-            total_step : 0,
-            cur_idx : 0,
-            cur_para : 0
-        };
+        this.sync = null;
+        this.is_sync = false;
+        this.post_arr = null;
     }
     D._LexerBase.prototype = {
         read_ch : function() {
-            throw "must be overwrite";
+            if(this.idx >= this.end)
+                return this.chr = -1;
+            else {
+                this.chr = this.src.charCodeAt(this.idx++);
+                if(this.ig && this.chr >= 65 && this.chr <= 90)
+                    this.chr += 32;
+                else if(this.chr === 10) { // chr === '\n'
+                    this.sync.delta_step++;
+                }
+                return this.chr;
+            }
         },
         action : function(action) {
             //do nothing, must be overwrite
             throw "must be overwrite";
         },
-        do_lex : function(sync, b_time) {
+        do_lex : function(b_time) {
             var go_on = true, t_s, c_s;
             this.idx = 0;
-            if(sync) {
+            if(this.is_sync) {
                 t_s = new Date().getTime();
                 c_s = t_s;
                 this.idx = this.sync.cur_idx;
@@ -127,40 +132,53 @@
         yygoto : function(state) {
             this.i_s = state;
         },
+        yytask : function(idx, len, lexer_name) {
+            var t = {
+                start : idx,
+                end : idx + len - 1,
+                lexer_name : lexer_name
+            };
+            this.post_arr.unshift(t);
+        },
         /**
          *
          * @param src 源文本
          * @param style_callback 设置区域的格式的回调函数，用来通知lighter设置文本的颜色格式
          */
-        lex : function(src, style_callback) {
-            this.src = src;
-            this.style_callback = style_callback;
-            this.end = this.src.length;
+        lex : function(argv) {
+            this.src = argv.src;
+            this.style_callback = argv.style_callback;
+            this.end = argv.end;
             this.i_s = this.START_ACTION;
+            this.post_arr = argv.post_lex_task;
 //            var d = new Date().getTime();
             this.do_lex(false);
 //            $.log("lex time:%s", new Date().getTime()-d);
         },
-        _syncLex : function(scheduler) {
+        sync_lex : function(sync_lex_info) {
+            this.sync = sync_lex_info;
+            this.post_arr = sync_lex_info.post_lex_task;
+            this.is_sync = true;
             var s = this.sync;
             if(s.finished) {
-                scheduler.measure_step = s.total_step;
                 return;
             }
-            this.do_lex(true, scheduler.BREAK_TIME);
+            s.delta_step = 0;
+            this.do_lex(s.break_time);
             s.cur_idx = this.idx;
-            s.cur_step = s.cur_para;
-            scheduler.lex_step = s.cur_step;
-        },
-        _syncInit : function(total_step, src, style_callback) {
-            this.sync.finished = false;
-            this.sync.cur_step = 0;
-            this.sync.total_step = total_step;
-            this.sync.cur_idx = 0;
-            this.src = src;
-            this.style_callback = style_callback;
-            this.end = this.src.length;
-            this.i_s = this.START_ACTION;
+
+            return s.delta_step;
         }
+//        ,
+//        _syncInit : function(break_time, src, style_callback) {
+//            this.sync.finished = false;
+//            this.sync.delta_step = 0;
+//            this.sync.cur_idx = 0;
+//            this.sync.break_time = break_time;
+//            this.src = src;
+//            this.style_callback = style_callback;
+//            this.end = this.src.length;
+//            this.i_s = this.START_ACTION;
+//        }
     }
 })(dLighter._Lexer, dLighter.$);

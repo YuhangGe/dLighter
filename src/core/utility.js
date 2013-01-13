@@ -193,7 +193,7 @@ dLighter = {
         },
         createDelegate : function(instance, func) {
             return function() {
-                func.apply(instance, arguments);
+                return func.apply(instance, arguments);
             }
         },
         stopEvent : function(e) {
