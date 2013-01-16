@@ -26,7 +26,7 @@ COLOR_VALUE   #?[a-fA-F0-9]+
 VALUE_END   [;\n]
 CSS_END \}
 
-OTHER [.\n]
+OTHER [\d\D]
 
 $$
 
