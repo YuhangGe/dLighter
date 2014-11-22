@@ -1,9 +1,14 @@
+<?php
+    if($_POST['dLighter_theme']) {
+        update_option('dLighter_show_line_number', $_POST['dLighter_show_line_number']);
+        update_option('dLighter_break_line', $_POST['dLighter_break_line']);
+        echo '<p>'._e('Updated Settings!', 'dLighter').'</p>';
+    }
+?>
 <div class="wrap">
-    <?php screen_icon(); ?>
     <h2>dLighter Syntax Highlight for WordPress</h2>
 
-    <form action="options.php" method="post" enctype="multipart/form-data" name="dLighter_form">
-        <?php wp_nonce_field('update-options'); ?>
+    <form method="post" name="dLighter_form">
 
         <table class="form-table">
             <tr valign="top">

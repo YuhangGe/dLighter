@@ -2,7 +2,7 @@
 /*
 Plugin Name: dLighter Syntax Highlight
 Plugin URI: http://xiaoge.me/dlighter
-Description: dLighter provides syntax highlighting. Wrap code blocks with <pre></pre> tag.
+Description: dLighter provides syntax highlighting. Wrap code blocks with &lt;pre&gt;&lt;pre&gt; tag. <a href='options-general.php?page=dLighter-admin.php'>Settings</a>
 Version: 1.0.0
 Author: XiaoGe
 Author URI: http://xiaoge.me
@@ -17,6 +17,13 @@ function load_dLighter_lang(){
     }
 }
 add_filter('init','load_dLighter_lang');
+
+function plugin_settings_link($links){
+    $settings_link = '<a href="options-general.php?page=dLighter-admin.php">Settings</a>';
+    array_unshift($links, $settings_link);
+    return $links;
+}
+add_filter("plugin_action_links_".plugin_basename(__FILE__), 'plugin_settings_link');
 
 function dLighter_head(){
     $css_url = plugins_url('dlighter.min.css', __FILE__);
@@ -46,11 +53,8 @@ function dLighter_activate(){
 register_activation_hook( __FILE__, 'dLighter_activate' );
 
 function dLighter_plugin_menu() {
-    if (! current_user_can ( 'manage_options' )) {
-        wp_die ( __ ( 'You do not have sufficient permissions to access this page.' ) );
-    }
-
-    add_options_page ( 'dLighter settings', "dLighter Highlight", 'manage_options', 'dlighter-unique-identifier', 'dLighter_options' );
+   
+    add_options_page ( 'dLighter Settings', "dLighter Highlight", 'manage_options', 'dLighter-admin', 'dLighter_options' );
 
 }
 

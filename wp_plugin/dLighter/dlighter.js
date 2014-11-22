@@ -193,7 +193,7 @@ dLighter = {
         },
         createDelegate : function(instance, func) {
             return function() {
-                func.apply(instance, arguments);
+                return func.apply(instance, arguments);
             }
         },
         stopEvent : function(e) {
@@ -424,7 +424,7 @@ dLighter = {
         }
         var codes = document.getElementsByTagName(D.config.tag_name);
         for(var i=0;i<codes.length;i++) {
-            var ce = codes[i], src = ce.getAttribute("src");
+            var ce = codes[i], src = _a(ce, "src");
             if(src && src.trim()!=="") {
                 D._ajaxCreate(ce, src.trim());
             } else {
@@ -469,7 +469,7 @@ dLighter = {
         var STYLE_NAMES = ['position', 'display', 'left', 'top', 'margin-left', 'margin-top', 'margin-right', 'margin-bottom'];
         var STYLE_NAMES_ALIAS = ['position', 'display', 'left', 'top', 'marginLeft', 'marginTop', 'marginRight', 'marginBottom'];
         var _theme = _a(ce, "theme") || D.config.theme || "plain";
-        var _lang = _a(ce, "lang") || ce.getAttribute("language") || "plain";
+        var _lang = _a(ce, "lang") || _a(ce, "language") || "plain";
         var _bk_line = _a(ce, "break_line") == "true" ? true : false;
         var _class = _a(ce, "class");
         var _line_start = _a(ce, "line_number_start") || _a(ce, "lns") || "1";
@@ -542,9 +542,9 @@ dLighter = {
             alert("dLighter is not supported by your browser");
             return;
         }
-        var src = ce.getAttribute("src").trim();
-        if(src!=="") {
-            D._ajaxCreate(ce, src);
+        var src = _a(ce, "src");
+        if(src && src.trim()!=="") {
+            D._ajaxCreate(ce, src.trim());
         } else {
             var text = ce.textContent || ce.innerText || "  ";
             D._create(ce, text);
@@ -755,11 +755,13 @@ dLighter = {
         this.style_delegate = $.createDelegate(this, this.style_callback);
 
         this.sync = {
+            break_time : 50,
             finished : false,
             go : $.createDelegate(this, this._syncMeasure),
             init :$.createDelegate(this, this._syncInit),
-            cur_step : 0,
-            total_step : 0,
+            delta_step : 0,
+            cur_para : 0,
+            total_para : 0,
             line_start : 0
         };
 
@@ -802,32 +804,33 @@ dLighter = {
             this.line_number = ls;
             this.page_height = this.line_height * this.line_number;
         },
-        _syncInit : function(total_step) {
+        _syncInit : function(break_time) {
             this.sync.finished  = 0;
-            this.sync.cur_step = 0;
+            this.sync.break_time = break_time;
+            this.sync.delta_step = 0;
             this.sync.line_start = 0;
-            this.sync.total_step = total_step;
+            this.sync.cur_para = 0;
+            this.sync.total_para = this.para_info.length;
         },
-        _syncMeasure : function(scheduler) {
+        _syncMeasure : function(time) {
             var s = this.sync;
-            if(s.finished || s.cur_step >= s.total_step) {
-                s.finished = true;
-                scheduler.measure_step = s.total_step;
+            if(s.finished) {
                 return;
             }
-            var s_b = scheduler.BREAK_TIME;
             var t_s = new Date().getTime();
             var c_s = t_s;
+            s.delta_step = 0;
             /*
              *
              */
-            while(c_s - t_s <= s_b) {
-                var _p = this.para_info[s.cur_step];
+            while(c_s - t_s <= D._Scheduler.BREAK_TIME) {
+                var _p = this.para_info[s.cur_para];
                 _p.line_start = s.line_start;
                 _p.line_cross = this.lighter.render._measure(_p);
                 s.line_start += _p.line_cross;
-                s.cur_step++;
-                if(s.cur_step>= s.total_step) {
+                s.cur_para++;
+                s.delta_step++;
+                if(s.cur_para>= s.total_para) {
                     s.finished = true;
                     break;
                 } else {
@@ -836,7 +839,7 @@ dLighter = {
             }
             this.line_number = s.line_start;
             this.page_height = this.line_height * this.line_number;
-            scheduler.measure_step = s.cur_step;
+            return s.delta_step;
         },
         _layout : function(){
             /*
@@ -2113,8 +2116,6 @@ dLighter = {
  */
 (function(D, $) {
     D._Scheduler = function(lighter) {
-        this.GAP = 1800; //由于lex的速度远远高于measure，设定当lex的行数超过measure的行数的1800行后就执行measure，否则连续执行lex
-        this.BREAK_TIME = 280; //每次执行时间不应该超过280毫秒
         this.measure_step = 0;
         this.lex_step = 0;
         this.lighter = lighter;
@@ -2122,8 +2123,42 @@ dLighter = {
         this.page = lighter.cur_page;
         this.render = lighter.render;
         this.s_delegate = $.createDelegate(this, this._scheduleHandler);
+        this.post_delegate = $.createDelegate(this, this._postTaskHandler);
         this.s_timeout = null;
+        this.post_lex_task = [];
+        /**
+         * sync_lex_info是异步lex时需要传给lexer的上下文信息。
+         * 因为lexer是单例模式，即每类lexer的实例只有一个，
+         * 当页面有几个不同的lighter的schedular在同时处理大文本时，
+         * 调用lexer进行异步lex的时候就要把上下文传给lexer，
+         * lexer会在lex的过程中修改上下文并返回，这样可以保证多个lighter之间不会相互影响。
+         *
+         * finished:当前lex工作是否已经全部完成
+         * delta_step:这一次调用的lex过程实际处理了多少个段落。
+         * src:需要lex的文本
+         * cur_idx:当前lex从文本的哪个位置开始
+         * break_time:这一次的lex过程最多允许执行多少时间（就必须返回以防止卡住导致用户体验不佳）
+         * style_callback: 每match一段文本需要调用的设置该文本的颜色格式的回调函数。该函数在Daisy._Page中。
+         * end:当前lex到文本的哪个位置结束
+         * post_task:后继任务队列。比如html文档中嵌入的script脚本或php脚本段，就需要向post_task中添加后续任务，
+         *           在当前lex工作结束后会继续调用其它lexer处理嵌入的文本。
+         * pre_idx : 保存嵌入脚本的开始文本位置。这个参数是辅助参数。
+         *           当lexer检测到嵌入脚本结束时，通过这个参数得到嵌入脚本的开始位置。
+         */
+        this.sync_lex_info = {
+            finished : false,
+            delta_step : 0,
+            src : null,
+            cur_idx : 0,
+            break_time : D._Scheduler.BREAK_TIME,
+            style_callback : this.page.style_delegate,
+            end : 0,
+            post_lex_task : this.post_lex_task,
+            pre_idx : 0
+        }
     }
+    D._Scheduler.GAP = 800; //由于lex的速度远远高于measure，设定当lex的行数超过measure的行数的800行后就执行measure，否则连续执行lex
+    D._Scheduler.BREAK_TIME = 30; //每次执行时间不应该超过20毫秒
     D._Scheduler.prototype = {
         /**
          * 这个函数名只是为了发泄下下～
@@ -2134,6 +2169,7 @@ dLighter = {
         },
         stopFuck : function() {
             if(this.s_timeout!==null) {
+                this.post_lex_task.length  = 0;
                 window.clearTimeout(this.s_timeout);
                 this.s_timeout = null;
             }
@@ -2145,7 +2181,7 @@ dLighter = {
              * 因为代码很难出现一行代码有上千上万行字符的情况。
              * 如果故意出现这种情况，也只能等着浏览器卡住了。
              */
-            if(this.page.para_info.length < this.GAP) {
+            if(this.page.para_info.length < D._Scheduler.GAP) {
                 this._directSchedule();
             } else {
                 this.stopFuck();
@@ -2153,7 +2189,31 @@ dLighter = {
             }
         },
         _directSchedule : function() {
-            this.lighter.lexer.lex(this.page.text, this.page.style_delegate);
+
+            var pt = this.post_lex_task;
+            pt.length = 0;
+            /*
+             * lex_info的说明同this.sync_lex_info
+             */
+            var p = this.page, lex_info = {
+                src : p.text,
+                end : p.text.length,
+                style_callback: p.style_delegate,
+                break_time : D._Scheduler.BREAK_TIME,
+                post_lex_task : pt,
+                pre_idx : 0,
+                cur_idx : 0
+                }, lexer = this.lighter.lexer;
+
+            lexer.lex(lex_info);
+            while(pt.length>0) {
+                var t = pt.pop();
+                lexer = dLighter._Lexer.get(t.lexer_name);
+                lex_info.cur_idx = t.start;
+                lex_info.end = t.end;
+                lexer.lex(lex_info);
+            }
+
             this.page._measure();
             this.lighter.resize();
             this.render.paint();
@@ -2163,37 +2223,69 @@ dLighter = {
             this.lex_step = 0;
             this.lexer = this.lighter.lexer;
             this.page = this.lighter.cur_page;
-            this.lexer.sync.init(this.page.para_info.length, this.page.text, this.page.style_delegate);
-            this.page.sync.init(this.page.para_info.length);
+//            this.lexer.sync.init(D._Scheduler.BREAK_TIME, this.page.text, this.page.style_delegate);
+            var s = this.sync_lex_info;
+            s.finished = false;
+            s.src = this.page.text;
+            s.end = this.page.text.length;
+            s.cur_idx = 0;
+            s.post_task.length = 0;
+            s.pre_idx = 0;
+            this.page.sync.init(D._Scheduler.BREAK_TIME);
             this._scheduleHandler();
         },
         _scheduleHandler : function() {
-            if(this.page.sync.finished && this.lexer.sync.finished) {
+            if(this.page.sync.finished && this.sync_lex_info.finished) {
 //                $.log("both finished. return.");
                 this._adjust();
-                this.s_timeout = null;
+                if(this.post_lex_task.length>0) {
+                    this.sync_lex_info.finished = false;
+                    this.s_timeout = window.setTimeout(this.post_delegate, 0);
+                } else {
+                    this.s_timeout = null;
+                }
                 return;
             } else if(this.page.sync.finished) {
 //                $.log("measure finished. do lexer");
-                this.lexer.sync.go(this);
-            } else if(this.lexer.sync.finished) {
+                this.lex_step += this.lexer.sync_lex(this.sync_lex_info);
+//                $.log(this.lex_step);
+            } else if(this.sync_lex_info.finished) {
 //                $.log("lexer finished. do measure");
-                this.page.sync.go(this);
+                this.measure_step += this.page.sync.go();
+//                $.log(this.measure_step);
                 this._adjust();
-            } else if(this.lex_step - this.measure_step >= this.GAP){
+            } else if(this.lex_step - this.measure_step >= D._Scheduler.GAP){
 //                $.log("lexer has go ahead. do measure");
-                this.page.sync.go(this);
+                this.measure_step += this.page.sync_lex(this.sync_lex_info);
+//                $.log(this.measure_step);
                 this._adjust();
             } else {
 //                $.log("measure has come on. do lexer");
-                this.lexer.sync.go(this);
+                this.lex_step += this.lexer.sync_lex(this.sync_lex_info);
+//                $.log(this.lex_step);
+
             }
-            this.s_timeout = window.setTimeout(this.s_delegate, 100);
+            this.s_timeout = window.setTimeout(this.s_delegate, 0);
+        },
+        _postTaskHandler : function() {
+            var s = this.sync_lex_info, pt = this.post_lex_task,t;
+            if(s.finished && pt.length===0) {
+                this.s_timeout = null;
+                this.render.paint();
+                return;
+            } else if(s.finished) {
+                t = pt.pop();
+                s.finished = false;
+                s.cur_idx = t.start;
+                s.end = t.end;
+                this.lexer = dLighter._Lexer.get(t.lexer_name);
+            }
+            this.lexer.sync_lex(s);
+            this.s_timeout = window.setTimeout(this.post_delegate, 0);
         },
         _adjust : function() {
             this.lighter.resize();
             this.render.paint();
-//            $.log("paint");
         }
     }
 })(dLighter._Core, dLighter.$);/**
@@ -3377,54 +3469,63 @@ dLighter = {
         this.chr = -1;
         this.START_ACTION = 0;
         this.i_s = 0;
+        this.ig = false;// 是否忽略大小写
         this.yydefault = "plain";
         this.yystyle = null;
+        this.yyidx  = 0;
+        this.yylen = 0;
         this.TABLE = null;
-        this.sync = {
-            finished : false,
-            go : $.createDelegate(this, this._syncLex),
-            init :$.createDelegate(this, this._syncInit),
-            cur_step : 0,
-            total_step : 0,
-            cur_idx : 0,
-            cur_para : 0
-        };
+        this.sync = null;
+        this.is_sync = false;
+        this.post_lex_task = null;
+        this.pre_idx = 0;
     }
     D._LexerBase.prototype = {
         read_ch : function() {
-            throw "must be overwrite";
+            if(this.idx >= this.end)
+                return this.chr = -1;
+            else {
+                this.chr = this.src.charCodeAt(this.idx++);
+                if(this.ig && this.chr >= 65 && this.chr <= 90)
+                    this.chr += 32;
+                else if(this.is_sync && this.chr === 10) { // chr === '\n'
+                    this.sync.delta_step++;
+                }
+                return this.chr;
+            }
         },
         action : function(action) {
             //do nothing, must be overwrite
             throw "must be overwrite";
         },
-        do_lex : function(sync, b_time) {
+        do_lex : function() {
             var go_on = true, t_s, c_s;
-            this.idx = 0;
-            if(sync) {
+            this.idx = this.cur_idx;
+            if(this.is_sync) {
                 t_s = new Date().getTime();
                 c_s = t_s;
-                this.idx = this.sync.cur_idx;
             }
 
             while(go_on) {
                 var yylen = 0;
                 var state = this.i_s, action = ACT_TYPE.NO_ACTION;
-                var pre_idx = this.idx, pre_action = ACT_TYPE.NO_ACTION, pre_act_len = 0;
+                var yyidx = this.idx, pre_action = ACT_TYPE.NO_ACTION, pre_act_len = 0;
 
                 while(true) {
                     if(this.read_ch() < 0) {
                         if(pre_action >= 0) {
                             action = pre_action;
                             yylen = pre_act_len;
-                            this.idx = pre_idx + pre_act_len;
-                        } else if(pre_idx < this.end) {
+                            this.idx = yyidx + pre_act_len;
+                        } else if(yyidx < this.end) {
                             action = ACT_TYPE.UNMATCH_CHAR;
-                            this.idx = pre_idx + 1;
+                            this.idx = yyidx + 1;
                         }
-                        if(pre_idx >= this.end) {
+                        if(yyidx >= this.end) {
                             go_on = false;
-                            this.sync.finished = true;
+                            if(this.is_sync) {
+                                this.sync.finished = true;
+                            }
                         }
                         break;
                     } else {
@@ -3433,13 +3534,7 @@ dLighter = {
                     var eqc = this.TABLE._eqc[this.chr];
 
                     if(eqc === undefined) {
-                        if(pre_action >= 0) {
-                            action = pre_action;
-                            yylen = pre_act_len;
-                            this.idx = pre_idx + pre_act_len;
-                        } else
-                            action = ACT_TYPE.UNKNOW_CHAR;
-                        break;
+                       continue;
                     }
                     var offset, next = -1, s = state;
 
@@ -3457,10 +3552,10 @@ dLighter = {
                         if(pre_action >= 0) {
                             action = pre_action;
                             yylen = pre_act_len;
-                            this.idx = pre_idx + pre_act_len;
+                            this.idx = yyidx + pre_act_len;
                         } else {
                             action = ACT_TYPE.UNMATCH_CHAR;
-                            this.idx = pre_idx + 1;
+                            this.idx = yyidx + 1;
                         }
                         //跳出内层while，执行对应的action动作
                         break;
@@ -3477,56 +3572,73 @@ dLighter = {
                     }
                 }
 
+                this.yystyle = this.yydefault;
+                this.yyidx = yyidx;
+                this.yylen = yylen;
                 this.action(action);
-                this.style_callback(pre_idx, yylen, this.yystyle);
+                this.style_callback(this.yyidx, this.yylen, this.yystyle);
 
-                if(sync && go_on) {
+                if(this.is_sync && go_on) {
                     c_s = new Date().getTime();
-                    if(c_s - t_s >= b_time) {
+                    if(c_s - t_s >= this.sync.break_time) {
                         go_on = false;
                     }
                 }
             }
 
         },
+        yy_pre_idx : function(idx) {
+            this.pre_idx = idx;
+            if(this.is_sync) {
+                this.sync.pre_idx = idx;
+            }
+        },
         yygoto : function(state) {
             this.i_s = state;
+        },
+        yytask : function(idx, len, lexer_name) {
+            var t = {
+                start : idx,
+                end : idx + len - 1,
+                lexer_name : lexer_name
+            };
+            this.post_lex_task.unshift(t);
         },
         /**
          *
          * @param src 源文本
          * @param style_callback 设置区域的格式的回调函数，用来通知lighter设置文本的颜色格式
          */
-        lex : function(src, style_callback) {
-            this.src = src;
-            this.style_callback = style_callback;
-            this.end = this.src.length;
+        lex : function(argv) {
+            this.src = argv.src;
+            this.style_callback = argv.style_callback;
+            this.end = argv.end;
             this.i_s = this.START_ACTION;
-//            var d = new Date().getTime();
-            this.do_lex(false);
-//            $.log("lex time:%s", new Date().getTime()-d);
+            this.is_sync = false;
+            this.post_lex_task = argv.post_lex_task;
+            this.pre_idx = argv.pre_idx;
+            this.cur_idx = argv.cur_idx;
+            this.do_lex();
         },
-        _syncLex : function(scheduler) {
+        sync_lex : function(sync_lex_info) {
+            this.sync = sync_lex_info;
             var s = this.sync;
+            this.src = s.src;
+            this.post_lex_task = s.post_lex_task;
+            this.is_sync = true;
+            this.pre_idx = s.pre_idx;
+            this.style_callback = s.style_callback;
+            this.end = s.end;
+            this.cur_idx = s.cur_idx;
             if(s.finished) {
-                scheduler.measure_step = s.total_step;
                 return;
             }
-            this.do_lex(true, scheduler.BREAK_TIME);
+            s.delta_step = 0;
+            this.do_lex();
             s.cur_idx = this.idx;
-            s.cur_step = s.cur_para;
-            scheduler.lex_step = s.cur_step;
-        },
-        _syncInit : function(total_step, src, style_callback) {
-            this.sync.finished = false;
-            this.sync.cur_step = 0;
-            this.sync.total_step = total_step;
-            this.sync.cur_idx = 0;
-            this.src = src;
-            this.style_callback = style_callback;
-            this.end = this.src.length;
-            this.i_s = this.START_ACTION;
+            return s.delta_step;
         }
+
     }
 })(dLighter._Lexer, dLighter.$);
 /**
@@ -3550,17 +3662,6 @@ dLighter = {
         D._str_to_arr(["\0\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\1\2\2\2\1\1\1\1\1\1\2\1\1\1\11\10\2\1\1\1\30\1\77\x68\1\x91\1\xba\xe3\u010c\u0135\u015e\u0187\u01b0\u01d9\u0202\u022b\u0254\u027d\u02a6\u02cf\u02f8\u0321\u034a\u0373\u039c\u03c5\u03ee\u0417\u0440\u0469\u0492\u04bb\u04e4\u050d\u0536\u055f\u0588\u05b1\u05da\u0603\u062c\u0655\u067e\u06a7\u06d0\u06f9\u0722\u074b\u0774\1\u079d\u07c6\u07ef\u0818\u0841\u086a\u0893\u08bc\u08e5\u090e\u0937\u0960\u0989\u09b2\u09db\u0a04\u0a2d\u0a56\u0a7f\u0aa8\u0ad1\u0afa\u0b23\u0b4c\u0b75\u0b9e\u0bc7\u0bf0\u0c19\u0c42\u0c6b\u0c94\u0cbd\u0ce6\u0d0f\u0d38\u0d61\u0d8a\u0db3\u0ddc\u0e05\u0e2e\u0e57\u0e80\u0ea9\u0ed2\u0efb\u0f24\u0f4d\u0f76\u0f9f\u0fc8\u0ff1\u101a\1\1\u1043\u107b\u10b3\u10eb\1\u1123\u115b\u1194\u11cd\1\u1206\u123f\u1278\u12b1", "\1\43\0\2\24\3\26\2\43\2\0\3\47\2\0\2\52\3\0\2\55\2\0\2\55\54\0\2\55\67\0\3\55\5\0\2\x95\5\0\2\x9b\5\0", "\1\2\x9e\2\47\2\0\2\53\2\34\3\0\2\35\7\0\2\43\2\36\11\0\3\52\2\x94\3\0\2\46\5\0\3\47\2\0\4\47\2\24\2\46\2\26\2\27\2\30\2\31\2\32\2\33\2\25\2\37\2\40\2\44\2\45\3\0\2\41\2\42\3\52\2\0\4\52\2\54\3\0\27\54\2\0\20\54\2\55\3\0\27\55\2\0\20\55\2\57\3\0\27\57\2\0\20\57\2\61\3\0\27\61\2\0\20\61\2\62\3\0\27\62\2\0\20\62\2\63\3\0\27\63\2\0\20\63\2\64\3\0\27\64\2\0\20\64\2\65\3\0\27\65\2\0\20\65\2\66\3\0\27\66\2\0\20\66\2\67\3\0\27\67\2\0\20\67\2\70\3\0\27\70\2\0\20\70\2\71\3\0\27\71\2\0\20\71\2\72\3\0\27\72\2\0\20\72\2\73\3\0\27\73\2\0\20\73\2\74\3\0\27\74\2\0\20\74\2\75\3\0\27\75\2\0\20\75\2\76\3\0\27\76\2\0\20\76\2\77\3\0\27\77\2\0\20\77\2\x40\3\0\27\x40\2\0\20\x40\2\x41\3\0\27\x41\2\0\20\x41\2\x42\3\0\27\x42\2\0\20\x42\2\x43\3\0\27\x43\2\0\20\x43\2\x44\3\0\27\x44\2\0\20\x44\2\x45\3\0\27\x45\2\0\20\x45\2\x46\3\0\27\x46\2\0\20\x46\2\x47\3\0\27\x47\2\0\20\x47\2\x48\3\0\27\x48\2\0\20\x48\2\x49\3\0\27\x49\2\0\20\x49\2\x4a\3\0\27\x4a\2\0\20\x4a\2\x4b\3\0\27\x4b\2\0\20\x4b\2\x4c\3\0\27\x4c\2\0\20\x4c\2\x4d\3\0\27\x4d\2\0\20\x4d\2\x4e\3\0\27\x4e\2\0\20\x4e\2\x4f\3\0\27\x4f\2\0\20\x4f\2\x50\3\0\27\x50\2\0\20\x50\2\x51\3\0\27\x51\2\0\20\x51\2\x52\3\0\27\x52\2\0\20\x52\2\x53\3\0\27\x53\2\0\20\x53\2\x54\3\0\27\x54\2\0\20\x54\2\x55\3\0\27\x55\2\0\20\x55\2\x56\3\0\27\x56\2\0\20\x56\2\x57\3\0\27\x57\2\0\20\x57\2\x58\3\0\27\x58\2\0\20\x58\2\x59\3\0\27\x59\2\0\20\x59\2\x5a\3\0\27\x5a\2\0\20\x5a\2\x5b\3\0\27\x5b\2\0\20\x5b\2\x5d\3\0\27\x5d\2\0\20\x5d\2\x5e\3\0\27\x5e\2\0\20\x5e\2\x5f\3\0\27\x5f\2\0\20\x5f\2\x60\3\0\27\x60\2\0\20\x60\2\x61\3\0\27\x61\2\0\20\x61\2\x62\3\0\27\x62\2\0\20\x62\2\x63\3\0\27\x63\2\0\20\x63\2\x64\3\0\27\x64\2\0\20\x64\2\x65\3\0\27\x65\2\0\20\x65\2\x66\3\0\27\x66\2\0\20\x66\2\x67\3\0\27\x67\2\0\20\x67\2\x68\3\0\27\x68\2\0\20\x68\2\x69\3\0\27\x69\2\0\20\x69\2\x6a\3\0\27\x6a\2\0\20\x6a\2\x6b\3\0\27\x6b\2\0\20\x6b\2\x6c\3\0\27\x6c\2\0\20\x6c\2\x6d\3\0\27\x6d\2\0\20\x6d\2\x6e\3\0\27\x6e\2\0\20\x6e\2\x6f\3\0\27\x6f\2\0\20\x6f\2\x70\3\0\27\x70\2\0\20\x70\2\x71\3\0\27\x71\2\0\20\x71\2\x72\3\0\27\x72\2\0\20\x72\2\x73\3\0\27\x73\2\0\20\x73\2\x74\3\0\27\x74\2\0\20\x74\2\x75\3\0\27\x75\2\0\20\x75\2\x76\3\0\27\x76\2\0\20\x76\2\x77\3\0\27\x77\2\0\20\x77\2\x78\3\0\27\x78\2\0\20\x78\2\x79\3\0\27\x79\2\0\20\x79\2\x7a\3\0\27\x7a\2\0\20\x7a\2\x7b\3\0\27\x7b\2\0\20\x7b\2\x7c\3\0\27\x7c\2\0\20\x7c\2\x7d\3\0\27\x7d\2\0\20\x7d\2\x7e\3\0\27\x7e\2\0\20\x7e\2\x7f\3\0\27\x7f\2\0\20\x7f\2\x80\3\0\27\x80\2\0\20\x80\2\x81\3\0\27\x81\2\0\20\x81\2\x82\3\0\27\x82\2\0\20\x82\2\x83\3\0\27\x83\2\0\20\x83\2\x84\3\0\27\x84\2\0\20\x84\2\x85\3\0\27\x85\2\0\20\x85\2\x86\3\0\27\x86\2\0\20\x86\2\x87\3\0\27\x87\2\0\20\x87\2\x88\3\0\27\x88\2\0\20\x88\2\x89\3\0\27\x89\2\0\20\x89\2\x8a\3\0\27\x8a\2\0\20\x8a\2\x8b\3\0\27\x8b\2\0\20\x8b\2\x8c\3\0\27\x8c\2\0\20\x8c\2\x8d\3\0\27\x8d\2\0\20\x8d\2\x8e\3\0\27\x8e\2\0\20\x8e\2\x8f\3\0\27\x8f\2\0\20\x8f\2\x90\3\0\27\x90\2\0\20\x90\2\x91\3\0\27\x91\2\0\20\x91\2\x92\3\0\27\x92\2\0\20\x92\71\x95\71\x96\71\x97\71\x98\71\x9a\71\x9b\72\x9c\72\x9d\72\x9f\72\xa0\72\xa1\72\xa2", "\1\2\11\2\47\2\0\2\7\2\1\3\0\2\36\7\0\2\24\2\34\11\0\2\52\2\51\2\35\3\0\2\43\5\0\3\47\2\0\4\47\3\3\2\7\2\26\5\7\2\2\2\12\2\14\2\30\2\7\3\0\2\16\2\21\3\52\2\0\4\52\2\x5c\3\0\27\x5c\2\0\12\x5c\2\x8a\7\x5c\3\0\27\x5c\2\0\21\x5c\3\0\14\x5c\2\x5d\13\x5c\2\0\21\x5c\3\0\4\x5c\2\x93\23\x5c\2\0\21\x5c\3\0\4\x5c\2\x91\23\x5c\2\0\21\x5c\3\0\2\x8f\26\x5c\2\0\21\x5c\3\0\3\x5c\2\x8e\24\x5c\2\0\21\x5c\3\0\2\x5c\2\x8d\15\x5c\2\x42\10\x5c\2\0\21\x5c\3\0\5\x5c\2\x8b\22\x5c\2\0\21\x5c\3\0\6\x5c\2\x90\21\x5c\2\0\21\x5c\3\0\7\x5c\2\x93\20\x5c\2\0\21\x5c\3\0\7\x5c\2\x8e\20\x5c\2\0\21\x5c\3\0\3\x5c\2\x88\2\x73\23\x5c\2\0\21\x5c\3\0\10\x5c\2\x8e\17\x5c\2\0\21\x5c\3\0\7\x5c\2\x86\20\x5c\2\0\21\x5c\3\0\11\x5c\2\x92\16\x5c\2\0\21\x5c\3\0\2\x5c\2\x82\25\x5c\2\0\21\x5c\3\0\2\x80\26\x5c\2\0\21\x5c\3\0\12\x5c\2\x93\15\x5c\2\0\21\x5c\3\0\11\x5c\2\x7d\16\x5c\2\0\21\x5c\3\0\13\x5c\2\x87\14\x5c\2\0\21\x5c\3\0\13\x5c\2\x81\14\x5c\2\0\21\x5c\3\0\5\x5c\2\x7b\22\x5c\2\0\21\x5c\3\0\11\x5c\2\x7a\16\x5c\2\0\21\x5c\3\0\12\x5c\2\x79\15\x5c\2\0\21\x5c\3\0\15\x5c\2\x82\12\x5c\2\0\21\x5c\3\0\2\x76\26\x5c\2\0\21\x5c\3\0\11\x5c\2\x75\16\x5c\2\0\21\x5c\3\0\15\x5c\2\x74\12\x5c\2\0\21\x5c\3\0\11\x5c\2\x72\16\x5c\2\0\21\x5c\3\0\14\x5c\2\x70\13\x5c\2\0\21\x5c\3\0\13\x5c\2\x6f\14\x5c\2\0\21\x5c\3\0\6\x5c\2\x6d\21\x5c\2\0\21\x5c\3\0\2\x5c\2\x6c\25\x5c\2\0\21\x5c\3\0\6\x5c\2\x6b\21\x5c\2\0\21\x5c\3\0\6\x5c\2\x6a\21\x5c\2\0\21\x5c\3\0\2\x5c\2\x69\25\x5c\2\0\21\x5c\3\0\2\x5c\2\x68\25\x5c\2\0\21\x5c\3\0\11\x5c\2\x65\16\x5c\2\0\21\x5c\3\0\2\x5c\2\x64\25\x5c\2\0\21\x5c\3\0\27\x5c\2\0\4\x5c\2\x62\15\x5c\3\0\27\x5c\2\0\2\x5c\2\x61\17\x5c\3\0\27\x5c\2\0\11\x5c\2\x67\10\x5c\3\0\2\x5f\26\x5c\2\0\21\x5c\3\0\27\x5c\2\0\14\x5c\2\x67\5\x5c\3\0\27\x5c\2\0\16\x5c\2\x7f\3\x5c\3\0\3\x5c\2\x5b\24\x5c\2\0\21\x5c\3\0\11\x5c\2\x59\16\x5c\2\0\21\x5c\3\0\27\x5c\2\0\10\x5c\2\x58\3\x5c\2\x5a\2\x5c\2\x67\4\x5c\3\0\4\x5c\2\x57\23\x5c\2\0\21\x5c\3\0\27\x5c\2\0\3\x5c\2\x56\16\x5c\3\0\27\x5c\2\0\5\x5c\2\55\14\x5c\3\0\2\x55\26\x5c\2\0\21\x5c\3\0\13\x5c\2\x54\14\x5c\2\0\21\x5c\3\0\27\x5c\2\0\2\x5c\2\55\17\x5c\3\0\20\x5c\2\x94\7\x5c\2\0\21\x5c\3\0\23\x5c\2\x53\4\x5c\2\0\21\x5c\3\0\2\x5c\2\x51\25\x5c\2\0\21\x5c\3\0\2\x5c\2\x50\25\x5c\2\0\21\x5c\3\0\24\x5c\2\55\3\x5c\2\0\21\x5c\3\0\24\x5c\2\54\3\x5c\2\0\21\x5c\3\0\4\x5c\2\x4e\23\x5c\2\0\21\x5c\3\0\21\x5c\2\60\6\x5c\2\0\21\x5c\3\0\16\x5c\2\x4d\11\x5c\2\0\21\x5c\3\0\2\x4c\26\x5c\2\0\21\x5c\3\0\17\x5c\2\60\10\x5c\2\0\21\x5c\3\0\13\x5c\2\x4b\4\x5c\2\x7c\10\x5c\2\0\21\x5c\3\0\12\x5c\2\x4a\15\x5c\2\0\21\x5c\3\0\16\x5c\2\60\11\x5c\2\0\21\x5c\3\0\16\x5c\2\55\11\x5c\2\0\21\x5c\3\0\14\x5c\2\x48\13\x5c\2\0\21\x5c\3\0\13\x5c\2\x47\14\x5c\2\0\21\x5c\3\0\15\x5c\2\57\12\x5c\2\0\21\x5c\3\0\11\x5c\2\x46\16\x5c\2\0\21\x5c\3\0\4\x5c\2\x44\23\x5c\2\0\21\x5c\3\0\2\x43\26\x5c\2\0\21\x5c\3\0\13\x5c\2\x41\14\x5c\2\0\21\x5c\3\0\13\x5c\2\71\14\x5c\2\0\21\x5c\3\0\4\x5c\2\x40\23\x5c\2\0\21\x5c\3\0\4\x5c\2\77\23\x5c\2\0\21\x5c\3\0\4\x5c\2\75\23\x5c\2\0\21\x5c\3\0\3\x5c\2\76\24\x5c\2\0\21\x5c\3\0\11\x5c\2\64\16\x5c\2\0\21\x5c\3\0\11\x5c\2\60\16\x5c\2\0\21\x5c\3\0\3\x5c\2\x49\3\x5c\2\74\7\x5c\2\x90\12\x5c\2\0\21\x5c\3\0\7\x5c\2\73\13\x5c\2\x7f\5\x5c\2\0\21\x5c\3\0\6\x5c\2\73\7\x5c\2\x45\12\x5c\2\0\21\x5c\3\0\10\x5c\2\61\17\x5c\2\0\21\x5c\3\0\10\x5c\2\56\17\x5c\2\0\21\x5c\3\0\7\x5c\2\70\20\x5c\2\0\21\x5c\3\0\6\x5c\2\63\21\x5c\2\0\21\x5c\3\0\3\x5c\2\66\24\x5c\2\0\21\x5c\3\0\5\x5c\2\62\22\x5c\2\0\21\x5c\3\0\5\x5c\2\60\4\x5c\2\60\16\x5c\2\0\21\x5c\3\0\3\x5c\2\61\24\x5c\2\0\21\x5c\3\0\4\x5c\2\60\23\x5c\2\0\21\x5c\3\0\4\x5c\2\55\23\x5c\2\0\21\x5c\3\0\2\x5c\2\60\25\x5c\2\0\21\x5c\3\0\2\x5c\2\55\25\x5c\2\0\21\x5c\3\0\2\55\26\x5c\2\0\20\x5c\61\x99\2\46\5\x99\2\x9a\52\x99\2\x95\11\x99\2\46\5\x99\2\x9a\20\x99\2\x96\32\x99\2\x95\11\x99\2\46\5\x99\2\x9a\20\x99\2\x96\16\x99\2\x97\14\x99\2\x95\11\x99\2\46\5\x99\2\x9a\63\x99\2\x98\5\x99\2\x9a\3\x99\71\x9b\61\x99\2\25\2\4\10\x99\2\10\2\52\2\50\2\53\2\65\2\x7e\2\x78\2\x84\2\x83\3\x5c\2\x6e\2\72\2\x77\2\x8c\2\x85\2\x5c\2\x71\2\x5c\2\x4f\2\x5c\2\67\2\x52\2\x5c\2\x89\2\x66\2\10\2\x60\5\x5c\2\x63\2\x5e\3\52\2\x5c\4\52\3\x5c\2\27\2\44\2\31\2\45\2\32\2\33\2\7\2\x9c\4\7\3\10\2\6\2\5\61\13\2\37\11\13\61\15\2\40\11\15\2\20\66\17\2\41\2\20\2\17\2\23\66\22\2\42\2\22\2\23", "\1\2\4\2\15\2\20\2\7\2\25\2\21\2\6\2\31\2\10\2\13\2\14\2\16\2\17\2\23\2\22\2\24\2\27\2\26\2\30\2\20\2\12\7\6\4\0\2\14\2\17\2\22\2\26\2\20\3\31\2\20\2\1\2\31\2\0\2\1\2\6\3\4\2\3\3\2\x63\5\2\1\2\5\5\20\3\0\2\11\2\6\2\0\2\11\5\0", "\1\13\66\2\1\27\66\2\63\2\70\2\66\2\52\2\65\2\57\2\71\3\66\2\61\2\55\2\66\2\4\2\3\2\62\2\2\2\46\2\44\2\43\3\2\2\47\2\2\2\50\2\2\3\66\2\56\2\53\2\54\3\66\2\27\2\45\2\52\2\31\2\36\4\52\2\42\6\52\2\32\3\52\2\34\2\41\10\52\2\66\2\67\2\66\2\64\2\52\2\66\2\12\2\24\2\20\2\16\2\10\2\11\2\35\2\23\2\17\2\33\2\25\2\13\2\51\2\15\2\21\2\40\2\52\2\6\2\14\2\5\2\7\2\26\2\22\2\37\2\30\2\52\2\66\2\60\x84\66"], [this.TABLE._base, this.TABLE._default, this.TABLE._check, this.TABLE._next, this.TABLE._action, this.TABLE._eqc]);
     };
     _lexer_js.prototype = {
-        read_ch : function() {
-            if(this.idx >= this.end)
-                return this.chr = -1;
-            else {
-                this.chr = this.src.charCodeAt(this.idx++);
-                if(this.chr === 10) { // chr === '\n'
-                    this.sync.cur_para++;
-                }
-                return this.chr;
-            }
-        },
         action : function(action) {
             switch(action) {
                 case 3:
@@ -3659,7 +3760,6 @@ dLighter = {
                     this.yygoto(DEFAULT);
                     break;
                 default :
-                    this.yystyle = this.yydefault;
                     break;
             }
         }
@@ -3730,7 +3830,9 @@ dLighter = {
                 param : {color:'#ff1493',italic:true}
             },
             'css' : {
-                important : {color : 'red', italic: true}
+                wei : {color : '#008080'},
+                number : {color : '#ff1493'},
+                important : {color : 'red', italic: true, bold:true}
             },
             'xml,html,xhtml,xslt' : {
                 property : {color : '#ff1493'}

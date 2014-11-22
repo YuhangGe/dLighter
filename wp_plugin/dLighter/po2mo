@@ -1,2 +1,0 @@
-xgettext --language=php --from-code=UTF-8 --keyword=_e -o dLighter-admin-zh_CN.po dLighter-admin.php
-msgfmt -o dLighter-zh_CN.mo dLighter-zh_CN.po
